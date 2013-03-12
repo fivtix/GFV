@@ -37,9 +37,9 @@ public class NewUser extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0};
+		gbl_contentPanel.columnWidths = new int[] {30, 0, 48, 46, 0, 30, 30, 30, 30};
 		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gbl_contentPanel);
 		
@@ -54,6 +54,7 @@ public class NewUser extends JDialog {
 		
 			textFieldNom = new JTextField();
 			GridBagConstraints gbc_textFieldNom = new GridBagConstraints();
+			gbc_textFieldNom.gridwidth = 2;
 			gbc_textFieldNom.insets = new Insets(0, 0, 5, 5);
 			gbc_textFieldNom.fill = GridBagConstraints.HORIZONTAL;
 			gbc_textFieldNom.gridx = 2;
@@ -73,11 +74,11 @@ public class NewUser extends JDialog {
 		
 			textFieldPrenom = new JTextField();
 			GridBagConstraints gbc_textFieldPrenom = new GridBagConstraints();
+			gbc_textFieldPrenom.gridwidth = 3;
 			gbc_textFieldPrenom.insets = new Insets(0, 0, 5, 0);
 			gbc_textFieldPrenom.fill = GridBagConstraints.HORIZONTAL;
 			gbc_textFieldPrenom.gridx = 5;
 			gbc_textFieldPrenom.gridy = 1;
-			gbc_textFieldPrenom.anchor = GridBagConstraints.FIRST_LINE_END;
 			contentPanel.add(textFieldPrenom, gbc_textFieldPrenom);
 			textFieldPrenom.setColumns(10);
 		
@@ -93,6 +94,7 @@ public class NewUser extends JDialog {
 		
 			textFieldLogin = new JTextField();
 			GridBagConstraints gbc_textFieldLogin = new GridBagConstraints();
+			gbc_textFieldLogin.gridwidth = 2;
 			gbc_textFieldLogin.insets = new Insets(0, 0, 5, 5);
 			gbc_textFieldLogin.fill = GridBagConstraints.HORIZONTAL;
 			gbc_textFieldLogin.gridx = 2;
@@ -112,6 +114,7 @@ public class NewUser extends JDialog {
 		
 			passwordField = new JPasswordField();
 			GridBagConstraints gbc_passwordField = new GridBagConstraints();
+			gbc_passwordField.gridwidth = 3;
 			gbc_passwordField.insets = new Insets(0, 0, 5, 0);
 			gbc_passwordField.fill = GridBagConstraints.HORIZONTAL;
 			gbc_passwordField.gridx = 5;
@@ -130,45 +133,12 @@ public class NewUser extends JDialog {
 		
 			passwordFieldConfirmation = new JPasswordField();
 			GridBagConstraints gbc_passwordFieldConfirmation = new GridBagConstraints();
+			gbc_passwordFieldConfirmation.gridwidth = 3;
 			gbc_passwordFieldConfirmation.insets = new Insets(0, 0, 5, 0);
 			gbc_passwordFieldConfirmation.fill = GridBagConstraints.HORIZONTAL;
 			gbc_passwordFieldConfirmation.gridx = 5;
 			gbc_passwordFieldConfirmation.gridy = 4;
 			contentPanel.add(passwordFieldConfirmation, gbc_passwordFieldConfirmation);
-		
-		
-			JLabel lblRle = new JLabel("R\u00F4le : ");
-			GridBagConstraints gbc_lblRle = new GridBagConstraints();
-			gbc_lblRle.insets = new Insets(0, 0, 5, 5);
-			gbc_lblRle.gridx = 1;
-			gbc_lblRle.gridy = 5;
-			contentPanel.add(lblRle, gbc_lblRle);
-		
-		
-			JCheckBox chckbxAdministrateur = new JCheckBox("Administrateur");
-			GridBagConstraints gbc_chckbxAdministrateur = new GridBagConstraints();
-			gbc_chckbxAdministrateur.anchor = GridBagConstraints.WEST;
-			gbc_chckbxAdministrateur.insets = new Insets(0, 0, 5, 5);
-			gbc_chckbxAdministrateur.gridx = 2;
-			gbc_chckbxAdministrateur.gridy = 5;
-			contentPanel.add(chckbxAdministrateur, gbc_chckbxAdministrateur);
-		
-		
-			JCheckBox chckbxUtilisateur = new JCheckBox("Utilisateur");
-			GridBagConstraints gbc_chckbxUtilisateur = new GridBagConstraints();
-			gbc_chckbxUtilisateur.anchor = GridBagConstraints.WEST;
-			gbc_chckbxUtilisateur.insets = new Insets(0, 0, 5, 5);
-			gbc_chckbxUtilisateur.gridx = 2;
-			gbc_chckbxUtilisateur.gridy = 6;
-			contentPanel.add(chckbxUtilisateur, gbc_chckbxUtilisateur);
-			/*****************/
-			JCheckBox chckbxConsultant = new JCheckBox("Consultant");
-			GridBagConstraints gbc_chckbxConsultant = new GridBagConstraints();
-			gbc_chckbxConsultant.anchor = GridBagConstraints.WEST;
-			gbc_chckbxConsultant.insets = new Insets(0, 0, 0, 5);
-			gbc_chckbxConsultant.gridx = 2;
-			gbc_chckbxConsultant.gridy = 7;
-			contentPanel.add(chckbxConsultant, gbc_chckbxConsultant);
 		
 		
 			JPanel buttonPane = new JPanel();

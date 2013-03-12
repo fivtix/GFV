@@ -22,8 +22,9 @@ public class Administration extends JPanel {
 	private JCheckBox chckbxConsultation;
 	private JCheckBox chckbxCrationDeTransports;
 	private JButton btnMiseJour;
-	private JComboBox comboBox;
 	private JLabel lblRle;
+	private JCheckBox chckbxCrationDutilisateurs;
+	private JCheckBox chckbxSupressionDutilisateurs;
 
 	/**
 	 * Create the panel.
@@ -45,7 +46,7 @@ public class Administration extends JPanel {
 		add(lblListeDesUtilisateurs, gbc_lblListeDesUtilisateurs);
 		/*****************/
 		/*****************/
-		lblRle = new JLabel("R\u00F4le : ");
+		lblRle = new JLabel("Droits d'administration :");
 		GridBagConstraints gbc_lblRle = new GridBagConstraints();
 		gbc_lblRle.anchor = GridBagConstraints.WEST;
 		gbc_lblRle.gridwidth = 2;
@@ -53,7 +54,7 @@ public class Administration extends JPanel {
 		gbc_lblRle.gridx = 2;
 		gbc_lblRle.gridy = 0;
 		add(lblRle, gbc_lblRle);
-		lblDroitsAssocies = new JLabel("Droits associ\u00E9s :");
+		lblDroitsAssocies = new JLabel("Droits d'utilisation :");
 		GridBagConstraints gbc_lblDroitsAssocies = new GridBagConstraints();
 		gbc_lblDroitsAssocies.anchor = GridBagConstraints.WEST;
 		gbc_lblDroitsAssocies.insets = new Insets(0, 0, 5, 0);
@@ -85,6 +86,15 @@ public class Administration extends JPanel {
 			}
 		});
 		/*****************/
+		/*****************/
+		chckbxCrationDutilisateurs = new JCheckBox("Cr\u00E9ation d'utilisateurs");
+		GridBagConstraints gbc_chckbxCrationDutilisateurs = new GridBagConstraints();
+		gbc_chckbxCrationDutilisateurs.anchor = GridBagConstraints.WEST;
+		gbc_chckbxCrationDutilisateurs.gridwidth = 2;
+		gbc_chckbxCrationDutilisateurs.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxCrationDutilisateurs.gridx = 2;
+		gbc_chckbxCrationDutilisateurs.gridy = 1;
+		add(chckbxCrationDutilisateurs, gbc_chckbxCrationDutilisateurs);
 		chckbxConsultation = new JCheckBox("Consultation");
 		GridBagConstraints gbc_chckbxConsultation = new GridBagConstraints();
 		gbc_chckbxConsultation.anchor = GridBagConstraints.NORTHWEST;
@@ -93,15 +103,14 @@ public class Administration extends JPanel {
 		gbc_chckbxConsultation.gridy = 1;
 		add(chckbxConsultation, gbc_chckbxConsultation);
 		/*****************/
-		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Administrateur", "Logisticien", "Consultant"}));
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.gridwidth = 2;
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 2;
-		gbc_comboBox.gridy = 1;
-		add(comboBox, gbc_comboBox);
+		chckbxSupressionDutilisateurs = new JCheckBox("Supression d'utilisateurs");
+		GridBagConstraints gbc_chckbxSupressionDutilisateurs = new GridBagConstraints();
+		gbc_chckbxSupressionDutilisateurs.anchor = GridBagConstraints.WEST;
+		gbc_chckbxSupressionDutilisateurs.gridwidth = 2;
+		gbc_chckbxSupressionDutilisateurs.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxSupressionDutilisateurs.gridx = 2;
+		gbc_chckbxSupressionDutilisateurs.gridy = 2;
+		add(chckbxSupressionDutilisateurs, gbc_chckbxSupressionDutilisateurs);
 		chckbxCrationDeTransports = new JCheckBox("Cr\u00E9ation de transports");
 		GridBagConstraints gbc_chckbxCrationDeTransports = new GridBagConstraints();
 		gbc_chckbxCrationDeTransports.anchor = GridBagConstraints.WEST;
