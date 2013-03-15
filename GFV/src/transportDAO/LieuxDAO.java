@@ -1,5 +1,6 @@
 package transportDAO;
 
+import interTransport.interAdresseDAO;
 import interTransport.interLieuxDAO;
 
 import java.sql.ResultSet;
@@ -17,12 +18,12 @@ public class LieuxDAO implements interLieuxDAO{
 
 	
 	private JdbcTools jdbctool;
-	private adresseDAO adrDAO;
+	private interAdresseDAO adrDAO;
 	private int lastId=-1;
 	
 	public LieuxDAO(){
 	}
-	public LieuxDAO(JdbcTools jdbctool,adresseDAO adrDAO)throws TransportException{
+	public LieuxDAO(JdbcTools jdbctool,interAdresseDAO adrDAO)throws TransportException{
 		this.jdbctool=jdbctool;
 		this.adrDAO=adrDAO;
 	}
@@ -42,13 +43,13 @@ public class LieuxDAO implements interLieuxDAO{
 	public void setJdbctool(JdbcTools jdbctool) {
 		this.jdbctool = jdbctool;
 	}
-	public adresseDAO getAdrDAO() {
+	
+	public interAdresseDAO getAdrDAO() {
 		return adrDAO;
 	}
-	public void setAdrDAO(adresseDAO adrDAO) {
+	public void setAdrDAO(interAdresseDAO adrDAO) {
 		this.adrDAO = adrDAO;
 	}
-	@Override
 	public void supprimer(Lieux lieu) throws TransportException {
 		// TODO Auto-generated method stub
 		

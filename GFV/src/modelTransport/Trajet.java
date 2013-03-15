@@ -1,18 +1,30 @@
 package modelTransport;
-public  class Trajet {
-	
-    private String nom,date_heure_depart,date_heure_arrive,;
-    private Itineraire itineraire;
-    public Lieux getDepart() {
-		return depart;
-	}
 
-	public Itineraire getItineraire() {
-		return itineraire;
-	}
+import java.util.Vector;
+
+public  class Trajet {
+	private String id, nom;
+	private Vector<Arrete> arretes;
 	
-	public void setItineraire(Itineraire itineraire) {
-		this.itineraire = itineraire;
+    public Trajet(){  
+    	arretes= new Vector<Arrete>();
+    }
+    public String getId() {
+		return id;
+	}
+	public void setId(String id,String nom) {
+		this.id = id;
+		this.nom=nom;
+		arretes= new Vector<Arrete>();
+	}
+	public Vector<Arrete> getArretes() {
+		return arretes;
+	}
+	public void setArretes(Vector<Arrete> arretes) {
+		this.arretes = arretes;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getNom() {
 		return nom;
@@ -20,16 +32,7 @@ public  class Trajet {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	public String getDate_heure_depart() {
-		return date_heure_depart;
-	}
-	public void setDate_heure_depart(String date_heure_depart) {
-		this.date_heure_depart = date_heure_depart;
-	}
-	public String getDate_heure_arrive() {
-		return date_heure_arrive;
-	}
-	public void setDate_heure_arrive(String date_heure_arrive) {
-		this.date_heure_arrive = date_heure_arrive;
-	}
+	public Trajet(String id, String nom){
+    	
+    }
 }

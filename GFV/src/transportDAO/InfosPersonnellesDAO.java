@@ -11,14 +11,16 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
 import modelTransport.Infos_Personnelles;
+import interTransport.interAdresseDAO;
+import interTransport.interEntrepriseDAO;
 import interTransport.interInfos_Personnelles;
 import erreur.TransportException;
 
 public class InfosPersonnellesDAO implements interInfos_Personnelles {
 
 	private JdbcTools jdbctool;
-	private adresseDAO adrDAO;
-	private entrepriseDAO entDAO;
+	private interAdresseDAO adrDAO;
+	private interEntrepriseDAO entDAO;
 	private int lastId=-1;
 	public int getLastId() {
 		return lastId;
@@ -29,7 +31,7 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 	public InfosPersonnellesDAO(){
 
 	}
-	public InfosPersonnellesDAO(JdbcTools jdbctool,entrepriseDAO entDAO,adresseDAO adrDAO){
+	public InfosPersonnellesDAO(JdbcTools jdbctool, interEntrepriseDAO entDAO ,interAdresseDAO adrDAO){
 		this.jdbctool=jdbctool;
 		this.adrDAO=adrDAO;
 		this.entDAO=entDAO;
@@ -53,19 +55,19 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 	public void setJdbctool(JdbcTools jdbctool) {
 		this.jdbctool = jdbctool;
 	}
-	public adresseDAO getAdrDAO() {
+	
+	public interAdresseDAO getAdrDAO() {
 		return adrDAO;
 	}
-	public void setAdrDAO(adresseDAO adrDAO) {
+	public void setAdrDAO(interAdresseDAO adrDAO) {
 		this.adrDAO = adrDAO;
 	}
-	public entrepriseDAO getEntDAO() {
+	public interEntrepriseDAO getEntDAO() {
 		return entDAO;
 	}
-	public void setEntDAO(entrepriseDAO entDAO) {
+	public void setEntDAO(interEntrepriseDAO entDAO) {
 		this.entDAO = entDAO;
 	}
-	@Override
 	public void supprimer(Infos_Personnelles p) throws TransportException {
 		// TODO Auto-generated method stub
 		

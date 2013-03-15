@@ -1,4 +1,5 @@
 package transportDAO;
+import interTransport.interAdresseDAO;
 import interTransport.interEntrepriseDAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,19 +10,18 @@ import modelTransport.Entreprise;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
-
 import erreur.TransportException;
 
 public class entrepriseDAO implements interEntrepriseDAO {
 
 	private JdbcTools jdbctool;
-	private adresseDAO adrDAO;
+	private interAdresseDAO adrDAO;
 	private int lastId=-1;
 	public entrepriseDAO(){
 
 	}
     
-	public entrepriseDAO(JdbcTools jdbctool,adresseDAO adrDAO){
+	public entrepriseDAO(JdbcTools jdbctool,interAdresseDAO adrDAO){
 		this.jdbctool=jdbctool;
 		this.adrDAO=adrDAO;
 	}
@@ -49,11 +49,11 @@ public class entrepriseDAO implements interEntrepriseDAO {
 		this.jdbctool = jdbctool;
 	}
 
-	public adresseDAO getAdrDAO() {
+	public interAdresseDAO getAdrDAO() {
 		return adrDAO;
 	}
 
-	public void setAdrDAO(adresseDAO adrDAO) {
+	public void setAdrDAO(interAdresseDAO adrDAO) {
 		this.adrDAO = adrDAO;
 	}
 
