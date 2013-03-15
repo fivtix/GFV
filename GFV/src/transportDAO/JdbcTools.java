@@ -75,7 +75,7 @@ public class JdbcTools {
 		try {
 			this.loadDriver(); 
 		} catch (ClassNotFoundException e) {
-			throw new TransportException("Pilote JDBC introuvable : " + e.getMessage());
+			 throw new TransportException("Pilote JDBC introuvable : " + e.getMessage());
 		} 
 	}
 
@@ -85,7 +85,7 @@ public class JdbcTools {
 				conn.close();
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				throw new TransportException(e.getMessage());
+				 throw new TransportException(e.getMessage());
 			}
 	}
 	public int executeUpdate(String query) throws SQLException, TransportException {
@@ -98,16 +98,18 @@ public class JdbcTools {
 			Statement stmt = (Statement) conn.createStatement();
 			rst = stmt.executeUpdate(query);
 			rs = stmt.getGeneratedKeys();
-			rst = rs.getInt(1);
-
+			if (rs.next()){
+				rst = rs.getInt(1);
+	        }
+			
 		} catch (SQLException e) {
-			throw new TransportException(e.getMessage());
+			 throw new TransportException(e.getMessage());
 			// renvoyer cette exception
 		} finally {
 			if(rs!=null)
-				rs.close();
+			rs.close();
 			quietClose(conn);
-
+			
 			// fe
 		}
 		return rst;
@@ -115,14 +117,14 @@ public class JdbcTools {
 
 	public int executeUpdate(String sql, java.io.Serializable... parameters)throws SQLException, TransportException {
 		Connection conn = null;
-		int rst = 0;
+		int rst = -1;
 		ResultSet rs = null;
 		PreparedStatement st=null;
 		try {
 			// 1. créer une connexion
 			conn = newConnection();
 			// 2. préparer l'instruction
-			st = (PreparedStatement) conn.prepareStatement(sql);
+			st = (PreparedStatement) conn.prepareStatement(sql,Statement.RETURN_GENERATED_KEYS);
 			// 3. exécuter la requête
 			for (int i = 0; i < parameters.length; i++) {
 				if (parameters[i] instanceof Integer)
@@ -138,14 +140,16 @@ public class JdbcTools {
 			st.execute();
 			// 4. lire le résultat
 			rs = st.getGeneratedKeys();
-			rst = rs.getInt(1);
+			if (rs.next()){
+				rst = rs.getInt(1);
+				System.out.println(rst);
+	        }
+			
 		} catch (SQLException e) {
 			// 5. construire l'exception DAO
-			throw new TransportException(e.getMessage());
+			 throw new TransportException(e.getMessage());
 			// 6. renvoyer cette exception
 		} finally {
-			if(rs!=null)
-				rs.close();
 			if(st!=null)
 				st.close();
 			// 7. fermer la connexion
