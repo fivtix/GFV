@@ -57,7 +57,7 @@ public class LieuxDAO implements interLieuxDAO{
 	@Override
 	public void sauvegarde(Lieux lieu) throws TransportException {
 		try {
-			lastId = jdbctool.executeUpdate("insert into Lieux(id_adresse,nom,coordonnées) values(?,?,?)",lieu.getAdr().getId_adr(),lieu.getNom(),lieu.getCoordonnees());
+			lastId = jdbctool.executeUpdate("insert into Lieux(id_adresse,nom,coordonnees) values(?,?,?)",lieu.getAdr().getId_adr(),lieu.getNom(),lieu.getCoordonnees());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
@@ -68,7 +68,7 @@ public class LieuxDAO implements interLieuxDAO{
 	public void miseAjour(Lieux lieu) throws TransportException {
 		// TODO Auto-generated method stub
 		try {
-			jdbctool.executeUpdate("update Lieux set id_adresse=?,nom?=,nocoordonnees=? where id_lieu=?",lieu.getAdr().getId_adr(),lieu.getNom(),lieu.getCoordonnees(),lieu.getId_lieu());
+			jdbctool.executeUpdate("update Lieux set id_adresse=?,nom?=,coordonnees=? where id_lieu=?",lieu.getAdr().getId_adr(),lieu.getNom(),lieu.getCoordonnees(),lieu.getId_lieu());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());

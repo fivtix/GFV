@@ -5,6 +5,7 @@ import junit.framework.Assert;
 
 import modelTransport.Adresse;
 import modelTransport.Entreprise;
+import modelTransport.Infos_Personnelles;
 import modelTransport.Lieux;
 
 import org.junit.Before;
@@ -12,6 +13,7 @@ import org.junit.Test;
 
 import erreur.TransportException;
 
+import transportDAO.InfosPersonnellesDAO;
 import transportDAO.JdbcTools;
 import transportDAO.LieuxDAO;
 import transportDAO.adresseDAO;
@@ -27,6 +29,7 @@ public class testjdbctool {
 	private JdbcTools jdbctool;
 	private entrepriseDAO entDAO;
 	private LieuxDAO lieuxDAO;
+	private InfosPersonnellesDAO personDAO;
 	@Before
 	public void init() throws TransportException
 	{
@@ -36,12 +39,13 @@ public class testjdbctool {
 		adresse  = new  Adresse("",74, "Stanislas Torrent","Marseille", "13006","France");
 		entDAO= new entrepriseDAO(jdbctool,adrDAO );
 		lieuxDAO  =new LieuxDAO(jdbctool,adrDAO );
+		personDAO  =  new InfosPersonnellesDAO(jdbctool,entDAO,adrDAO);
 	}
-		
+
 	//@Test(expected =TransportException.class)  // test erreur de connection avec serveur mysql 
 	public void testSauvegardeAdresse() throws TransportException{
 		adrDAO.sauvegarde(adresse);
-		
+
 	}
 	//@Test
 	public void testChercherAdresse() throws TransportException{
@@ -57,29 +61,29 @@ public class testjdbctool {
 		adrDAO.miseAjour(adresse);
 		//System.out.print(adrDAO.chercher("2").getNumero_rue());
 	}
-	
+
 	//@Test
 	public void testListeAdrese() throws TransportException{
 		int exp =2;
 		Assert.assertEquals(exp,adrDAO.toutAdresse().size());
 	}
-	
+
 	// @Test(expected =TransportException.class)
 	public void testSauvegardeEntreprise() throws TransportException{
 		adrDAO.sauvegarde(adresse);
 		adresse.setId_adr(""+adrDAO.getLastId());
 		Entreprise ent = new Entreprise("",adresse,"GFV");
 		entDAO.sauvegarde(ent);
-		
+
 	}
 	//@Test
 	public void testChercherEntreprise() throws TransportException{
 		String exp ="1";
 		Entreprise ent = entDAO.chercher("1");
 		Assert.assertEquals(exp,ent.getId_entreprise());
-		
+
 	}
-//	@Test
+	//	@Test
 	public void testUdateEntreprise() throws TransportException{
 		String exp ="nguyen";
 		Entreprise ent = entDAO.chercher("1");
@@ -91,38 +95,71 @@ public class testjdbctool {
 		int exp =1;
 		Assert.assertEquals(exp, entDAO.toutEntreprise().size());
 	}
-	
+
 	// etst de lieux
-	
-	    @Test(expected =TransportException.class)
-		public void testSauvegardeLieux() throws TransportException{
-			adrDAO.sauvegarde(adresse);
-			adresse.setId_adr(""+adrDAO.getLastId());
-			Lieux l = new Lieux("",adresse,"nguyen","nguyen2");
-			lieuxDAO.sauvegarde(l);
-		}
+
+	// @Test(expected =TransportException.class)
+	public void testSauvegardeLieux() throws TransportException{
+		adrDAO.sauvegarde(adresse);
+		adresse.setId_adr(""+adrDAO.getLastId());
+		Lieux l = new Lieux("",adresse,"nguyen","nguyen2");
+		lieuxDAO.sauvegarde(l);
+	}
 	//	@Test
-		public void testChercherLieux() throws TransportException{
-			String exp ="1";
-			Lieux l = lieuxDAO.chercher("1");
-			Assert.assertEquals(exp,l.getId_lieu());
-		}
-	
-//	@Test
+	public void testChercherLieux() throws TransportException{
+		String exp ="1";
+		Lieux l = lieuxDAO.chercher("1");
+		Assert.assertEquals(exp,l.getId_lieu());
+	}
+
+	//	@Test
 	public void testUdateLieux() throws TransportException{
 		String exp ="nguyen van";
 		Lieux l = lieuxDAO.chercher("1");
 		l.setNom("nguyen van");
-		Assert.assertEquals(exp,l.getNom());
+		 lieuxDAO.miseAjour(l);
+		Assert.assertEquals(exp,lieuxDAO.chercher("1").getNom());
 	}
 	//@Test
 	public void testListLieux() throws TransportException{
 		int exp =2;
 		Assert.assertEquals(exp, lieuxDAO.toutLieux().size());
 	}
+
+	// test de Personnel
+
+	// @Test(expected =TransportException.class)
+	public void testSauvegardePersonnel() throws TransportException{
+		 Infos_Personnelles p = new Infos_Personnelles("",entDAO.chercher("1"),adrDAO.chercher("2"), "nguyen", "van khue", "08/06/1977","etudiant","0610886617", "khuek@yahoo.com", "www.ee.com");
+		 personDAO.sauvegarde(p);
+	}
+		//@Test
+	public void testChercherPersonnel() throws TransportException{
+		String exp ="1";
+		Infos_Personnelles  p = personDAO.chercher("1");
+				Assert.assertEquals(exp,p.getId());
+	}
+
+	//@Test
+	public void testUdatePersonnel() throws TransportException{
+		String exp ="thanh dam";
+		Infos_Personnelles p = personDAO.chercher("1");
+		p.setNom("thanh dam");
+		personDAO.miseAjour(p);
+		Assert.assertEquals(exp,personDAO.chercher("1").getNom());
+	}
+	@Test
+	public void testListPersonnel() throws TransportException{
+		int exp =1;
+		System.out.println(lieuxDAO.toutLieux().size());
+		Assert.assertEquals(exp, personDAO.toutInfos_Personnelles().size());
+	}
+
+
 	
-	
-	
-	
+
+
+
+
 
 }

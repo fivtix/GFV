@@ -1,8 +1,11 @@
 package transportDAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
@@ -16,8 +19,20 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 	private JdbcTools jdbctool;
 	private adresseDAO adrDAO;
 	private entrepriseDAO entDAO;
+	private int lastId=-1;
+	public int getLastId() {
+		return lastId;
+	}
+	public void setLastId(int lastId) {
+		this.lastId = lastId;
+	}
 	public InfosPersonnellesDAO(){
 
+	}
+	public InfosPersonnellesDAO(JdbcTools jdbctool,entrepriseDAO entDAO,adresseDAO adrDAO){
+		this.jdbctool=jdbctool;
+		this.adrDAO=adrDAO;
+		this.entDAO=entDAO;
 	}
 	public InfosPersonnellesDAO(entrepriseDAO entDAO,adresseDAO adrDAO,String pilote, String url, String utilisateur, String motdepass) throws TransportException{
 		jdbctool = new  JdbcTools(pilote,url,utilisateur,motdepass);
@@ -61,8 +76,9 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 	@Override
 	public void sauvegarde(Infos_Personnelles infop) throws TransportException {
 		// TODO Auto-generated method stub
+		DateFormat formatter = new SimpleDateFormat("yyyy/dd/MM");
 		try {
-			jdbctool.executeUpdate("insert into Infos_Personnelles(id_personnel,id_entreprise,id_adresse,nom,prenom,date_naissance,travail,tel,email,siteweb) values(?,?,?,?,?,?,?,?,?,?)",infop.getId(),infop.getEntreprise().getId_entreprise(),infop.getAdresse().getId_adr(),infop.getNom(),infop.getPrenom(),infop.getDateNaissance(),infop.getTravail(),infop.getTel(),infop.getAdresseE(),infop.getSiteWEB());
+			lastId=jdbctool.executeUpdate("insert into Infos_Personnelles(id_entreprise,id_adresse,nom,prenom,date_naissance,travail,tel,email,siteweb) values(?,?,?,?,?,?,?,?,?)",infop.getEntreprise().getId_entreprise(),infop.getAdresse().getId_adr(),infop.getNom(),infop.getPrenom(),formatter.format(new Date(infop.getDateNaissance())),infop.getTravail(),infop.getTel(),infop.getAdresseE(),infop.getSiteWEB());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
@@ -73,8 +89,9 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 	@Override
 	public void miseAjour(Infos_Personnelles infop) throws TransportException {
 		// TODO Auto-generated method stub
+		DateFormat formatter = new SimpleDateFormat("yyyy/dd/MM");
 		try {
-			jdbctool.executeUpdate("update Infos_Personnelles set id_entreprise=?, id_adresse=?,nom=?,prenom=?,tel=?,date_naissance=?,travail=?,tel=?,email=?,siteweb=? where id_personnel=?",infop.getEntreprise().getId_entreprise(),infop.getAdresse().getId_adr(),infop.getNom(),infop.getPrenom(),infop.getDateNaissance(),infop.getTravail(),infop.getTel(),infop.getAdresseE(),infop.getSiteWEB(),infop.getId());
+			jdbctool.executeUpdate("update Infos_Personnelles set id_entreprise=?, id_adresse=?,nom=?,prenom=?,date_naissance=?,travail=?,tel=?,email=?,siteweb=? where id_personnel=?",infop.getEntreprise().getId_entreprise(),infop.getAdresse().getId_adr(),infop.getNom(),infop.getPrenom(),formatter.format(new Date(infop.getDateNaissance())),infop.getTravail(),infop.getTel(),infop.getAdresseE(),infop.getSiteWEB(),infop.getId());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
@@ -84,6 +101,7 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 
 	public Infos_Personnelles  chercher(String id) throws TransportException {
 		// TODO Auto-generated method stub
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		Infos_Personnelles infop  = null;
 		Connection conn = null;
 		PreparedStatement st  = null;	
@@ -104,8 +122,8 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 				infop.setAdresse(adrDAO.chercher(rst.getString(3)));
 				infop.setNom(rst.getString(4));
 				infop.setPrenom(rst.getString(5));
-				infop.setTravail(rst.getString(6));
-				infop.setDateNaissance(rst.getString(7));
+				infop.setDateNaissance(formatter.format(rst.getDate((6))));
+				infop.setTravail(rst.getString(7));
 				infop.setTel(rst.getString(8));
 				infop.setAdresseE(rst.getString(9));
 				infop.setSiteWEB(rst.getString(10));
@@ -135,6 +153,7 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 	public Collection<Infos_Personnelles> toutInfos_Personnelles()
 			throws TransportException {
 		// TODO Auto-generated method stub
+		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		ArrayList<Infos_Personnelles> infosp = new ArrayList<Infos_Personnelles>();
 		Connection conn = null;
 		PreparedStatement st  = null;	
@@ -153,12 +172,11 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 				infop.setAdresse(adrDAO.chercher(rst.getString(3)));
 				infop.setNom(rst.getString(4));
 				infop.setPrenom(rst.getString(5));
-				infop.setDateNaissance(rst.getString(6));
+				infop.setDateNaissance(formatter.format(rst.getDate(6)));
 				infop.setTravail(rst.getString(7));
 				infop.setTel(rst.getString(8));
 				infop.setAdresseE(rst.getString(9));
 				infop.setSiteWEB(rst.getString(10));
-				
 				infosp.add(infop);
 			}
 

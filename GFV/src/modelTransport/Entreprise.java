@@ -12,6 +12,13 @@ public class Entreprise {
 	public String id_entreprise;
 	public String nom;
 	public Adresse adresse;
+	private int lastId=-1;
+	public int getLastId() {
+		return lastId;
+	}
+	public void setLastId(int lastId) {
+		this.lastId = lastId;
+	}
 	public Entreprise(){
 		
 	}
