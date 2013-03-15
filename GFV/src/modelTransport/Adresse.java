@@ -11,8 +11,7 @@ public class Adresse {
 	public Adresse()
 	{
 	}
-	public Adresse(String id_adresse, String nom_rue, int numero_rue,
-			String ville, String code_postal, String pays) {
+	public Adresse(String id_adresse, int numero_rue,String nom_rue,String ville, String code_postal, String pays) {
 		super();
 		this.id_adr = id_adresse;
 		this.nom_rue = nom_rue;
@@ -34,7 +33,7 @@ public class Adresse {
 	public void setNom_rue(String nom_rue) {
 		this.nom_rue = nom_rue;
 	}
-	public Integer getNumero_rue() {
+	public int getNumero_rue() {
 		return numero_rue;
 	}
 	public void setNumero_rue(int numero_rue) {

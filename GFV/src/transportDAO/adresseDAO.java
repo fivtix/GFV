@@ -51,7 +51,7 @@ public class adresseDAO implements interAdresseDAO{
 	@Override
 	public void sauvegarde(Adresse adr) throws TransportException {
 		try {
-			jdbctool.executeUpdate("insert into Adresses(id_adresse,numero_rue,nom_rue,ville,code_postal,pays) values(?,?,?,?,?,?)",adr.getId_adr(),adr.getNumero_rue(),adr.getNom_rue(),adr.getVille(),adr.getCode_postal(),adr.getPays());
+			jdbctool.executeUpdate("insert into Adresses(numero_rue,nom_rue,ville,code_postal,pays) values(?,?,?,?,?)",adr.getNumero_rue(),adr.getNom_rue(),adr.getVille(),adr.getCode_postal(),adr.getPays());
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -63,7 +63,7 @@ public class adresseDAO implements interAdresseDAO{
 	public void miseAjour(Adresse adr) throws TransportException {
 		// TODO Auto-generated method stub
 		try {
-			jdbctool.executeUpdate("update Adresses set numero_rue=?, nom_rue=?,ville=?,code_postal=?,tel=?,adresseE=?,pays=? where id_adresse=?",adr.getNumero_rue(),adr.getNom_rue(),adr.getVille(),adr.getCode_postal(),adr.getVille(),adr.getId_adr());
+			jdbctool.executeUpdate("update Adresses set numero_rue=?, nom_rue=?,ville=?,code_postal=?,pays=? where id_adresse=?",adr.getNumero_rue(),adr.getNom_rue(),adr.getVille(),adr.getCode_postal(),adr.getVille(),adr.getId_adr());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
@@ -93,7 +93,7 @@ public class adresseDAO implements interAdresseDAO{
 				adr.setNom_rue(rst.getString(3));
 				adr.setVille(rst.getString(4));
 				adr.setCode_postal(rst.getString(5));
-				adr.setCode_postal(rst.getString(6));
+				adr.setPays(rst.getString(6));
 			}
 			
 		} catch (SQLException e) {
