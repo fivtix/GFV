@@ -142,7 +142,6 @@ public class JdbcTools {
 			rs = st.getGeneratedKeys();
 			if (rs.next()){
 				rst = rs.getInt(1);
-				System.out.println(rst);
 	        }
 			
 		} catch (SQLException e) {
