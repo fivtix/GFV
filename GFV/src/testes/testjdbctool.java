@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 import junit.framework.Assert;
 
 import modelTransport.Adresse;
+import modelTransport.Entreprise;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +13,7 @@ import erreur.TransportException;
 
 import transportDAO.JdbcTools;
 import transportDAO.adresseDAO;
+import transportDAO.entrepriseDAO;
 
 public class testjdbctool {
 	private String url = "jdbc:mysql://127.0.0.1/n20404039";
@@ -21,6 +23,7 @@ public class testjdbctool {
 	private adresseDAO adrDAO;
 	private Adresse adresse;
 	private JdbcTools jdbctool;
+	private entrepriseDAO entDAO;
 	@Before
 	public void init() throws TransportException
 	{
@@ -28,6 +31,7 @@ public class testjdbctool {
 		jdbctool.init();
 		adrDAO  = new adresseDAO(jdbctool);
 		adresse  = new  Adresse("",74, "Stanislas Torrent","Marseille", "13006","France");
+		entDAO= new entrepriseDAO(jdbctool,adrDAO );
 	}
 		
 	//@Test(expected =TransportException.class)  // test erreur de connection avec serveur mysql 
@@ -35,12 +39,12 @@ public class testjdbctool {
 		adrDAO.sauvegarde(adresse);
 		
 	}
-	@Test
+	//@Test
 	public void testChercherAdresse() throws TransportException{
 		String exp ="2";
 		Assert.assertEquals(exp,adrDAO.chercher("2").getId_adr());
 	}
-	@Test
+	//@Test
 	public void testMisajourAdresse() throws TransportException{
 		int exp =15;
 		adresse.setId_adr("2");
@@ -54,6 +58,34 @@ public class testjdbctool {
 	public void testListeAdrese() throws TransportException{
 		int exp =2;
 		Assert.assertEquals(exp,adrDAO.toutAdresse().size());
+	}
+	
+	// @Test(expected =TransportException.class)
+	public void testSauvegardeEntreprise() throws TransportException{
+		adrDAO.sauvegarde(adresse);
+		adresse.setId_adr(""+adrDAO.getLastId());
+		Entreprise ent = new Entreprise("",adresse,"GFV");
+		entDAO.sauvegarde(ent);
+		
+	}
+	//@Test
+	public void testChercherEntreprise() throws TransportException{
+		String exp ="1";
+		Entreprise ent = entDAO.chercher("1");
+		Assert.assertEquals(exp,ent.getId_entreprise());
+		
+	}
+	@Test
+	public void testUdateEntreprise() throws TransportException{
+		String exp ="nguyen";
+		Entreprise ent = entDAO.chercher("1");
+		ent.setNom("nguyen");
+		Assert.assertEquals(exp,ent.getNom());
+	}
+	@Test
+	public void testListEntreprise() throws TransportException{
+		int exp =1;
+		Assert.assertEquals(exp, entDAO.toutEntreprise().size());
 	}
 	
 	

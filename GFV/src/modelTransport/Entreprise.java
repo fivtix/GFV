@@ -9,23 +9,21 @@ package modelTransport;
 //
 //
 public class Entreprise {
-	public int id_entreprise;
+	public String id_entreprise;
 	public String nom;
 	public Adresse adresse;
 	public Entreprise(){
 		
 	}
-	public Entreprise(Integer id_entreprise, String nom, Adresse adresse) {
+	public Entreprise(String id_entreprise,  Adresse adresse,String nom) {
 		super();
 		this.id_entreprise = id_entreprise;
 		this.nom = nom;
 		this.adresse = adresse;
-	}
-	
-	public int getId_entreprise() {
+	}	public String getId_entreprise() {
 		return id_entreprise;
 	}
-	public void setId_entreprise(int id_entreprise) {
+	public void setId_entreprise(String id_entreprise) {
 		this.id_entreprise = id_entreprise;
 	}
 	public String getNom() {
