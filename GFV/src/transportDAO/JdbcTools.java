@@ -1,5 +1,8 @@
 package transportDAO;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -134,7 +137,18 @@ public class JdbcTools {
 				else if (parameters[i] instanceof Boolean)
 					st.setBoolean(i+1, (Boolean) parameters[i]);
 				else if (parameters[i] instanceof Date)
-					st.setDate(i+1, (java.sql.Date) parameters[i]);					
+					st.setDate(i+1, (java.sql.Date) parameters[i]);	
+				else if (parameters[i] instanceof File){
+					try {
+						File file=(File)parameters[i];
+						FileInputStream fis = new FileInputStream(file);
+						st.setBinaryStream(i+1, fis, (int) file.length());
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						throw new TransportException(e.getMessage());
+					}
+					
+				}
 				else throw new IllegalArgumentException();
 			}
 			st.execute();

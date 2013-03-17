@@ -9,18 +9,27 @@ public class Arrete {
 	private Lieux arrive;
 	private int distance;
 	private Vector<Itineraire> itineraire;
-	private String carte;
+	private String carte,nom;
 	public Arrete()
 	{
 		itineraire = new  Vector<Itineraire>();
 	}
-	public Arrete(int id,Lieux depart,Lieux arrive,int distance)
+	public Arrete(int id,Lieux depart,Lieux arrive,String nom,int distance,String carte)
 	{
 		this.depart=depart;
 		this.arrive=arrive;
 		this.distance=distance;
 		itineraire = new  Vector<Itineraire>();
 		this.id=id;
+		this.carte=carte;
+		this.nom=nom;
+	}
+	
+	public String getNom() {
+		return nom;
+	}
+	public void setNom(String nom) {
+		this.nom = nom;
 	}
 	public String getCarte() {
 		return carte;

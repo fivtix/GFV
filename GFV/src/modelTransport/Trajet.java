@@ -1,27 +1,33 @@
 package modelTransport;
 
+import java.util.ArrayList;
 import java.util.Vector;
 
 public  class Trajet {
 	private String nom;
 	private int id;
-	private Vector<Arrete> arretes;
-	
-    public Trajet(){  
-    	arretes= new Vector<Arrete>();
-    }
-   public Trajet(int id,String nom){
-	   this.id=id;
-	   this.nom=nom;
-	   arretes= new Vector<Arrete>();
-   }
-	public Vector<Arrete> getArretes() {
+	private ArrayList<Arrete> arretes;
+
+	public Trajet(){  
+		arretes= new ArrayList<Arrete>();
+	}
+	public Trajet(int id,String nom){
+		this.id=id;
+		this.nom=nom;
+		arretes= new ArrayList<Arrete>();
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public ArrayList<Arrete> getArretes() {
 		return arretes;
 	}
-	public void setArretes(Vector<Arrete> arretes) {
+	public void setArretes(ArrayList<Arrete> arretes) {
 		this.arretes = arretes;
 	}
-	
 	public String getNom() {
 		return nom;
 	}
@@ -29,6 +35,6 @@ public  class Trajet {
 		this.nom = nom;
 	}
 	public Trajet(String id, String nom){
-    	
-    }
+
+	}
 }
