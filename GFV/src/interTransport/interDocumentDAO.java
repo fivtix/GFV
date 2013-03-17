@@ -16,15 +16,15 @@ public interface interDocumentDAO {
 	public void supprimerDocBDD(Document doc) throws TransportException;
 	public Document chercher(int id) throws TransportException ;
 	
-	public void ajouterDocumentPersonnel(Document doc, Infos_Personnelles infos);
-	public void supprimerDocumentPersonnel(Document doc, Infos_Personnelles infos);
-	//public void modifierDocumentPersonnel(Document doc, Infos_Personnelles infos);
+	public void ajouterDocumentPersonnel(Document doc, Infos_Personnelles infos)throws TransportException;
+	public void supprimerDocumentPersonnel(Document doc, Infos_Personnelles infos)throws TransportException;
 	
-	//public void ajouterDocumentGestion(Document doc, GestionTransport gestion);
-	//public void supprimerDocumentGestion(Document doc, GestionTransport gestion);
-	//public void modifierDocumentGestion(Document doc, GestionTransport gestion);
+	public void ajouterDocumentGestion(Document doc, GestionTransport gestion)throws TransportException;
+	public void supprimerDocumentGestion(Document doc, GestionTransport gestion)throws TransportException;
 	
-	//public void ajouterDocumentVehicule(Document doc, Vehicule vehicule);
-	//public void supprimerDocumentVehicule(Document doc, Vehicule vehicule);
-	//public void modifierDocumentVehicule(Document doc, Vehicule vehicule);
+	public void ajouterDocumentVehicule(Document doc, Vehicule vehicule)throws TransportException;
+	public void supprimerDocumentVehicule(Document doc, Vehicule vehicule)throws TransportException;
+	
+	public void ajouterDocumentTransport(Document doc, Transport transport)throws TransportException;
+	public void supprimerDocumentTransport(Document doc, Transport transport)throws TransportException;
 }

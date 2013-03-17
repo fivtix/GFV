@@ -3,6 +3,7 @@ package modelTransport;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.SocketException;
 import java.util.ArrayList;
 
@@ -141,7 +142,7 @@ public class ClientFTP {
 				System.out.print(ftp.getReplyString());
 				
 				/**
-				 * todo ! si le serveur est deja configuré en tls il renvoit alors le code 534 donc différent de
+				 * TODO si le serveur est deja configuré en tls il renvoit alors le code 534 donc différent de
 				 * isPositiveCompletion (2xx), et donc ça va disconnect :/
 				 */
 				/*if(!FTPReply.isPositiveCompletion(reply)) 
@@ -242,8 +243,32 @@ public class ClientFTP {
 		return retour;
 	}
 	
-	/*public Document recupererFichier(String nom)
+	public Document recupererFichier(Document doc)
 	{
-		public InputStream retrieveFileStream(String remote) throws IOException
-	}*/
+		try {
+			InputStream in = ftp.retrieveFileStream(doc.getNom());
+			
+			if(in == null)
+			{
+				in.close();
+				System.err.println("File transfer failed.");
+			}
+			else
+			{
+				doc.setDonnee((FileInputStream)in);
+				
+				 in.close();
+				 // Must call completePendingCommand() to finish command.
+				 if(!ftp.completePendingCommand()) 
+				 {
+				     System.err.println("File transfer failed.");
+				 }
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return doc;
+	}
 }

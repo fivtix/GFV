@@ -14,6 +14,7 @@ import modelTransport.ClientFTP;
 import modelTransport.Document;
 import modelTransport.Infos_Personnelles;
 import erreur.TransportException;
+import interTransport.Transport;
 //import interTransport.GestionTransport;
 //import interTransport.Vehicule;
 import interTransport.interDocumentDAO;
@@ -56,7 +57,8 @@ public class DocumentDAO implements interDocumentDAO{
 	}
 	
 	@Override
-	public boolean sendToFTP(Document doc, String adresseServeur, String login,	String pwd, boolean connexionSecurise, boolean BinaryOrTextFile) {
+	public boolean sendToFTP(Document doc, String adresseServeur, String login,	String pwd, boolean connexionSecurise, boolean BinaryOrTextFile) 
+	{
 		// TODO Auto-generated method stub
 		boolean retour = false;
 		
@@ -78,9 +80,7 @@ public class DocumentDAO implements interDocumentDAO{
 			retour = client.envoyerFichier(doc, BinaryOrTextFile);
 			client.deconnexion();
 		}
-		else
-			
-		
+
 		return retour;
 	}
 	
@@ -205,7 +205,7 @@ public class DocumentDAO implements interDocumentDAO{
 			throw new TransportException(e.getMessage());			
 		}
 	}
-/*
+
 	@Override
 	public void ajouterDocumentPersonnel(Document doc, Infos_Personnelles infos) throws TransportException {
 		// TODO Auto-generated method stub
@@ -218,9 +218,9 @@ public class DocumentDAO implements interDocumentDAO{
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getMessage());			
 		}
-	}*/
+	}
 
-/*	@Override
+	@Override
 	public void supprimerDocumentPersonnel(Document doc, Infos_Personnelles infos) throws TransportException {
 		// TODO Auto-generated method stub
 		try {
@@ -232,25 +232,13 @@ public class DocumentDAO implements interDocumentDAO{
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getMessage());			
 		}
-	}*/
-
-/*
-	public void modifierDocumentPersonnel(Document doc, Infos_Personnelles infos) {
-		// TODO Auto-generated method stub
-		try {
-			jdbctool.executeUpdate("update Document_Personne set id_personnel=?, id_documents=? where id_personnel=? and id_documents=?", infos.getId(), doc.getId_document(), origine.getId_document());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new TransportException(e.getErrorCode(),e.getMessage());
-		} catch (TransportException e) {
-			// TODO Auto-generated catch block
-			throw new TransportException(e.getMessage());
-		}
 	}
-*/
-	/*
+
+
+	
 	@Override
-	public void ajouterDocumentGestion(Document doc, GestionTransport gestion) {
+	public void ajouterDocumentGestion(Document doc, GestionTransport gestion)throws TransportException
+	{
 		// TODO Auto-generated method stub
 		try {
 			jdbctool.executeUpdate("insert into Document_Gestion(id_gestion_transports,id_documents) values(?,?)",gestion.getId(), doc.getId_document());
@@ -261,10 +249,10 @@ public class DocumentDAO implements interDocumentDAO{
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getMessage());			
 		}
-	}*/
+	}
 
-/*	@Override
-	public void supprimerDocumentGestion(Document doc, GestionTransport gestion) {
+	@Override
+	public void supprimerDocumentGestion(Document doc, GestionTransport gestion) throws TransportException{
 		// TODO Auto-generated method stub
 		try {
 			jdbctool.executeUpdate("delete from Document_Gestion where id_gestion_transports=? and id_documents=?",gestion.getId(),doc.getId_document());
@@ -275,16 +263,10 @@ public class DocumentDAO implements interDocumentDAO{
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getMessage());			
 		}
-	}*/
+	}
 
-	/*
-	public void modifierDocumentGestion(Document doc, GestionTransport gestion) {
-		// TODO Auto-generated method stub
-		
-	}*/
-
-/*	@Override
-	public void ajouterDocumentVehicule(Document doc, Vehicule vehicule) {
+	@Override
+	public void ajouterDocumentVehicule(Document doc, Vehicule vehicule) throws TransportException {
 		// TODO Auto-generated method stub
 		try {
 			jdbctool.executeUpdate("insert into Document_Vehicule(id_vehicule,id_documents) values(?,?)",vehicule.getId(), doc.getId_document());
@@ -295,10 +277,10 @@ public class DocumentDAO implements interDocumentDAO{
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getMessage());			
 		}
-	}*/
+	}
 
-/*	@Override
-	public void supprimerDocumentVehicule(Document doc, Vehicule vehicule) {
+	@Override
+	public void supprimerDocumentVehicule(Document doc, Vehicule vehicule) throws TransportException{
 		// TODO Auto-generated method stub
 		try {
 			jdbctool.executeUpdate("delete from Document_Vehicule where id_vehicule=? and id_documents=?",vehicule.getId(),doc.getId_document());
@@ -309,7 +291,35 @@ public class DocumentDAO implements interDocumentDAO{
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getMessage());			
 		}
-	}*/
+	}
+	
+	@Override
+	public void ajouterDocumentTransport(Document doc, Transport transport)throws TransportException {
+		// TODO Auto-generated method stub
+		try {
+			jdbctool.executeUpdate("insert into Document_Transport(id_transport,id_documents) values(?,?)",transport.getId(), doc.getId_document());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransportException e) {
+			// TODO Auto-generated catch block
+			throw new TransportException(e.getMessage());			
+		}
+	}
+
+	@Override
+	public void supprimerDocumentTransport(Document doc, Transport transport)throws TransportException {
+		// TODO Auto-generated method stub
+		try {
+			jdbctool.executeUpdate("delete from Document_Transport where id_transport=? and id_documents=?",transport.getId(),doc.getId_document());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransportException e) {
+			// TODO Auto-generated catch block
+			throw new TransportException(e.getMessage());			
+		}
+	}
 
 	@Override
 	public Document chercher(int id) throws TransportException {
@@ -353,10 +363,4 @@ public class DocumentDAO implements interDocumentDAO{
 		
 		return doc;
 	}
-
-/*	
-	public void modifierDocumentVehicule(Document doc, Vehicule vehicule) {
-		// TODO Auto-generated method stub
-		
-	}*/
 }
