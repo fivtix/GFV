@@ -14,7 +14,7 @@ import com.mysql.jdbc.PreparedStatement;
 
 public class adresseDAO implements interAdresseDAO{
 	private JdbcTools jdbctool;
-	private int lastId=-1;
+
 	
 	public adresseDAO(){
 
@@ -41,7 +41,7 @@ public class adresseDAO implements interAdresseDAO{
 	public void supprimer(Adresse adr) throws TransportException {
 		// TODO Auto-generated method stub
 		try {
-			jdbctool.executeUpdate("delete from Adresses where id_adresse=?",adr.getId_adr());
+			jdbctool.executeUpdate("delete from Adresses where id_adresse=?",adr.getId());
 		} catch (SQLException ex) {
 			// TODO Auto-generated catch block
 			throw new TransportException(ex.getErrorCode(),ex.getMessage());
@@ -51,20 +51,22 @@ public class adresseDAO implements interAdresseDAO{
 	
 
 	@Override
-	public void sauvegarde(Adresse adr) throws TransportException {
+	public int sauvegarde(Adresse adr) throws TransportException {
+		int lastId;
 		try {
 			lastId=jdbctool.executeUpdate("insert into Adresses(numero_rue,nom_rue,ville,code_postal,pays) values(?,?,?,?,?)",adr.getNumero_rue(),adr.getNom_rue(),adr.getVille(),adr.getCode_postal(),adr.getPays());
 			} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
 		}
+		return lastId;
 	}
 
 	@Override
 	public void miseAjour(Adresse adr) throws TransportException {
 		// TODO Auto-generated method stub
 		try {
-			jdbctool.executeUpdate("update Adresses set numero_rue=?, nom_rue=?,ville=?,code_postal=?,pays=? where id_adresse=?",adr.getNumero_rue(),adr.getNom_rue(),adr.getVille(),adr.getCode_postal(),adr.getPays(),adr.getId_adr());
+			jdbctool.executeUpdate("update Adresses set numero_rue=?, nom_rue=?,ville=?,code_postal=?,pays=? where id_adresse=?",adr.getNumero_rue(),adr.getNom_rue(),adr.getVille(),adr.getCode_postal(),adr.getPays(),adr.getId());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
@@ -89,7 +91,7 @@ public class adresseDAO implements interAdresseDAO{
 			// 4. lire le résultat
 			while(rst.next()){
 				adr = new Adresse();
-				adr.setId_adr(rst.getString(1));
+				adr.setId(rst.getInt(1));
 				adr.setNumero_rue(rst.getInt(2));
 				adr.setNom_rue(rst.getString(3));
 				adr.setVille(rst.getString(4));
@@ -133,7 +135,7 @@ public class adresseDAO implements interAdresseDAO{
 			// 4. lire le résultat
 			while(rst.next()){
 				Adresse adr = new Adresse();
-				adr.setId_adr(rst.getString(1));
+				adr.setId(rst.getInt(1));
 				adr.setNumero_rue(rst.getInt(2));
 				adr.setNom_rue(rst.getString(3));
 				adr.setVille(rst.getString(4));
@@ -161,11 +163,5 @@ public class adresseDAO implements interAdresseDAO{
 		return adresses;
 
 	}
-	public int getLastId() {
-		return lastId;
-	}
-	public void setLastId(int lastId) {
-		this.lastId = lastId;
-	}
-
+	
 }

@@ -21,13 +21,6 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 	private JdbcTools jdbctool;
 	private interAdresseDAO adrDAO;
 	private interEntrepriseDAO entDAO;
-	private int lastId=-1;
-	public int getLastId() {
-		return lastId;
-	}
-	public void setLastId(int lastId) {
-		this.lastId = lastId;
-	}
 	public InfosPersonnellesDAO(){
 
 	}
@@ -70,21 +63,37 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 	}
 	public void supprimer(Infos_Personnelles p) throws TransportException {
 		// TODO Auto-generated method stub
-		
-		
+		try {
+			jdbctool.executeUpdate("delete from Infos_Personnelles where id_personnel=?",p.getId());
+			adrDAO.supprimer(p.getAdresse());
+			if(p.getEntreprise()!=null)
+				entDAO.supprimer(p.getEntreprise());
+		} catch (SQLException ex) {
+			// TODO Auto-generated catch block
+			throw new TransportException(ex.getErrorCode(),ex.getMessage());
+		}
+
 	}
 
-
 	@Override
-	public void sauvegarde(Infos_Personnelles infop) throws TransportException {
+	public int sauvegarde(Infos_Personnelles infop) throws TransportException {
 		// TODO Auto-generated method stub
 		DateFormat formatter = new SimpleDateFormat("yyyy/dd/MM");
+		int lastId;
 		try {
-			lastId=jdbctool.executeUpdate("insert into Infos_Personnelles(id_entreprise,id_adresse,nom,prenom,date_naissance,travail,tel,email,siteweb) values(?,?,?,?,?,?,?,?,?)",infop.getEntreprise().getId_entreprise(),infop.getAdresse().getId_adr(),infop.getNom(),infop.getPrenom(),formatter.format(new Date(infop.getDateNaissance())),infop.getTravail(),infop.getTel(),infop.getAdresseE(),infop.getSiteWEB());
+			int idAdr=adrDAO.sauvegarde(infop.getAdresse());
+			int idEnt = 0;
+			if(infop.getEntreprise()!=null)
+				if(infop.getEntreprise().getId()==0)
+					idEnt=entDAO.sauvegarde(infop.getEntreprise());
+				else
+					idEnt=infop.getEntreprise().getId();
+			lastId=jdbctool.executeUpdate("insert into Infos_Personnelles(id_entreprise,id_adresse,nom,prenom,date_naissance,travail,tel,email,siteweb) values(?,?,?,?,?,?,?,?,?)",idEnt,idAdr,infop.getNom(),infop.getPrenom(),formatter.format(new Date(infop.getDateNaissance())),infop.getTravail(),infop.getTel(),infop.getAdresseE(),infop.getSiteWEB());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
 		}
+		return lastId;
 	}
 
 
@@ -93,7 +102,7 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 		// TODO Auto-generated method stub
 		DateFormat formatter = new SimpleDateFormat("yyyy/dd/MM");
 		try {
-			jdbctool.executeUpdate("update Infos_Personnelles set id_entreprise=?, id_adresse=?,nom=?,prenom=?,date_naissance=?,travail=?,tel=?,email=?,siteweb=? where id_personnel=?",infop.getEntreprise().getId_entreprise(),infop.getAdresse().getId_adr(),infop.getNom(),infop.getPrenom(),formatter.format(new Date(infop.getDateNaissance())),infop.getTravail(),infop.getTel(),infop.getAdresseE(),infop.getSiteWEB(),infop.getId());
+			jdbctool.executeUpdate("update Infos_Personnelles set id_entreprise=?, id_adresse=?,nom=?,prenom=?,date_naissance=?,travail=?,tel=?,email=?,siteweb=? where id_personnel=?",infop.getEntreprise().getId(),infop.getAdresse().getId(),infop.getNom(),infop.getPrenom(),formatter.format(new Date(infop.getDateNaissance())),infop.getTravail(),infop.getTel(),infop.getAdresseE(),infop.getSiteWEB(),infop.getId());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
@@ -119,7 +128,7 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 			// 4. lire le résultat
 			while(rst.next()){
 				infop = new Infos_Personnelles();
-				infop.setId(rst.getString(1));
+				infop.setId(rst.getInt(1));
 				infop.setEntreprise(entDAO.chercher(rst.getString(2)));
 				infop.setAdresse(adrDAO.chercher(rst.getString(3)));
 				infop.setNom(rst.getString(4));
@@ -169,7 +178,7 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 			// 4. lire le résultat
 			while(rst.next()){
 				Infos_Personnelles infop = new Infos_Personnelles();
-				infop.setId(rst.getString(1));
+				infop.setId(rst.getInt(1));
 				infop.setEntreprise(entDAO.chercher(rst.getString(2)));
 				infop.setAdresse(adrDAO.chercher(rst.getString(3)));
 				infop.setNom(rst.getString(4));

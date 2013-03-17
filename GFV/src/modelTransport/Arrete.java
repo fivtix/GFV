@@ -4,35 +4,41 @@ import java.awt.Image;
 import java.util.Vector;
 
 public class Arrete {
-	private String id;
+	private int id;
 	private Lieux depart;
 	private Lieux arrive;
 	private int distance;
 	private Vector<Itineraire> itineraire;
+	private String carte;
+	public Arrete()
+	{
+		itineraire = new  Vector<Itineraire>();
+	}
+	public Arrete(int id,Lieux depart,Lieux arrive,int distance)
+	{
+		this.depart=depart;
+		this.arrive=arrive;
+		this.distance=distance;
+		itineraire = new  Vector<Itineraire>();
+		this.id=id;
+	}
 	public String getCarte() {
 		return carte;
 	}
 	public void setCarte(String carte) {
 		this.carte = carte;
 	}
-	private String carte;
-	
-	public String getId() {
+	public int getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
-	public Arrete()
-	{
-
+	public Vector<Itineraire> getItineraire() {
+		return itineraire;
 	}
-	public Arrete(Lieux depart,Lieux arrive,int distance)
-	{
-		this.depart=depart;
-		this.arrive=arrive;
-		this.distance=distance;
-		itineraire = new  Vector<Itineraire>();
+	public void setItineraire(Vector<Itineraire> itineraire) {
+		this.itineraire = itineraire;
 	}
 	public Lieux getDepart() {
 		return depart;

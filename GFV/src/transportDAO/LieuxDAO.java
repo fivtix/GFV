@@ -19,8 +19,7 @@ public class LieuxDAO implements interLieuxDAO{
 	
 	private JdbcTools jdbctool;
 	private interAdresseDAO adrDAO;
-	private int lastId=-1;
-	
+
 	public LieuxDAO(){
 	}
 	public LieuxDAO(JdbcTools jdbctool,interAdresseDAO adrDAO)throws TransportException{
@@ -52,24 +51,38 @@ public class LieuxDAO implements interLieuxDAO{
 	}
 	public void supprimer(Lieux lieu) throws TransportException {
 		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub
+				try {
+					jdbctool.executeUpdate("delete from Lieux where id_lieux=?",lieu.getId());
+					adrDAO.supprimer(lieu.getAdr());
+				} catch (SQLException ex) {
+					// TODO Auto-generated catch block
+					throw new TransportException(ex.getErrorCode(),ex.getMessage());
+				}
 	}
 
 	@Override
-	public void sauvegarde(Lieux lieu) throws TransportException {
+	public int sauvegarde(Lieux lieu) throws TransportException {
+		int lastId;
 		try {
-			lastId = jdbctool.executeUpdate("insert into Lieux(id_adresse,nom,coordonnees) values(?,?,?)",lieu.getAdr().getId_adr(),lieu.getNom(),lieu.getCoordonnees());
+			int idAdr=0;
+			if(lieu.getAdr().getId()==0)
+				adrDAO.sauvegarde(lieu.getAdr());
+			else
+				idAdr=lieu.getAdr().getId();
+			lastId = jdbctool.executeUpdate("insert into Lieux(id_adresse,nom,coordonnees) values(?,?,?)",idAdr,lieu.getNom(),lieu.getCoordonnees());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
 		}
+		return lastId;
 	}
 
 	@Override
 	public void miseAjour(Lieux lieu) throws TransportException {
 		// TODO Auto-generated method stub
 		try {
-			jdbctool.executeUpdate("update Lieux set id_adresse=?,nom?=,coordonnees=? where id_lieu=?",lieu.getAdr().getId_adr(),lieu.getNom(),lieu.getCoordonnees(),lieu.getId_lieu());
+			jdbctool.executeUpdate("update Lieux set id_adresse=?,nom?=,coordonnees=? where id_lieu=?",lieu.getAdr().getId(),lieu.getNom(),lieu.getCoordonnees(),lieu.getId());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
@@ -94,7 +107,7 @@ public class LieuxDAO implements interLieuxDAO{
 			// 4. lire le résultat
 			while(rst.next()){
 				lieu = new Lieux();
-				lieu.setId_lieu(rst.getString(1));
+				lieu.setId(rst.getInt(1));
 				lieu.setAdr(adrDAO.chercher(rst.getString(2)));
 				lieu.setNom(rst.getString(3));
 				lieu.setCoordonnees(rst.getString(4));
@@ -134,7 +147,7 @@ public class LieuxDAO implements interLieuxDAO{
 			// 4. lire le résultat
 			while(rst.next()){
 				Lieux lieu = new Lieux();
-				lieu.setId_lieu(rst.getString(1));
+				lieu.setId(rst.getInt(1));
 				lieu.setAdr(adrDAO.chercher(rst.getString(2)));
 				lieu.setNom(rst.getString(3));
 				lieu.setCoordonnees(rst.getString(4));
@@ -160,10 +173,5 @@ public class LieuxDAO implements interLieuxDAO{
 		return lieux;
 
 	}
-	public int getLastId() {
-		return lastId;
-	}
-	public void setLastId(int lastId) {
-		this.lastId = lastId;
-	}
+	
 }

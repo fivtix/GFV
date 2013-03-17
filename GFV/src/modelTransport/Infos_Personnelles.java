@@ -12,12 +12,12 @@ import erreur.TransportException;
 
 public class  Infos_Personnelles {
 	// déclarer les variable
-	private String id="";// chaque perchon n'a que un numéro de id
+	private int id;// chaque perchon n'a que un numéro de id
 	private String nom, prenom,dateNaissance,tel,adresseE, siteWEB,travail; // mp est mot de pass
 	private Adresse adresse;
 	private Entreprise entreprise;
-	
-	public Infos_Personnelles(String id,Entreprise entreprise,Adresse adresse, String nom, String prenom, String dateNaissance,String travail,String tel, String adresseE, String siteWEB) throws TransportException {
+
+	public Infos_Personnelles(int id,Entreprise entreprise,Adresse adresse, String nom, String prenom, String dateNaissance,String travail,String tel, String adresseE, String siteWEB) throws TransportException {
 		this.id=id;
 		this.nom=nom;
 		this.prenom=prenom;
@@ -28,18 +28,19 @@ public class  Infos_Personnelles {
 		this.siteWEB=siteWEB;
 		this.adresse=adresse;
 		this.entreprise=entreprise;
-		
-		
+
+
 	}
-	
- public Infos_Personnelles(){
-	 
- }
-	public String getId() {
+
+	public Infos_Personnelles(){
+
+	}
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -114,7 +115,7 @@ public class  Infos_Personnelles {
 	public void setEntreprise(Entreprise entreprise) {
 		this.entreprise = entreprise;
 	}
-	
+
 
 
 }

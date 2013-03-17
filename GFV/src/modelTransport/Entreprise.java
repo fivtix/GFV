@@ -9,29 +9,24 @@ package modelTransport;
 //
 //
 public class Entreprise {
-	public String id_entreprise;
-	public String nom;
-	public Adresse adresse;
-	private int lastId=-1;
-	public int getLastId() {
-		return lastId;
-	}
-	public void setLastId(int lastId) {
-		this.lastId = lastId;
-	}
+	private int id;
+	private String nom;
+	private Adresse adresse;
 	public Entreprise(){
 		
 	}
-	public Entreprise(String id_entreprise,  Adresse adresse,String nom) {
+	public Entreprise(int id, Adresse adresse,String nom) {
 		super();
-		this.id_entreprise = id_entreprise;
+		this.id = id;
 		this.nom = nom;
 		this.adresse = adresse;
-	}	public String getId_entreprise() {
-		return id_entreprise;
+	}	
+	
+	public int getId() {
+		return id;
 	}
-	public void setId_entreprise(String id_entreprise) {
-		this.id_entreprise = id_entreprise;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getNom() {
 		return nom;

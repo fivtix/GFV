@@ -1,7 +1,7 @@
 package modelTransport;
 public class Adresse {
 	
-	private String id_adr;
+	private int id;
 	private String nom_rue;
 	private int numero_rue;
 	private String ville;
@@ -11,9 +11,9 @@ public class Adresse {
 	public Adresse()
 	{
 	}
-	public Adresse(String id_adresse, int numero_rue,String nom_rue,String ville, String code_postal, String pays) {
+	public Adresse(int id_adresse, int numero_rue,String nom_rue,String ville, String code_postal, String pays) {
 		super();
-		this.id_adr = id_adresse;
+		this.id = id_adresse;
 		this.nom_rue = nom_rue;
 		this.numero_rue = numero_rue;
 		this.ville = ville;
@@ -21,11 +21,12 @@ public class Adresse {
 		this.pays = pays;
 	}
 	
-	public String getId_adr() {
-		return id_adr;
+	
+	public int getId() {
+		return id;
 	}
-	public void setId_adr(String id_adr) {
-		this.id_adr = id_adr;
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getNom_rue() {
 		return nom_rue;
