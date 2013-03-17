@@ -4,6 +4,15 @@ public class Itineraire {
 	private Adresse depart,arrive;
 	private String intro;
 	
+	public Itineraire(){
+		
+	}
+public Itineraire(Adresse depart,Adresse arrive,int distance,String intro){
+		this.depart=depart;
+		this.arrive=arrive;
+		this.distance=distance;
+		this.intro=intro;
+	}
 	public int getDistance() {
 		return distance;
 	}

@@ -1,6 +1,7 @@
 package modelTransport;
 
 import java.awt.Image;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class Arrete {
@@ -8,18 +9,18 @@ public class Arrete {
 	private Lieux depart;
 	private Lieux arrive;
 	private int distance;
-	private Vector<Itineraire> itineraire;
+	private ArrayList<Itineraire> itineraires;
 	private String carte,nom;
 	public Arrete()
 	{
-		itineraire = new  Vector<Itineraire>();
+		itineraires = new  ArrayList<Itineraire>();
 	}
 	public Arrete(int id,Lieux depart,Lieux arrive,String nom,int distance,String carte)
 	{
 		this.depart=depart;
 		this.arrive=arrive;
 		this.distance=distance;
-		itineraire = new  Vector<Itineraire>();
+		itineraires = new  ArrayList<Itineraire>();
 		this.id=id;
 		this.carte=carte;
 		this.nom=nom;
@@ -43,11 +44,11 @@ public class Arrete {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Vector<Itineraire> getItineraire() {
-		return itineraire;
+	public ArrayList<Itineraire> getItineraire() {
+		return itineraires;
 	}
-	public void setItineraire(Vector<Itineraire> itineraire) {
-		this.itineraire = itineraire;
+	public void setItineraire(ArrayList<Itineraire> itineraires) {
+		this.itineraires = itineraires;
 	}
 	public Lieux getDepart() {
 		return depart;
@@ -66,6 +67,9 @@ public class Arrete {
 	}
 	public void setDistance(int distance) {
 		this.distance = distance;
+	}
+	public void ajouterItineraire(Itineraire i){
+		itineraires.add(i);
 	}
 	
 }
