@@ -85,6 +85,7 @@ public class entrepriseDAO implements interEntrepriseDAO {
 	public void miseAjour(Entreprise e) throws TransportException {
 		// TODO Auto-generated method stub
 		try {
+			adrDAO.miseAjour(e.getAdresse());
 			jdbctool.executeUpdate("update Entreprise set id_adresse=?,nom=? where id_entreprise=?",e.getAdresse().getId(),e.getNom(),e.getId());
 		} catch (SQLException ex) {
 			// TODO Auto-generated catch block

@@ -102,7 +102,13 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 		// TODO Auto-generated method stub
 		DateFormat formatter = new SimpleDateFormat("yyyy/dd/MM");
 		try {
-			jdbctool.executeUpdate("update Infos_Personnelles set id_entreprise=?, id_adresse=?,nom=?,prenom=?,date_naissance=?,travail=?,tel=?,email=?,siteweb=? where id_personnel=?",infop.getEntreprise().getId(),infop.getAdresse().getId(),infop.getNom(),infop.getPrenom(),formatter.format(new Date(infop.getDateNaissance())),infop.getTravail(),infop.getTel(),infop.getAdresseE(),infop.getSiteWEB(),infop.getId());
+			adrDAO.miseAjour(infop.getAdresse());
+			int idEnt=0;
+			if(infop.getEntreprise()!=null){
+				entDAO.miseAjour(infop.getEntreprise());
+				 idEnt=infop.getEntreprise().getId();
+			}
+			jdbctool.executeUpdate("update Infos_Personnelles set id_entreprise=?, id_adresse=?,nom=?,prenom=?,date_naissance=?,travail=?,tel=?,email=?,siteweb=? where id_personnel=?",idEnt,infop.getAdresse().getId(),infop.getNom(),infop.getPrenom(),formatter.format(new Date(infop.getDateNaissance())),infop.getTravail(),infop.getTel(),infop.getAdresseE(),infop.getSiteWEB(),infop.getId());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
@@ -110,7 +116,7 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 		
 	}
 
-	public Infos_Personnelles  chercher(String id) throws TransportException {
+	public Infos_Personnelles  chercher(int id) throws TransportException {
 		// TODO Auto-generated method stub
 		DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 		Infos_Personnelles infop  = null;
@@ -123,7 +129,7 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 			conn = jdbctool.newConnection();
 			// 2. préparer l'instruction
 			st = (PreparedStatement) conn.prepareStatement(sql);
-			st.setString(1,id);
+			st.setInt(1,id);
 			rst = st.executeQuery();
 			// 4. lire le résultat
 			while(rst.next()){

@@ -28,8 +28,6 @@ public class  Infos_Personnelles {
 		this.siteWEB=siteWEB;
 		this.adresse=adresse;
 		this.entreprise=entreprise;
-
-
 	}
 
 	public Infos_Personnelles(){
