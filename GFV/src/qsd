@@ -1,0 +1,30 @@
+	try {
+				
+				lastId=jdbctool.executeUpdate("insert into Trajet(nom) values(?)",t.getNom());
+				ArrayList<Arrete> aretes=(ArrayList<Arrete>) t.getArretes();
+				Iterator<Arrete> it = aretes.iterator();
+				while(it.hasNext()){
+					Arrete a=it.next();
+					String idArrete;
+					if(a.getId().equals(null))
+						idArrete =""+ arrete.sauvegarde(a);
+					else
+						idArrete=a.getId();
+					jdbctool.executeUpdate("insert into Parcours(id_arrete,id_trajet) values(?,?)", idArrete,lastId+"");
+				}
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				throw new TransportException(e.getErrorCode(),e.getMessage());
+			}finally {
+				// fermer PreparedStatement 
+				if(rst!=null)
+					try {
+						rst.close();
+						// 7. fermer la connexion
+						jdbctool.quietClose(conn);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						throw new TransportException(e.getErrorCode(),e.getMessage());
+					}
+			}

@@ -129,8 +129,8 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 			while(rst.next()){
 				infop = new Infos_Personnelles();
 				infop.setId(rst.getInt(1));
-				infop.setEntreprise(entDAO.chercher(rst.getString(2)));
-				infop.setAdresse(adrDAO.chercher(rst.getString(3)));
+				infop.setEntreprise(entDAO.chercher(rst.getInt(2)));
+				infop.setAdresse(adrDAO.chercher(rst.getInt(3)));
 				infop.setNom(rst.getString(4));
 				infop.setPrenom(rst.getString(5));
 				infop.setDateNaissance(formatter.format(rst.getDate((6))));
@@ -179,8 +179,8 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 			while(rst.next()){
 				Infos_Personnelles infop = new Infos_Personnelles();
 				infop.setId(rst.getInt(1));
-				infop.setEntreprise(entDAO.chercher(rst.getString(2)));
-				infop.setAdresse(adrDAO.chercher(rst.getString(3)));
+				infop.setEntreprise(entDAO.chercher(rst.getInt(2)));
+				infop.setAdresse(adrDAO.chercher(rst.getInt(3)));
 				infop.setNom(rst.getString(4));
 				infop.setPrenom(rst.getString(5));
 				infop.setDateNaissance(formatter.format(rst.getDate(6)));

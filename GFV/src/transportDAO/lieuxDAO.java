@@ -14,19 +14,19 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import erreur.TransportException;
 
-public class LieuxDAO implements interLieuxDAO{
+public class lieuxDAO implements interLieuxDAO{
 
 	
 	private JdbcTools jdbctool;
 	private interAdresseDAO adrDAO;
 
-	public LieuxDAO(){
+	public lieuxDAO(){
 	}
-	public LieuxDAO(JdbcTools jdbctool,interAdresseDAO adrDAO)throws TransportException{
+	public lieuxDAO(JdbcTools jdbctool,interAdresseDAO adrDAO)throws TransportException{
 		this.jdbctool=jdbctool;
 		this.adrDAO=adrDAO;
 	}
-	public LieuxDAO(adresseDAO adrDAO,String pilote, String url, String utilisateur, String motdepass) throws TransportException{
+	public lieuxDAO(adresseDAO adrDAO,String pilote, String url, String utilisateur, String motdepass) throws TransportException{
 		jdbctool = new  JdbcTools(pilote,url,utilisateur,motdepass);
 		try {
 			jdbctool.init();
@@ -53,7 +53,7 @@ public class LieuxDAO implements interLieuxDAO{
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 				try {
-					jdbctool.executeUpdate("delete from Lieux where id_lieux=?",lieu.getId());
+					jdbctool.executeUpdate("delete from Lieux where id_lieu=?",lieu.getId());
 					adrDAO.supprimer(lieu.getAdr());
 				} catch (SQLException ex) {
 					// TODO Auto-generated catch block
@@ -67,7 +67,7 @@ public class LieuxDAO implements interLieuxDAO{
 		try {
 			int idAdr=0;
 			if(lieu.getAdr().getId()==0)
-				adrDAO.sauvegarde(lieu.getAdr());
+				idAdr=adrDAO.sauvegarde(lieu.getAdr());
 			else
 				idAdr=lieu.getAdr().getId();
 			lastId = jdbctool.executeUpdate("insert into Lieux(id_adresse,nom,coordonnees) values(?,?,?)",idAdr,lieu.getNom(),lieu.getCoordonnees());
@@ -82,7 +82,8 @@ public class LieuxDAO implements interLieuxDAO{
 	public void miseAjour(Lieux lieu) throws TransportException {
 		// TODO Auto-generated method stub
 		try {
-			jdbctool.executeUpdate("update Lieux set id_adresse=?,nom?=,coordonnees=? where id_lieu=?",lieu.getAdr().getId(),lieu.getNom(),lieu.getCoordonnees(),lieu.getId());
+			adrDAO.miseAjour(lieu.getAdr());
+			jdbctool.executeUpdate("update Lieux set id_adresse=?,nom=?,coordonnees=? where id_lieu=?",lieu.getAdr().getId(),lieu.getNom(),lieu.getCoordonnees(),lieu.getId());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
@@ -91,7 +92,7 @@ public class LieuxDAO implements interLieuxDAO{
 	
 
 	@Override
-	public Lieux chercher(String id) throws TransportException {
+	public Lieux chercher(int id) throws TransportException {
 		Lieux lieu  = null;
 		Connection conn = null;
 		PreparedStatement st  = null;	
@@ -102,16 +103,15 @@ public class LieuxDAO implements interLieuxDAO{
 			conn = jdbctool.newConnection();
 			// 2. préparer l'instruction
 			st = (PreparedStatement) conn.prepareStatement(sql);
-			st.setString(1,id);
+			st.setInt(1,id);
 			rst = st.executeQuery();
 			// 4. lire le résultat
 			while(rst.next()){
 				lieu = new Lieux();
 				lieu.setId(rst.getInt(1));
-				lieu.setAdr(adrDAO.chercher(rst.getString(2)));
+				lieu.setAdr(adrDAO.chercher(rst.getInt(2)));
 				lieu.setNom(rst.getString(3));
 				lieu.setCoordonnees(rst.getString(4));
-				
 			}
 		} catch (SQLException e) {
 			throw new TransportException(e.getErrorCode(),e.getMessage());
@@ -148,7 +148,7 @@ public class LieuxDAO implements interLieuxDAO{
 			while(rst.next()){
 				Lieux lieu = new Lieux();
 				lieu.setId(rst.getInt(1));
-				lieu.setAdr(adrDAO.chercher(rst.getString(2)));
+				lieu.setAdr(adrDAO.chercher(rst.getInt(2)));
 				lieu.setNom(rst.getString(3));
 				lieu.setCoordonnees(rst.getString(4));
 				lieux.add(lieu);

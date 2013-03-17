@@ -60,7 +60,7 @@ public class entrepriseDAO implements interEntrepriseDAO {
 		// TODO Auto-generated method stub
 
 		try {
-			jdbctool.executeUpdate("delete from entreprise where id_entreprise=?",ent.getId());
+			jdbctool.executeUpdate("delete from Entreprise where id_entreprise=?",ent.getId());
 			adrDAO.supprimer(ent.getAdresse());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -92,7 +92,7 @@ public class entrepriseDAO implements interEntrepriseDAO {
 		}
 	}
 
-	public Entreprise chercher(String id) throws TransportException {
+	public Entreprise chercher(int id) throws TransportException {
 		Entreprise ent  = null;
 		Connection conn = null;
 		PreparedStatement st  = null;	
@@ -103,13 +103,13 @@ public class entrepriseDAO implements interEntrepriseDAO {
 			conn = jdbctool.newConnection();
 			// 2. préparer l'instruction
 			st = (PreparedStatement) conn.prepareStatement(sql);
-			st.setString(1,id);
+			st.setInt(1,id);
 			rst = st.executeQuery();
 			// 4. lire le résultat
 			while(rst.next()){
 				ent = new Entreprise();
 				ent.setId(rst.getInt(1));
-				ent.setAdresse(adrDAO.chercher(rst.getString(2)));
+				ent.setAdresse(adrDAO.chercher(rst.getInt(2)));
 				ent.setNom(rst.getString(3));
 
 			}
@@ -148,7 +148,7 @@ public class entrepriseDAO implements interEntrepriseDAO {
 			while(rst.next()){
 				Entreprise ent = new Entreprise();
 				ent.setId(rst.getInt(1));
-				ent.setAdresse(adrDAO.chercher(rst.getString(2)));
+				ent.setAdresse(adrDAO.chercher(rst.getInt(2)));
 				ent.setNom(rst.getString(3));
 				entreprises.add(ent);
 			}
