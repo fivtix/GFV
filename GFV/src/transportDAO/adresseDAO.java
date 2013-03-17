@@ -74,7 +74,7 @@ public class adresseDAO implements interAdresseDAO{
 	}
 
 	@Override
-	public Adresse chercher(String id) throws TransportException {
+	public Adresse chercher(int id) throws TransportException {
 		// TODO Auto-generated method stub
 		Adresse adr  = null;
 		Connection conn = null;
@@ -86,7 +86,7 @@ public class adresseDAO implements interAdresseDAO{
 			conn = jdbctool.newConnection();
 			// 2. préparer l'instruction
 			st = (PreparedStatement) conn.prepareStatement(sql);
-			st.setString(1,id);
+			st.setInt(1,id);
 			rst = st.executeQuery();
 			// 4. lire le résultat
 			while(rst.next()){
