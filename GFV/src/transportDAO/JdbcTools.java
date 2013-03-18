@@ -91,18 +91,18 @@ public class JdbcTools {
 				 throw new TransportException(e.getMessage());
 			}
 	}
-	public int executeUpdate(String query) throws SQLException, TransportException {
+	public Object executeUpdate(String query) throws SQLException, TransportException {
 		Connection conn = null;
 		ResultSet rs = null;
-		int rst =-1;
+		Object id=null;
 		try {
 			// créer une connexion
 			conn = newConnection();
 			Statement stmt = (Statement) conn.createStatement();
-			rst = stmt.executeUpdate(query);
+			stmt.executeUpdate(query);
 			rs = stmt.getGeneratedKeys();
 			if (rs.next()){
-				rst = rs.getInt(1);
+				id = rs.getObject(1);
 	        }
 			
 		} catch (SQLException e) {
@@ -115,12 +115,12 @@ public class JdbcTools {
 			
 			// fe
 		}
-		return rst;
+		return id;
 	}
 
-	public int executeUpdate(String sql, java.io.Serializable... parameters)throws SQLException, TransportException {
+	public Object executeUpdate(String sql, java.io.Serializable... parameters)throws SQLException, TransportException {
 		Connection conn = null;
-		int rst = -1;
+		Object id=null;
 		ResultSet rs = null;
 		PreparedStatement st=null;
 		try {
@@ -155,7 +155,7 @@ public class JdbcTools {
 			// 4. lire le résultat
 			rs = st.getGeneratedKeys();
 			if (rs.next()){
-				rst = rs.getInt(1);
+				id = rs.getObject(1);
 	        }
 			
 		} catch (SQLException e) {
@@ -169,7 +169,7 @@ public class JdbcTools {
 			quietClose(conn);
 		}
 		// renvoyer le résultat
-		return rst;
+		return id;
 	}
 
 }

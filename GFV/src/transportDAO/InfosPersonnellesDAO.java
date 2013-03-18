@@ -88,7 +88,7 @@ public class InfosPersonnellesDAO implements interInfos_Personnelles {
 					idEnt=entDAO.sauvegarde(infop.getEntreprise());
 				else
 					idEnt=infop.getEntreprise().getId();
-			lastId=jdbctool.executeUpdate("insert into Infos_Personnelles(id_entreprise,id_adresse,nom,prenom,date_naissance,travail,tel,email,siteweb) values(?,?,?,?,?,?,?,?,?)",idEnt,idAdr,infop.getNom(),infop.getPrenom(),formatter.format(new Date(infop.getDateNaissance())),infop.getTravail(),infop.getTel(),infop.getAdresseE(),infop.getSiteWEB());
+			lastId=(int) jdbctool.executeUpdate("insert into Infos_Personnelles(id_entreprise,id_adresse,nom,prenom,date_naissance,travail,tel,email,siteweb) values(?,?,?,?,?,?,?,?,?)",idEnt,idAdr,infop.getNom(),infop.getPrenom(),formatter.format(new Date(infop.getDateNaissance())),infop.getTravail(),infop.getTel(),infop.getAdresseE(),infop.getSiteWEB());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());

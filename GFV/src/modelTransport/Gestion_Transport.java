@@ -6,11 +6,6 @@ public class Gestion_Transport {
 	String nom;
 	Infos_Personnelles personnel;
 	Trajet trajet;
-	
-	
-	
-	
-	
 	public Gestion_Transport(Integer id_gestion_des_transport, String nom,Infos_Personnelles personnel,  Trajet trajet) {
 		super();
 		this.id_gestion_des_transport = id_gestion_des_transport;

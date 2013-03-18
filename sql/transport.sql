@@ -42,7 +42,7 @@ DROP TABLE IF EXISTS `n20404039`.`Entreprise` ;
 
 CREATE  TABLE IF NOT EXISTS `n20404039`.`Entreprise` (
   `id_entreprise` INT NOT NULL AUTO_INCREMENT ,
-  `id_Adresse` INT NOT NULL ,
+  `id_adresse` INT NOT NULL ,
   `nom` VARCHAR(70) NOT NULL ,
   PRIMARY KEY (`id_entreprise`) )
 ENGINE = InnoDB;
@@ -123,9 +123,9 @@ DROP TABLE IF EXISTS `n20404039`.`Gestion_Transports` ;
 
 CREATE  TABLE IF NOT EXISTS `n20404039`.`Gestion_Transports` (
   `id_gestion_des_transports` INT NOT NULL AUTO_INCREMENT ,
+  `id_trajet` INT NOT NULL ,
   `id_personnel` INT NOT NULL ,
   `id_moyen_transport` INT NOT NULL ,
-  `id_trajet` INT NOT NULL ,
   `nom` VARCHAR(45) NOT NULL ,
   PRIMARY KEY (`id_gestion_des_transports`) )
 ENGINE = InnoDB;
@@ -138,9 +138,9 @@ DROP TABLE IF EXISTS `n20404039`.`Lieux` ;
 
 CREATE  TABLE IF NOT EXISTS `n20404039`.`Lieux` (
   `id_lieu` INT NOT NULL AUTO_INCREMENT ,
-  `id_Adresse` INT NOT NULL ,
-  `nom` VARCHAR(70) NULL ,
-  `coordonnées` VARCHAR(70) NOT NULL ,
+  `id_adresse` INT NOT NULL ,
+  `nom` VARCHAR(70) NOT NULL ,
+  `coordonnees` VARCHAR(70) NOT NULL ,
   PRIMARY KEY (`id_lieu`) )
 ENGINE = InnoDB;
 
@@ -194,7 +194,6 @@ DROP TABLE IF EXISTS `n20404039`.`Arretes` ;
 
 CREATE  TABLE IF NOT EXISTS `n20404039`.`Arretes` (
   `id_arrete` INT NOT NULL AUTO_INCREMENT ,
-  `id_trajet` INT NOT NULL ,
   `depart` INT NOT NULL ,
   `arrive` INT NOT NULL ,
   `nom` VARCHAR(45) NOT NULL ,
@@ -211,7 +210,8 @@ DROP TABLE IF EXISTS `n20404039`.`Itineraires` ;
 
 CREATE  TABLE IF NOT EXISTS `n20404039`.`Itineraires` (
   `id_arrete` INT NOT NULL ,
-  `id_lieu` INT NOT NULL ,
+  `depart` INT NOT NULL ,
+  `arrive` INT NOT NULL ,
   `distance` INT NOT NULL ,
   `intro` VARCHAR(60) NULL )
 ENGINE = InnoDB;
@@ -223,8 +223,8 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `n20404039`.`Roles` ;
 
 CREATE  TABLE IF NOT EXISTS `n20404039`.`Roles` (
-  `id_roles` VARCHAR(40) NOT NULL ,
-  PRIMARY KEY (`id_roles`) )
+  `id_role` VARCHAR(45) NOT NULL ,
+  PRIMARY KEY (`id_role`) )
 ENGINE = InnoDB;
 
 
@@ -234,9 +234,10 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `n20404039`.`Users` ;
 
 CREATE  TABLE IF NOT EXISTS `n20404039`.`Users` (
-  `id_users` VARCHAR(25) NOT NULL ,
+  `id_user` VARCHAR(45) NOT NULL ,
+  `motdepass` VARCHAR(45) NOT NULL ,
   `id_Personnel` INT NOT NULL ,
-  PRIMARY KEY (`id_users`) )
+  PRIMARY KEY (`id_user`) )
 ENGINE = InnoDB;
 
 
@@ -246,8 +247,8 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `n20404039`.`Roles_Users` ;
 
 CREATE  TABLE IF NOT EXISTS `n20404039`.`Roles_Users` (
-  `id_roles` TEXT NOT NULL ,
-  `id_users` INT NOT NULL )
+  `id_user` VARCHAR(45) NOT NULL ,
+  `id_role` VARCHAR(45) NOT NULL )
 ENGINE = InnoDB;
 
 
@@ -328,12 +329,22 @@ DROP TABLE IF EXISTS `n20404039`.`Horaires` ;
 
 CREATE  TABLE IF NOT EXISTS `n20404039`.`Horaires` (
   `id_arrete` INT NOT NULL ,
-  `id_trajet` INT NOT NULL ,
   `id_gestion_des_transports` INT NOT NULL ,
   `date_heure_depart` DATETIME NOT NULL ,
   `date_heure_arrive` DATETIME NOT NULL ,
   `date_heure_depart_reelle` DATETIME NULL ,
   `date_heure_arrivee_reelle` DATETIME NULL )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `n20404039`.`Parcours`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `n20404039`.`Parcours` ;
+
+CREATE  TABLE IF NOT EXISTS `n20404039`.`Parcours` (
+  `id_trajet` INT NOT NULL ,
+  `id_arrete` INT NOT NULL )
 ENGINE = InnoDB;
 
 USE `n20404039` ;

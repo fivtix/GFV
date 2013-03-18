@@ -73,7 +73,7 @@ public class entrepriseDAO implements interEntrepriseDAO {
 		int lastId;
 		try {
 			int idAdr=adrDAO.sauvegarde(e.getAdresse());
-			lastId=jdbctool.executeUpdate("insert into Entreprise(id_adresse,nom) values(?,?)", idAdr,e.getNom());
+			lastId=(int) jdbctool.executeUpdate("insert into Entreprise(id_adresse,nom) values(?,?)", idAdr,e.getNom());
 		} catch (SQLException ex) {
 			// TODO Auto-generated catch block
 			throw new TransportException(ex.getErrorCode(),ex.getMessage());

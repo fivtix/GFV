@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import modelTransport.Adresse;
+import modelTransport.Role;
 import erreur.TransportException;
 import interTransport.interAdresseDAO;
 
@@ -12,11 +13,9 @@ import java.sql.SQLException;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 
-public class adresseDAO implements interAdresseDAO{
+public class roleDAO {
 	private JdbcTools jdbctool;
-
-	
-	public adresseDAO(){
+	public roleDAO(){
 
 	}
 	public JdbcTools getJdbctool() {
@@ -25,10 +24,10 @@ public class adresseDAO implements interAdresseDAO{
 	public void setJdbctool(JdbcTools jdbctool) {
 		this.jdbctool = jdbctool;
 	}
-	public adresseDAO(JdbcTools jdbctool)throws TransportException{
+	public roleDAO(JdbcTools jdbctool)throws TransportException{
 		this.jdbctool=jdbctool;
 	}
-	public adresseDAO(String pilote, String url, String utilisateur, String motdepass) throws TransportException{
+	public roleDAO(String pilote, String url, String utilisateur, String motdepass) throws TransportException{
 		jdbctool = new  JdbcTools(pilote,url,utilisateur,motdepass);
 		try {
 			jdbctool.init();
@@ -37,23 +36,20 @@ public class adresseDAO implements interAdresseDAO{
 			throw new TransportException(e.getMessage());
 		}
 	}
-	@Override
-	public void supprimer(Adresse adr) throws TransportException {
+	public void supprimer(String id) throws TransportException {
 		// TODO Auto-generated method stub
 		try {
-			jdbctool.executeUpdate("delete from Adresses where id_adresse=?",adr.getId());
+			jdbctool.executeUpdate("delete from Roles where id_role=?",id);
 		} catch (SQLException ex) {
 			// TODO Auto-generated catch block
 			throw new TransportException(ex.getErrorCode(),ex.getMessage());
 		}
 	}
 	
-
-	@Override
-	public int sauvegarde(Adresse adr) throws TransportException {
-		int lastId;
+	public String sauvegarde(Role r) throws TransportException {
+		String  lastId;
 		try {
-			lastId=(int) jdbctool.executeUpdate("insert into Adresses(numero_rue,nom_rue,ville,code_postal,pays) values(?,?,?,?,?)",adr.getNumero_rue(),adr.getNom_rue(),adr.getVille(),adr.getCode_postal(),adr.getPays());
+			lastId=(String) jdbctool.executeUpdate("insert into Roles(id_role) values(?)",r.getRole());
 			} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
@@ -61,25 +57,13 @@ public class adresseDAO implements interAdresseDAO{
 		return lastId;
 	}
 
-	@Override
-	public void miseAjour(Adresse adr) throws TransportException {
+	public Role chercher(int id) throws TransportException {
 		// TODO Auto-generated method stub
-		try {
-			jdbctool.executeUpdate("update Adresses set numero_rue=?, nom_rue=?,ville=?,code_postal=?,pays=? where id_adresse=?",adr.getNumero_rue(),adr.getNom_rue(),adr.getVille(),adr.getCode_postal(),adr.getPays(),adr.getId());
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			throw new TransportException(e.getErrorCode(),e.getMessage());
-		}
-	}
-
-	@Override
-	public Adresse chercher(int id) throws TransportException {
-		// TODO Auto-generated method stub
-		Adresse adr  = null;
+		Role r  = null;
 		Connection conn = null;
 		PreparedStatement st  = null;	
 		ResultSet rst =null;
-		String sql="select * from Adresses where id_adresse=?";
+		String sql="select * from Roles where id_role=?";
 		try {
 			// 1. créer une connexion
 			conn = jdbctool.newConnection();
@@ -89,13 +73,8 @@ public class adresseDAO implements interAdresseDAO{
 			rst = st.executeQuery();
 			// 4. lire le résultat
 			while(rst.next()){
-				adr = new Adresse();
-				adr.setId(rst.getInt(1));
-				adr.setNumero_rue(rst.getInt(2));
-				adr.setNom_rue(rst.getString(3));
-				adr.setVille(rst.getString(4));
-				adr.setCode_postal(rst.getString(5));
-				adr.setPays(rst.getString(6));
+				r = new Role();
+				r.setRole(rst.getString(1));
 			}
 			
 		} catch (SQLException e) {
@@ -114,14 +93,13 @@ public class adresseDAO implements interAdresseDAO{
 					throw new TransportException(e.getErrorCode(),e.getMessage());
 				}
 		}
-		return adr;
+		return r;
 	}
 
-	@Override
-	public Collection toutAdresse() throws TransportException {
+	public Collection toutRoles() throws TransportException {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
-		ArrayList<Adresse> adresses = new ArrayList<Adresse>();
+		ArrayList<Role>roles = new ArrayList<Role>();
 		Connection conn = null;
 		PreparedStatement st  = null;	
 		ResultSet rst =null;
@@ -129,18 +107,13 @@ public class adresseDAO implements interAdresseDAO{
 			// 1. créer une connexion
 			conn = jdbctool.newConnection();
 			// 2. préparer l'instruction
-			st = (PreparedStatement) conn.prepareStatement("select * from Adresses");
+			st = (PreparedStatement) conn.prepareStatement("select * from Roles");
 			rst = st.executeQuery();
 			// 4. lire le résultat
 			while(rst.next()){
-				Adresse adr = new Adresse();
-				adr.setId(rst.getInt(1));
-				adr.setNumero_rue(rst.getInt(2));
-				adr.setNom_rue(rst.getString(3));
-				adr.setVille(rst.getString(4));
-				adr.setCode_postal(rst.getString(5));
-				adr.setCode_postal(rst.getString(6));
-				adresses.add(adr);
+				Role role = new Role(rst.getString(1));
+				roles.add(role);
+				
 			}
 
 		} catch (SQLException e) {
@@ -159,7 +132,7 @@ public class adresseDAO implements interAdresseDAO{
 					throw new TransportException(e.getErrorCode(),e.getMessage());
 				}
 		}
-		return adresses;
+		return roles;
 
 	}
 	
