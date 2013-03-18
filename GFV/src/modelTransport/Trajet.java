@@ -37,4 +37,7 @@ public  class Trajet {
 	public Trajet(String id, String nom){
 
 	}
+	public void ajouterArrete(Arrete a){
+		arretes.add(a);
+	}
 }
