@@ -16,7 +16,7 @@ import erreur.TransportException;
 public class Moyen_TransportDAO implements interMoyen_transportDAO{
 
 	private JdbcTools jdbctool;
-	private Moyen_TransportDAO moyen_transportDAO;
+	//private Moyen_TransportDAO moyen_transportDAO;
 	private InfosPersonnellesDAO info_persoDAO;
 	private VehiculeDAO vehiculeDAO;
 	
@@ -31,7 +31,7 @@ public class Moyen_TransportDAO implements interMoyen_transportDAO{
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getMessage());
 		}
-		this.moyen_transportDAO = moyen_transportDAO;
+		//this.moyen_transportDAO = moyen_transportDAO;
 		this.info_persoDAO= info_persoDAO;
 		this.vehiculeDAO= vehiculeDAO;
 	}
@@ -43,12 +43,7 @@ public class Moyen_TransportDAO implements interMoyen_transportDAO{
 	public void setJdbctool(JdbcTools jdbctool) {
 		this.jdbctool = jdbctool;
 	}
-	public Moyen_TransportDAO getMoyen_transportDAO() {
-		return moyen_transportDAO;
-	}
-	public void setMoyen_transportDAO(Moyen_TransportDAO moyen_transportDAO) {
-		this.moyen_transportDAO = moyen_transportDAO;
-	}
+
 	public InfosPersonnellesDAO getmoyen_transportDAO() {
 		return info_persoDAO;
 	}
@@ -91,7 +86,7 @@ public class Moyen_TransportDAO implements interMoyen_transportDAO{
 	public void miseAjour(Moyen_Transport moyen_transport) throws TransportException {
 		// TODO Auto-generated method stub
 		try {
-			jdbctool.executeUpdate("update Moyen_Transport set id_moyen_transport=?, id_personnel=?,id_vehicule=?,",moyen_transport.getId_Moyen_Transport(),moyen_transport.getId_personnel(),moyen_transport.getId_vehicule());
+			jdbctool.executeUpdate("update Moyen_Transport set id_personnel=?,id_vehicule=? where id_moyen_transport= ?",moyen_transport.getId_personnel(),moyen_transport.getId_vehicule(),moyen_transport.getId_Moyen_Transport());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
