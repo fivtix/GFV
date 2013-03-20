@@ -57,7 +57,7 @@ public class arreteDAO implements interArreteDAO{
 			idArrive=lDAO.sauvegarde(a.getArrive());
 			else
 				idArrive=a.getArrive().getId();
-			lastId=(int) jdbctool.executeUpdate("insert into Arretes(depart,arrive,nom,distance,carte) values(?,?,?,?,?)",idDepart,idArrive,a.getNom(),a.getDistance(),file);
+			lastId=(int) jdbctool.executeUpdate("insert into Arretes(depart,arrive,distance,carte) values(?,?,?,?)",idDepart,idArrive,a.getDistance(),file);
 		    ArrayList<Itineraire> itineraires=a.getItineraire();
 		    int size=itineraires.size();
 		    for(int i=0;i<size;i++)
@@ -75,7 +75,7 @@ public class arreteDAO implements interArreteDAO{
 		try {
 			lDAO.miseAjour(a.getDepart());
 			lDAO.miseAjour(a.getArrive());
-			jdbctool.executeUpdate("update Arretes set depart=?,arrive=?,nom=?,distance=?,carte=? where id_arrete=?",a.getDepart().getId(),a.getArrive().getId(),a.getNom(),a.getDistance(),new File(a.getCarte()),a.getId());
+			jdbctool.executeUpdate("update Arretes set depart=?,arrive=?,distance=?,carte=? where id_arrete=?",a.getDepart().getId(),a.getArrive().getId(),a.getDistance(),new File(a.getCarte()),a.getId());
 			  ArrayList<Itineraire> itineraires=a.getItineraire();
 			    int size=itineraires.size();
 			    if(size>0)
@@ -108,8 +108,7 @@ public class arreteDAO implements interArreteDAO{
  				a.setId(rst.getInt(1));
  				a.setDepart(lDAO.chercher(rst.getInt(2)));
  				a.setArrive(lDAO.chercher(rst.getInt(3)));
- 				a.setNom(rst.getString(4));
- 				a.setDistance(rst.getInt(5));
+ 				a.setDistance(rst.getInt(4));
  				InputStream carte = rst.getBinaryStream(6);
  				File image = new File(a.getId()+".carte.png");
                 try {
@@ -173,8 +172,7 @@ public class arreteDAO implements interArreteDAO{
  				a.setId(rst.getInt(1));
  				a.setDepart(lDAO.chercher(rst.getInt(2)));
  				a.setArrive(lDAO.chercher(rst.getInt(3)));
- 				a.setNom(rst.getString(4));
- 				a.setDistance(rst.getInt(5));
+ 				a.setDistance(rst.getInt(4));
  				InputStream carte = rst.getBinaryStream(6);
  				File image = new File(a.getId()+".cart.png");
                 try {

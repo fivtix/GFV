@@ -53,7 +53,7 @@ public class adresseDAO implements interAdresseDAO{
 	public int sauvegarde(Adresse adr) throws TransportException {
 		int lastId;
 		try {
-			lastId=(int) jdbctool.executeUpdate("insert into Adresses(numero_rue,nom_rue,ville,code_postal,pays) values(?,?,?,?,?)",adr.getNumero_rue(),adr.getNom_rue(),adr.getVille(),adr.getCode_postal(),adr.getPays());
+			lastId=(int) jdbctool.executeUpdate("insert into Adresses(numero_rue,code_postal,nom_rue,ville,pays) values(?,?,?,?,?)",adr.getNumero_rue(),adr.getNom_rue(),adr.getCode_postal(),adr.getVille(),adr.getPays());
 			} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
@@ -65,7 +65,7 @@ public class adresseDAO implements interAdresseDAO{
 	public void miseAjour(Adresse adr) throws TransportException {
 		// TODO Auto-generated method stub
 		try {
-			jdbctool.executeUpdate("update Adresses set numero_rue=?, nom_rue=?,ville=?,code_postal=?,pays=? where id_adresse=?",adr.getNumero_rue(),adr.getNom_rue(),adr.getVille(),adr.getCode_postal(),adr.getPays(),adr.getId());
+			jdbctool.executeUpdate("update Adresses set numero_rue=?, nom_rue=?,code_postal=?,ville=?,pays=? where id_adresse=?",adr.getNumero_rue(),adr.getNom_rue(),adr.getCode_postal(),adr.getVille(),adr.getPays(),adr.getId());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
@@ -93,8 +93,8 @@ public class adresseDAO implements interAdresseDAO{
 				adr.setId(rst.getInt(1));
 				adr.setNumero_rue(rst.getInt(2));
 				adr.setNom_rue(rst.getString(3));
-				adr.setVille(rst.getString(4));
-				adr.setCode_postal(rst.getString(5));
+				adr.setCode_postal(rst.getString(4));
+				adr.setVille(rst.getString(5));
 				adr.setPays(rst.getString(6));
 			}
 			
@@ -137,9 +137,9 @@ public class adresseDAO implements interAdresseDAO{
 				adr.setId(rst.getInt(1));
 				adr.setNumero_rue(rst.getInt(2));
 				adr.setNom_rue(rst.getString(3));
-				adr.setVille(rst.getString(4));
-				adr.setCode_postal(rst.getString(5));
-				adr.setCode_postal(rst.getString(6));
+				adr.setCode_postal(rst.getString(4));
+				adr.setVille(rst.getString(5));
+				adr.setPays(rst.getString(6));
 				adresses.add(adr);
 			}
 

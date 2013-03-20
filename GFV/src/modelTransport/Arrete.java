@@ -10,12 +10,12 @@ public class Arrete {
 	private Lieux arrive;
 	private int distance;
 	private ArrayList<Itineraire> itineraires;
-	private String carte,nom;
+	private String carte;
 	public Arrete()
 	{
 		itineraires = new  ArrayList<Itineraire>();
 	}
-	public Arrete(int id,Lieux depart,Lieux arrive,String nom,int distance,String carte)
+	public Arrete(int id,Lieux depart,Lieux arrive,int distance,String carte)
 	{
 		this.depart=depart;
 		this.arrive=arrive;
@@ -23,15 +23,10 @@ public class Arrete {
 		itineraires = new  ArrayList<Itineraire>();
 		this.id=id;
 		this.carte=carte;
-		this.nom=nom;
+		
 	}
 	
-	public String getNom() {
-		return nom;
-	}
-	public void setNom(String nom) {
-		this.nom = nom;
-	}
+
 	public String getCarte() {
 		return carte;
 	}
