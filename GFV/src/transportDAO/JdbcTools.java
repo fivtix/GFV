@@ -118,9 +118,9 @@ public class JdbcTools {
 		return id;
 	}
 
-	public Object executeUpdate(String sql, java.io.Serializable... parameters)throws SQLException, TransportException {
+	public String executeUpdate(String sql, java.io.Serializable... parameters)throws SQLException, TransportException {
 		Connection conn = null;
-		Object id=null;
+		String id=null;
 		ResultSet rs = null;
 		PreparedStatement st=null;
 		try {
@@ -142,7 +142,7 @@ public class JdbcTools {
 					try {
 						File file=(File)parameters[i];
 						FileInputStream fis = new FileInputStream(file);
-						st.setBinaryStream(i+1, fis, (int) file.length());
+						st.setBinaryStream(i+1,fis, (int) file.length());
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
 						throw new TransportException(e.getMessage());
@@ -155,7 +155,7 @@ public class JdbcTools {
 			// 4. lire le résultat
 			rs = st.getGeneratedKeys();
 			if (rs.next()){
-				id = rs.getObject(1);
+				id = rs.getString(1);
 	        }
 			
 		} catch (SQLException e) {

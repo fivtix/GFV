@@ -51,7 +51,7 @@ public class testTrajetDAO {
 	public void testSauvegarde() throws TransportException{
 		Lieux l1=new Lieux(0,adresse1,"nguyen","nguyen hoang lily");
 		Lieux l2=new Lieux(0,adresse2,"nguyen","lyon");
-		Arrete a= new Arrete(0,l1,l2,"Paris/lyon",150,"capture.png");
+		Arrete a= new Arrete(0,l1,l2,"Paris/lyon","capture.png");
 		int idarrete = aDAO.sauvegarde(a);
 		a.setId(idarrete);
 		Trajet t= new Trajet(0,"Marseille/lyon");

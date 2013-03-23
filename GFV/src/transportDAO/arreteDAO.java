@@ -48,7 +48,6 @@ public class arreteDAO implements interArreteDAO{
 		int lastId;
 		try {
 			int idDepart,idArrive;
-			File file=new File(a.getCarte());
 			if(a.getDepart().getId()==0)
 			idDepart=lDAO.sauvegarde(a.getDepart());
 			else
@@ -57,12 +56,7 @@ public class arreteDAO implements interArreteDAO{
 			idArrive=lDAO.sauvegarde(a.getArrive());
 			else
 				idArrive=a.getArrive().getId();
-			lastId=(int) jdbctool.executeUpdate("insert into Arretes(depart,arrive,distance,carte) values(?,?,?,?)",idDepart,idArrive,a.getDistance(),file);
-		    ArrayList<Itineraire> itineraires=a.getItineraire();
-		    int size=itineraires.size();
-		    for(int i=0;i<size;i++)
-		    	iDAO.sauvegarde(itineraires.get(i),lastId);
-		    	
+			lastId=Integer.parseInt(jdbctool.executeUpdate("insert into Arretes(depart,arrive,distance) values(?,?,?)",idDepart,idArrive,a.getDistance()));   	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
@@ -75,13 +69,7 @@ public class arreteDAO implements interArreteDAO{
 		try {
 			lDAO.miseAjour(a.getDepart());
 			lDAO.miseAjour(a.getArrive());
-			jdbctool.executeUpdate("update Arretes set depart=?,arrive=?,distance=?,carte=? where id_arrete=?",a.getDepart().getId(),a.getArrive().getId(),a.getDistance(),new File(a.getCarte()),a.getId());
-			  ArrayList<Itineraire> itineraires=a.getItineraire();
-			    int size=itineraires.size();
-			    if(size>0)
-			    iDAO.supprimer(a.getId());
-			    for(int i=0;i<size;i++)
-			    	iDAO.sauvegarde(itineraires.get(i),a.getId());	
+			jdbctool.executeUpdate("update Arretes set depart=?,arrive=?,distance=? where id_arrete=?",a.getDepart().getId(),a.getArrive().getId(),a.getDistance(),a.getId());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
@@ -108,28 +96,7 @@ public class arreteDAO implements interArreteDAO{
  				a.setId(rst.getInt(1));
  				a.setDepart(lDAO.chercher(rst.getInt(2)));
  				a.setArrive(lDAO.chercher(rst.getInt(3)));
- 				a.setDistance(rst.getInt(4));
- 				InputStream carte = rst.getBinaryStream(6);
- 				File image = new File(a.getId()+".carte.png");
-                try {
-					FileOutputStream fos = new FileOutputStream(image);
-					byte[] buffer = new byte[256];
-					 try {
-						while (carte.read(buffer) > 0) {
-						        fos.write(buffer);
-						    }
-						  fos.close();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						throw new TransportException(e.getMessage());
-					}
-		              
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					throw new TransportException(e.getMessage());
-				}
-                a.setCarte(image.getName());
-               				
+ 				a.setDistance(rst.getInt(4));			
  			}
  			
  		} catch (SQLException e) {
@@ -173,26 +140,6 @@ public class arreteDAO implements interArreteDAO{
  				a.setDepart(lDAO.chercher(rst.getInt(2)));
  				a.setArrive(lDAO.chercher(rst.getInt(3)));
  				a.setDistance(rst.getInt(4));
- 				InputStream carte = rst.getBinaryStream(6);
- 				File image = new File(a.getId()+".cart.png");
-                try {
-					FileOutputStream fos = new FileOutputStream(image);
-					byte[] buffer = new byte[256];
-					 try {
-						while (carte.read(buffer) > 0) {
-						        fos.write(buffer);
-						    }
-						  fos.close();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						throw new TransportException(e.getMessage());
-					}
-		              
-				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					throw new TransportException(e.getMessage());
-				}
-                a.setCarte(image.getName());
                 arretes.add(a);			
  			}
  			

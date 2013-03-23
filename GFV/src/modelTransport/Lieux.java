@@ -7,7 +7,7 @@ public class Lieux {
 
 	public Lieux()
 	{
-
+		adr = new Adresse();
 	}
 	public Lieux(int id,Adresse adr, String nom, String coordonnees) {
 		super();

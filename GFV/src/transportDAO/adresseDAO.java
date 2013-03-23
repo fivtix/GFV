@@ -53,14 +53,13 @@ public class adresseDAO implements interAdresseDAO{
 	public int sauvegarde(Adresse adr) throws TransportException {
 		int lastId;
 		try {
-			lastId=(int) jdbctool.executeUpdate("insert into Adresses(numero_rue,code_postal,nom_rue,ville,pays) values(?,?,?,?,?)",adr.getNumero_rue(),adr.getNom_rue(),adr.getCode_postal(),adr.getVille(),adr.getPays());
+			lastId= Integer.parseInt(jdbctool.executeUpdate("insert into Adresses(numero_rue,nom_rue,code_postal,ville,pays) values(?,?,?,?,?)",adr.getNumero_rue(),adr.getNom_rue(),adr.getCode_postal(),adr.getVille(),adr.getPays()));
 			} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
 		}
 		return lastId;
 	}
-
 	@Override
 	public void miseAjour(Adresse adr) throws TransportException {
 		// TODO Auto-generated method stub

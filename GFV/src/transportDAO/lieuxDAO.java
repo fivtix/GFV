@@ -70,7 +70,7 @@ public class lieuxDAO implements interLieuxDAO{
 				idAdr=adrDAO.sauvegarde(lieu.getAdr());
 			else
 				idAdr=lieu.getAdr().getId();
-			lastId = (int) jdbctool.executeUpdate("insert into Lieux(id_adresse,nom,coordonnees) values(?,?,?)",idAdr,lieu.getNom(),lieu.getCoordonnees());
+			lastId = Integer.parseInt(jdbctool.executeUpdate("insert into Lieux(id_adresse,nom,coordonnees) values(?,?,?)",idAdr,lieu.getNom(),lieu.getCoordonnees()));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());

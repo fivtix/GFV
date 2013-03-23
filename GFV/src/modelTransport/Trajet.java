@@ -1,19 +1,20 @@
 package modelTransport;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Vector;
 
 public  class Trajet {
 	private String nom;
 	private int id;
-	private int distance;
-	private String carte;
+	private Double distance;
+	private BufferedImage carte;
 	private ArrayList<Arrete> arretes;
 
 	public Trajet(){  
 		arretes= new ArrayList<Arrete>();
 	}
-	public Trajet(int id,String nom,int distance,String carte){
+	public Trajet(int id,String nom,Double distance,BufferedImage carte){
 		this.id=id;
 		this.nom=nom;
 		this.distance=distance;
@@ -44,17 +45,19 @@ public  class Trajet {
 	public void ajouterArrete(Arrete a){
 		arretes.add(a);
 	}
-	public int getDistance() {
+	public Double getDistance() {
 		return distance;
 	}
-	public void setDistance(int distance) {
+	public void setDistance(Double distance) {
 		this.distance = distance;
 	}
-	public String getCarte() {
+	public BufferedImage getCarte() {
 		return carte;
 	}
-	public void setCarte(String carte) {
+	public void setCarte(BufferedImage carte) {
 		this.carte = carte;
 	}
+	
+	
 	
 }
