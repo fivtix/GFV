@@ -3,11 +3,7 @@ package transportDAO;
 import interTransport.interTrajetDAO;
 
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.ResultSet;
@@ -17,8 +13,7 @@ import java.util.Collection;
 
 import javax.imageio.ImageIO;
 
-import modelTransport.Adresse;
-import modelTransport.Arrete;
+import modelTransport.Parcours;
 import modelTransport.Trajet;
 
 import com.mysql.jdbc.Connection;
@@ -66,18 +61,18 @@ public class trajetDAO implements interTrajetDAO  {
 				e.printStackTrace();
 			}
 			lastId=Integer.parseInt(jdbctool.executeUpdate("insert into Trajet(nom,distance,carte) values(?,?,?)",t.getNom(),t.getDistance(),file));
-			ArrayList<Arrete> arretes=t.getArretes();
-			int size=arretes.size();
+			ArrayList<Parcours> parcours=t.getParcours();
+			int size= parcours.size();
 			for(int i=0;i<size;i++){
-				pDAO.sauvegarde(lastId,arretes.get(i).getId());
+				pDAO.sauvegarde(lastId, parcours.get(i).getDepart().getId(), parcours.get(i).getArrive().getId());
 			}
 			} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getMessage());
 			
 		}
-		//if(file!=null)
-			//file.delete();
+		if(file!=null)
+			file.delete();
 		return lastId;
 		
 	}
@@ -93,15 +88,17 @@ public class trajetDAO implements interTrajetDAO  {
 			ImageIO.write(bimage,"jpg",file);
 			jdbctool.executeUpdate("update Trajet set nom=?,distance=?,carte=? where id_trajet=?",t.getNom(),t.getDistance(),file,t.getId());
 			pDAO.supprimer(t.getId());
-			ArrayList<Arrete> arretes=t.getArretes();
-			int size=arretes.size();
+			ArrayList<Parcours> parcours=t.getParcours();
+			int size=parcours.size();
 			for(int i=0;i<size;i++){
-				pDAO.sauvegarde(t.getId(),arretes.get(i).getId());
+				pDAO.sauvegarde(t.getId(),parcours.get(i).getDepart().getId(),parcours.get(i).getArrive().getId());
 			}
 		} catch (SQLException | IOException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getMessage());
 		}
+		if(file!=null)
+			file.delete();
 	}
 
 	@Override
@@ -127,8 +124,8 @@ public class trajetDAO implements interTrajetDAO  {
 				t.setDistance(rst.getDouble(3));
 				InputStream carte = rst.getBinaryStream(4);
 				BufferedImage imag=ImageIO.read(carte);
-				t.setCarte(imag );
-				t.setArretes(pDAO.chercher(t.getId()));
+				t.setCarte(imag);
+				t.setParcours(pDAO.chercher(t.getId()));
 			}
 			
 		} catch (SQLException | IOException e) {
@@ -172,7 +169,7 @@ public class trajetDAO implements interTrajetDAO  {
 						InputStream carte = rst.getBinaryStream(4);
 						BufferedImage imag=ImageIO.read(carte);
 						t.setCarte(imag );
-						t.setArretes(pDAO.chercher(t.getId()));
+						t.setParcours(pDAO.chercher(t.getId()));
 						trajets.add(t);
 					}
 					

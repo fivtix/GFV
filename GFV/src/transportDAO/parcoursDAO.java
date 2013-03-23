@@ -4,8 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import modelTransport.Adresse;
-import modelTransport.Arrete;
+import modelTransport.Parcours;
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
@@ -15,17 +14,17 @@ import erreur.TransportException;
 public class parcoursDAO {
 
 	private JdbcTools jdbctool;
-	private arreteDAO aDAO;
+	private lieuxDAO lDAO;
 	public parcoursDAO(){
 
 	}
-	public parcoursDAO(JdbcTools jdbctool,arreteDAO aDAO){
+	public parcoursDAO(JdbcTools jdbctool,lieuxDAO lDAO){
 		this.jdbctool=jdbctool;
-		this.aDAO=aDAO;
+		this.lDAO=lDAO;
 	}
-	public void sauvegarde(int idTrajet,int idArrete) throws TransportException{
+	public void sauvegarde(int idTrajet,int idDepart,int idArrive) throws TransportException{
 		try {
-			jdbctool.executeUpdate("insert into Parcours(id_trajet,id_arrete) values(?,?)",idTrajet,idArrete);
+			jdbctool.executeUpdate("insert into Parcours(id_trajet,depart,arrive) values(?,?,?)",idTrajet,idDepart,idArrive);
 			} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());
@@ -41,9 +40,9 @@ public class parcoursDAO {
 				}
 	}
 	
-	public ArrayList<Arrete> chercher(int id) throws TransportException {
+	public ArrayList<Parcours> chercher(int id) throws TransportException {
 		// TODO Auto-generated method stub
-		ArrayList<Arrete> arretes=new ArrayList<Arrete>();
+		ArrayList<Parcours> parcours=new ArrayList<Parcours>();
 		Connection conn = null;
 		PreparedStatement st  = null;	
 		ResultSet rst =null;
@@ -57,7 +56,7 @@ public class parcoursDAO {
 			rst = st.executeQuery();
 			// 4. lire le résultat
 			while(rst.next()){
-				arretes.add(aDAO.chercher(rst.getInt(2)));
+				 parcours.add(new Parcours(lDAO.chercher(rst.getInt(2)),lDAO.chercher(rst.getInt(3))));
 			}
 			
 		} catch (SQLException e) {
@@ -76,7 +75,7 @@ public class parcoursDAO {
 					throw new TransportException(e.getErrorCode(),e.getMessage());
 				}
 		}
-		return arretes;
+		return parcours;
 	}
 
 	

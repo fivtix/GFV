@@ -9,17 +9,18 @@ public  class Trajet {
 	private int id;
 	private Double distance;
 	private BufferedImage carte;
-	private ArrayList<Arrete> arretes;
+	private ArrayList<Parcours> parcours;
 
 	public Trajet(){  
-		arretes= new ArrayList<Arrete>();
+		 parcours= new ArrayList<Parcours>();
+		distance=0.0;
 	}
 	public Trajet(int id,String nom,Double distance,BufferedImage carte){
 		this.id=id;
 		this.nom=nom;
 		this.distance=distance;
 		this.carte=carte;
-		arretes= new ArrayList<Arrete>();
+		 parcours= new ArrayList<Parcours>();
 	}
 	public int getId() {
 		return id;
@@ -27,12 +28,7 @@ public  class Trajet {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public ArrayList<Arrete> getArretes() {
-		return arretes;
-	}
-	public void setArretes(ArrayList<Arrete> arretes) {
-		this.arretes = arretes;
-	}
+	
 	public String getNom() {
 		return nom;
 	}
@@ -42,9 +38,7 @@ public  class Trajet {
 	public Trajet(String id, String nom){
 
 	}
-	public void ajouterArrete(Arrete a){
-		arretes.add(a);
-	}
+	
 	public Double getDistance() {
 		return distance;
 	}
@@ -57,6 +51,13 @@ public  class Trajet {
 	public void setCarte(BufferedImage carte) {
 		this.carte = carte;
 	}
+	public ArrayList<Parcours> getParcours() {
+		return parcours;
+	}
+	public void setParcours(ArrayList<Parcours> parcours) {
+		this.parcours = parcours;
+	}
+	
 	
 	
 	

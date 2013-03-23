@@ -138,6 +138,8 @@ public class JdbcTools {
 					st.setBoolean(i+1, (Boolean) parameters[i]);
 				else if (parameters[i] instanceof Date)
 					st.setDate(i+1, (java.sql.Date) parameters[i]);	
+				else if (parameters[i] instanceof Double)
+					st.setDouble(i+1, (Double) parameters[i]);	
 				else if (parameters[i] instanceof File){
 					try {
 						File file=(File)parameters[i];

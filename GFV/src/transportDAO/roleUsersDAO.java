@@ -4,8 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import modelTransport.Adresse;
-import modelTransport.Arrete;
 import modelTransport.Role;
 
 import com.mysql.jdbc.Connection;
