@@ -33,7 +33,7 @@ public class testentrepriseDAO {
 		entDAO= new entrepriseDAO(jdbctool,adrDAO);
 	}
 
-	//@Test(expected =TransportException.class)  // test erreur de connection avec serveur mysql 
+	@Test(expected =TransportException.class)  // test erreur de connection avec serveur mysql 
 	public void testSauvegarde() throws TransportException{
 		entDAO.sauvegarde(new Entreprise(0,adresse,"FTP"));
 	}
@@ -45,12 +45,12 @@ public class testentrepriseDAO {
 		entDAO.miseAjour(ent);
 		Assert.assertEquals("nguyen hoang lily",entDAO.chercher(1).getNom());
 	}
-	@Test
+//	@Test
 	public void testListe() throws TransportException{
 		int exp =1;
 		Assert.assertEquals(exp,entDAO.toutEntreprise().size());
 	}
-	@Test
+	//@Test
 	public void testSupprimer() throws TransportException{
 		int exp =0;
 		entDAO.supprimer(entDAO.chercher(1));

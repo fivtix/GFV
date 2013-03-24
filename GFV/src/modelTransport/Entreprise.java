@@ -13,7 +13,7 @@ public class Entreprise {
 	private String nom;
 	private Adresse adresse;
 	public Entreprise(){
-		
+		adresse = new Adresse();
 	}
 	public Entreprise(int id, Adresse adresse,String nom) {
 		super();
