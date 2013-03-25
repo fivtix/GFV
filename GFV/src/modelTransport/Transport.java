@@ -10,7 +10,11 @@ public class Transport {
 	private String typeVehicule;
 	private String march;
 	private String Nat_March;
-    public Transport() {}
+    public Transport() {
+    	depart = new Lieux();
+    	arrivee = new Lieux();
+    	ent= new Entreprise();
+    }
     public Transport(Entreprise entreprise,Lieux depart,Lieux arrivee,String datedepart,String datearrive,String typevehicule,String marchandise,String naturemarchandise,int cout){
     	estimationCout=cout;
     	dateDepart = datedepart;

@@ -52,7 +52,7 @@ import org.xml.sax.SAXException;
 
 import erreur.TransportException;
 
-public class creerTrajet extends JPanel {
+public class creerTrajet extends JPanel  {
 	private Trajet trajet;
 	private List list,listItineraire;
 	Insets insets = new Insets(2, 2, 2, 2);
@@ -108,6 +108,13 @@ public class creerTrajet extends JPanel {
 		addComponent(ButtonJpane,annuler, 0, 0, 1, 1, GridBagConstraints.WEST, GridBagConstraints.VERTICAL);
 		addComponent(ButtonJpane,enregistrer, 1, 0, 1, 1, GridBagConstraints.EAST, GridBagConstraints.VERTICAL);
 	}
+	public void initDataLieux() throws TransportException{
+		ArrayList<Lieux> listlieuxDAO=(ArrayList<Lieux>) ihmtransports.getLieuxdao().toutLieux();
+		ListlieuxComboBox.removeAllItems();
+		for(int i=0;i<listlieuxDAO.size();i++){
+			ListlieuxComboBox.addItem( new Item(listlieuxDAO.get(i).getId(), listlieuxDAO.get(i).getNom() ) );
+		}
+	}
 	public void trajetJPanel() throws TransportException{
 
 		trajetJPanel.setLayout(new GridBagLayout());
@@ -117,11 +124,10 @@ public class creerTrajet extends JPanel {
 		nomtext = new JTextField(25);
 		nomtext.setPreferredSize(new Dimension(250,30));
 		addComponent(trajetJPanel, nomtext, 1, 0, 1, 1, GridBagConstraints.EAST, GridBagConstraints.BOTH);
-		Vector model = new Vector();
-		ListlieuxComboBox = new JComboBox(model);
+		ListlieuxComboBox = new JComboBox();
 		ArrayList<Lieux> listlieuxDAO=(ArrayList<Lieux>) ihmtransports.getLieuxdao().toutLieux();
 		for(int i=0;i<listlieuxDAO.size();i++){
-			model.addElement( new Item(listlieuxDAO.get(i).getId(), listlieuxDAO.get(i).getNom() ) );
+			ListlieuxComboBox.addItem( new Item(listlieuxDAO.get(i).getId(), listlieuxDAO.get(i).getNom() ) );
 		}
 		ListlieuxComboBox.addActionListener(new actionCombox());
 		addComponent(trajetJPanel,ListlieuxComboBox, 0, 1,2, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH);
@@ -244,8 +250,6 @@ public class creerTrajet extends JPanel {
 		}
 
 	}
-
-
 	class actionEregistrerAnnullerTrajet implements ActionListener{
 		private String nom;
 		public actionEregistrerAnnullerTrajet(String nom){
@@ -324,15 +328,22 @@ public class creerTrajet extends JPanel {
 		public void actionPerformed(ActionEvent e) {
 			// TODO Auto-generated method stub
 			JComboBox cb = (JComboBox)e.getSource();
-			Item item = (Item)cb.getSelectedItem();
+			Item item =(Item)cb.getSelectedItem();
 			list.ajouterLigne(item);
 			list.getJlist().setSelectedValue(item,false);
 			int size =list.getJlist().getModel().getSize();
 			for(int i=0;i<size-1;i++){
-				if(list.getJlist().getModel().getElementAt(i).equals(item)){
-					list.removeElement(size-1);
+				if(list.getJlist().getModel().getElementAt(i)==null){
+					list.removeElement(i);
 					size =list.getJlist().getModel().getSize();
+				}else{
+					if(list.getJlist().getModel().getElementAt(i).equals(item)){
+						list.removeElement(size-1);
+						size =list.getJlist().getModel().getSize();
+						break;
+					}
 				}
+
 			}
 		}
 	}
@@ -556,4 +567,5 @@ public class creerTrajet extends JPanel {
 			}
 		}
 	}
+
 }

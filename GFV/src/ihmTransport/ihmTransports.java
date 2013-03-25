@@ -48,13 +48,15 @@ public class ihmTransports extends JPanel implements Observable{
 	private entrepriseDAO entDAO;
 	private objetDAO dao;
 	private transportDAO transportsDAO;
+	private String actions;
+	private listTransportJPanel listtransports;
 	public ihmTransports(){
 		observersList = new Vector<Observer>();
 		jpanelCentre = new JPanel(); 
 		use = new User();// creer une utilisateur
 		jdbctool = new  JdbcTools(pilote,url,utilisateur,motdepass);
 		try {
-			jdbctool.init();
+		    jdbctool.init();
 			adrdao  = new adresseDAO(jdbctool);
 			lieuxdao=new lieuxDAO(jdbctool,adrdao);
 			parcourdao=new parcoursDAO(jdbctool,lieuxdao);
@@ -65,6 +67,7 @@ public class ihmTransports extends JPanel implements Observable{
 			entDAO = new entrepriseDAO(jdbctool,adrdao);
 			transportJPanel = new creerTransportJPanel (this);
 			transportsDAO = new transportDAO(jdbctool,entDAO,lieuxdao);
+			listtransports = new listTransportJPanel(this);
 		} catch (TransportException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -92,12 +95,16 @@ public class ihmTransports extends JPanel implements Observable{
 		// TODO Auto-generated method stub
 		for (int i = 0; i < observersList.size(); i++) {
 			Observer observer = (Observer) observersList.elementAt(i);
-			observer.Update(this);
+			observer.Update(this,actions);
 		}
 	}
     public JPanel getJpanelCentre() {
 		return jpanelCentre;
 	}
+    public void misaAjourData(String nomAction){
+    	actions=nomAction;
+    	notifyObservers();
+    }
 	public void setJpanelCentre(JPanel jpanelCentre) {
 		this.jpanelCentre = jpanelCentre;
 	}
@@ -108,7 +115,6 @@ public class ihmTransports extends JPanel implements Observable{
     	jpanelCentre.validate();
     	jpanelCentre.revalidate();
     	jpanelCentre.updateUI();
-    	notifyObservers();
     }
 	@Override
 	public void register(Observer obs) {
@@ -165,6 +171,9 @@ public class ihmTransports extends JPanel implements Observable{
 	}
 	public transportDAO getTransportsDAO() {
 		return transportsDAO;
+	}
+	public listTransportJPanel getListtransports() {
+		return listtransports;
 	}
 	
 		

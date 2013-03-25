@@ -1,27 +1,19 @@
 package transportDAO;
-import interTransport.interAdresseDAO;
 import interTransport.interEntrepriseDAO;
 import interTransport.interLieuxDAO;
-import interTransport.interMarchandiseDAO;
-import interTransport.interNatMarchDAO;
 import interTransport.interTransportDAO;
-import interTransport.interVehiculeDAO;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 
-import modelTransport.Adresse;
-import modelTransport.Entreprise;
 import modelTransport.Transport;
-
 
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
+
 import erreur.TransportException;
 
 public class transportDAO implements interTransportDAO {
@@ -29,7 +21,6 @@ public class transportDAO implements interTransportDAO {
 	private JdbcTools jdbctool;
 	private interLieuxDAO lDAO;
 	private interEntrepriseDAO entDAO;
-	
 	public transportDAO(JdbcTools jdbctool,interEntrepriseDAO entDAO,interLieuxDAO lieuxDAO) {
 		super();
 		this.jdbctool = jdbctool;
@@ -68,6 +59,7 @@ public class transportDAO implements interTransportDAO {
 			while(rst.next()){
 				Transport transport = new Transport();
 				transport.setId(rst.getInt(1));
+				System.out.println(rst.getInt(2));
 				transport.setEnt(entDAO.chercher(rst.getInt(2)));
 				transport.setDepart(lDAO.chercher(rst.getInt(3)));
 				transport.setArrivee(lDAO.chercher(rst.getInt(4)));

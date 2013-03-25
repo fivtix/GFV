@@ -112,17 +112,8 @@ public class listTrajetJPanel extends JPanel implements Observer{
 		}
 	}
 	@Override
-	public void Update(Observable subject) {
+	public void Update(Observable subject,String action) {
 		// TODO Auto-generated method stub
-		if (subject == ihmtransport){
-			if(ihmtransport.getCreertrajet()==ihmtransport.getJpanelCentre()){
-				try {
-					ihmtransport.getListtrajetJPanel().init();
-				} catch (TransportException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
+		
 	}
 }
