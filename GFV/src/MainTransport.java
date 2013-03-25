@@ -19,7 +19,6 @@ public class MainTransport {
 		mainFenetre.setLocationRelativeTo(null);
 		mainFenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		Container contentPane =  mainFenetre.getContentPane();
-		
 		ihmTransports ihmtransport = new ihmTransports();
 		contentPane.add(ihmtransport); 
 		//  ToolBarDessiner toolbardessiner = new  ToolBarDessiner(f1, editeurgraphique);

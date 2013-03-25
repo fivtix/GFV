@@ -24,9 +24,10 @@ public class ToolbarMenu extends JPanel implements Observer{
 	}
 	public void init(){
 		setPreferredSize(new Dimension(180,500));
-		setBorder(BorderFactory.createEmptyBorder(8, 8,8 , 8));
+		setBorder(BorderFactory.createEmptyBorder(8,8,8,8));
 		add(menuTrajet());
-		add( menuTransport());
+		add(menuTransport());
+		add(menuDocument());
 		
 	}
 	public JPanel menuTrajet(){
@@ -52,6 +53,16 @@ public class ToolbarMenu extends JPanel implements Observer{
 		jpanelTransport.add(jbuttons[2]);
 		jpanelTransport.add(jbuttons[3]);
 		return jpanelTransport;
+	}
+	public JPanel menuDocument(){
+		JPanel jpanelDocument = new JPanel();
+		jpanelDocument.setLayout(new GridLayout(1,1,4,4));
+		jpanelDocument.setPreferredSize(new Dimension(160,50));
+		jbuttons[4] = new JButton("Documents");
+		jbuttons[4].addActionListener(new menuAction("documents",ihmtransport,jbuttons,4));
+		jpanelDocument.add(jbuttons[4]);
+		jpanelDocument.setPreferredSize(new Dimension(160,25));
+		return jpanelDocument;
 	}
 	public void menuConnection(){
 

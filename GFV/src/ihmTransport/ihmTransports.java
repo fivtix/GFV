@@ -4,6 +4,7 @@ import ihmTransport.Trajet.creerTrajet;
 import ihmTransport.Trajet.listTrajetJPanel;
 import ihmTransport.controlleur.Observable;
 import ihmTransport.controlleur.Observer;
+import ihmTransport.document.Documents;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -50,6 +51,7 @@ public class ihmTransports extends JPanel implements Observable{
 	private transportDAO transportsDAO;
 	private String actions;
 	private listTransportJPanel listtransports;
+	private Documents documents;
 	public ihmTransports(){
 		observersList = new Vector<Observer>();
 		jpanelCentre = new JPanel(); 
@@ -68,6 +70,7 @@ public class ihmTransports extends JPanel implements Observable{
 			transportJPanel = new creerTransportJPanel (this);
 			transportsDAO = new transportDAO(jdbctool,entDAO,lieuxdao);
 			listtransports = new listTransportJPanel(this);
+			documents = new Documents(jdbctool );
 		} catch (TransportException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -174,6 +177,9 @@ public class ihmTransports extends JPanel implements Observable{
 	}
 	public listTransportJPanel getListtransports() {
 		return listtransports;
+	}
+	public Documents getDocuments() {
+		return documents;
 	}
 	
 		
