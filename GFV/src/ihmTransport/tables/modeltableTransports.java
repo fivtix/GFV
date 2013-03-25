@@ -49,7 +49,7 @@ public class modeltableTransports extends AbstractTableModel{
 	        }
 	    }
 	 
-	    public void addAmi(Transport transport) {
+	    public void addTransport(Transport transport) {
 	        transports.add(transport);
 	        fireTableRowsInserted(transports.size() -1, transports.size() -1);
 	    }

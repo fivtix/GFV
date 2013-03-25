@@ -2,6 +2,8 @@ package ihmTransport;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 import ihmTransport.tables.modeltableTransports;
@@ -40,22 +42,31 @@ public class listTransportJPanel extends JPanel {
 		tableTransports.getColumnModel().getColumn(4).setPreferredWidth(110);
 		tableTransports.getColumnModel().getColumn(5).setPreferredWidth(110);
 		tableTransports.setPreferredScrollableViewportSize(new Dimension(800,500));
-		JMenuItem trajetMenuItem = new JMenuItem("Trajet...");
-	//	trajetMenuItem.addActionListener(new actionTrajet("trajet..."));
-		popupMenu.add(trajetMenuItem);
+		JMenuItem transportMenuItem = new JMenuItem("Transport...");
+		transportMenuItem.addActionListener(new actionListTransport("transport..."));
+		popupMenu.add(transportMenuItem);
 		popupMenu.addSeparator();
 		JMenuItem supprimer = new JMenuItem("Supprimer");
-	//	supprimer.addActionListener(new actionTrajet("supprimer"));
+		//	supprimer.addActionListener(new actionTrajet("supprimer"));
 		popupMenu.add(supprimer);
 		tableTransports.setComponentPopupMenu(popupMenu);
 		//tableTransports.add(popup);
 		JScrollPane scrollPane = new JScrollPane(tableTransports);
 		scrollPane.setPreferredSize(new Dimension(800,500));
-	        //Add the scroll pane to this panel.
+		//Add the scroll pane to this panel.
 		add(scrollPane ,BorderLayout.NORTH);
 	}
-	public void initData(){
-		
+	class actionListTransport implements ActionListener{
+		private String nom;
+		public actionListTransport(String nom){
+			this.nom= nom;
+		}
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			System.out.println(tablemodetransports.getValueAt(0,1));
+			System.out.print(tableTransports.getSelectedRow());
+		}
 	}
 
 }

@@ -59,7 +59,6 @@ public class transportDAO implements interTransportDAO {
 			while(rst.next()){
 				Transport transport = new Transport();
 				transport.setId(rst.getInt(1));
-				System.out.println(rst.getInt(2));
 				transport.setEnt(entDAO.chercher(rst.getInt(2)));
 				transport.setDepart(lDAO.chercher(rst.getInt(3)));
 				transport.setArrivee(lDAO.chercher(rst.getInt(4)));

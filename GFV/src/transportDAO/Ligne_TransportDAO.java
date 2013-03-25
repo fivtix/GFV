@@ -14,7 +14,6 @@ public class Ligne_TransportDAO implements interLigne_TransportDAO {
 	private JdbcTools jdbctool;
 	private transportDAO transportDAO;
 	private Gestion_TransportsDAO gestion_transportDAO;
-	private arreteDAO arreteDAO;
 	
 	public Ligne_TransportDAO(){
 
