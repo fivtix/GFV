@@ -148,7 +148,7 @@ public class transportDAO implements interTransportDAO {
 		// TODO Auto-generated method stub
 		DateFormat formatter = new SimpleDateFormat("yyyy/dd/MM");
 		try {
-			 Integer.parseInt(jdbctool.executeUpdate("update Transport set id_entreprise=?,depart=?,arrive=?,date_depart=?,date_arrivee=?,type_vehicule=?,id_Marchandises=?,id_NatureMarchandises=?,estimation_cout=?,where id_transport=?",transport.getEnt().getId(),transport.getDepart().getId(),transport.getArrivee().getId(), formatter.format(new Date(transport.getDateDepart())),formatter.format(new Date(transport.getDateArrivee())),transport.getTypeVehicule(),transport.getMarch(),transport.getNat_March(),transport.getEstimationCout(),transport.getId()));
+			 jdbctool.executeUpdate("update Transport set id_entreprise=?,depart=?,arrive=?,date_depart=?,date_arrivee=?,type_vehicule=?,id_Marchandises=?,id_NatureMarchandises=?,estimation_cout=? where id_transport=?",transport.getEnt().getId(),transport.getDepart().getId(),transport.getArrivee().getId(), formatter.format(new Date(transport.getDateDepart())),formatter.format(new Date(transport.getDateArrivee())),transport.getTypeVehicule(),transport.getMarch(),transport.getNat_March(),transport.getEstimationCout(),transport.getId());
 			} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			throw new TransportException(e.getErrorCode(),e.getMessage());

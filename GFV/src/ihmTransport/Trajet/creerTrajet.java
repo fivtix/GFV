@@ -163,7 +163,7 @@ public class creerTrajet extends JPanel  {
 		itineraireJPanelLocal.add(itineraireJPanel,BorderLayout.CENTER);
 		parcoursJPanel.add(itineraireJPanelLocal,BorderLayout.CENTER);
 	}
-	public int  trajet(){
+	public int  trajetsauvegarder(){
 		int id=0;
 		trajet.setNom(nomtext.getText());
 		trajet.setDistance(Double.parseDouble(textDistance.getText()));
@@ -227,7 +227,6 @@ public class creerTrajet extends JPanel  {
 	public void creerLieux(Lieux lieux){
 		lieuxJpanel lieuxjpanel= new lieuxJpanel(this);
 		lieuxjpanel.setLieux(lieux);
-		lieuxjpanel.init();
 		ihmtransports.ajouterComponnentJPanelCentre(lieuxjpanel);
 	}
 	public Lieux chercherLieux(int id) throws TransportException{
@@ -258,7 +257,7 @@ public class creerTrajet extends JPanel  {
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
 			if(nom.equals("enregistrer")){
-				int id =trajet();
+				int id =trajetsauvegarder();
 				if (id>0){
 					init();
 				}else{

@@ -19,10 +19,13 @@ import java.awt.Insets;
 import java.awt.Window.Type;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -53,6 +56,7 @@ public class creerTransportJPanel extends JPanel {
 	private lieuxJPanel1 lieuxJPanel;
 	private EntrepriseJPanel entjpanel;
 	private HashMap<Integer,Adresse> adresses; 
+	private JButton nouvelle;
 	public creerTransportJPanel(ihmTransports ihmtransports) {
 		setLayout(new BorderLayout());
 		transport = new Transport();
@@ -70,11 +74,12 @@ public class creerTransportJPanel extends JPanel {
 		departBox.addActionListener(new actionCombox("depart"));
 		arriveBox =  new JComboBox();
 		arriveBox.addActionListener(new actionCombox("arrive"));
-		typevehiculeBox= new JComboBox();;
-		marchandiseBox= new JComboBox();;
+		typevehiculeBox= new JComboBox();
+		marchandiseBox= new JComboBox();	
 		naturemarchandiseBox= new JComboBox();
 		dateDeparte= new JTextField();
 		dateArrivee = new JTextField();
+		nouvelle = new JButton("Nouvelle:");
 		cout=new JTextField();
 		cout.setText("0");
 		// TODO Auto-generated constructor stub
@@ -220,15 +225,43 @@ public class creerTransportJPanel extends JPanel {
 	}
 	public void setTransport(Transport transport) {
 		this.transport = transport;
-		entrepriseBox .setSelectedItem(new Item(transport.getEnt().getId(),transport.getEnt().getNom()));
-		departBox.setSelectedItem(new Item(transport.getDepart().getId(),transport.getDepart().getNom()));
-		arriveBox.setSelectedItem(new Item(transport.getArrivee().getId(),transport.getArrivee().getNom()));
+		int size =entrepriseBox.getItemCount();
+		
+		for(int i=0;i<size;i++){
+			Item item =(Item) entrepriseBox.getItemAt(i);
+			if(item.getId()==transport.getEnt().getId()){
+				entrepriseBox.setSelectedIndex(i);
+				break;
+			}
+		}
+		size =departBox.getItemCount();
+		for(int i=0;i<size;i++){
+			Item item =(Item) departBox.getItemAt(i);
+			if(item.getId()==transport.getDepart().getId()){
+				departBox.setSelectedIndex(i);
+				break;
+			}
+		}
+		size =arriveBox.getItemCount();
+		for(int i=0;i<size;i++){
+			Item item =(Item) arriveBox.getItemAt(i);
+			if(item.getId()==transport.getArrivee().getId()){
+				arriveBox.setSelectedIndex(i);
+				break;
+			}
+		}
 		dateDeparte.setText(transport.getDateDepart());
 		dateArrivee.setText(transport.getDateArrivee());
 		cout.setText(transport.getEstimationCout()+"");
 		typevehiculeBox.setSelectedItem(transport.getTypeVehicule());
 		marchandiseBox.setSelectedItem(transport.getMarch());
 		naturemarchandiseBox.setSelectedItem(transport.getNat_March());
+		if( transport.getId()>0){
+			nouvelle.setText("List Transport");
+			nouvelle.setActionCommand("modifier");
+		}else{
+			nouvelle.setText("Nouvelle");
+		}
 	}
 	public JPanel transportJPanel(){
 		JPanel transportjpanel = new JPanel();
@@ -306,12 +339,11 @@ public class creerTransportJPanel extends JPanel {
 		JPanel buttonjpanel = new JPanel();
 		buttonjpanel .setBorder(BorderFactory.createEtchedBorder());
 		buttonjpanel .setLayout(new GridBagLayout());
-		JButton annuler = new JButton("Annuler:");
-		annuler.addActionListener(new actionEnregistrerAnnuler("annuler"));
+		nouvelle.addActionListener(new actionEnregistrerAnnuler("annuler"));
 		JButton enregistrer = new JButton("Enregistrer ");
 		enregistrer.addActionListener(new actionEnregistrerAnnuler("enregistrer"));
 		addComponent(buttonjpanel,enregistrer,1,0, 1, 1, GridBagConstraints.EAST, GridBagConstraints.VERTICAL);
-		addComponent(buttonjpanel,annuler,0,0, 1, 1, GridBagConstraints.WEST, GridBagConstraints.VERTICAL);
+		addComponent(buttonjpanel,nouvelle,0,0, 1, 1, GridBagConstraints.WEST, GridBagConstraints.VERTICAL);
 		addComponent(buttonjpanel,new JLabel(""),0,1, 1, 1, GridBagConstraints.EAST, GridBagConstraints.VERTICAL);
 
 		jpaneltransport.add(buttonjpanel,BorderLayout.NORTH);
@@ -376,16 +408,24 @@ public class creerTransportJPanel extends JPanel {
 				try {
 					if(transport.getId()<=0)
 						ihmtransports.getTransportsDAO().sauvegarde(getTransport());
-					else
+					else{
 						ihmtransports.getTransportsDAO().miseAjour(getTransport());
+						ihmtransports.ajouterComponnentJPanelCentre(ihmtransports.getListtransports());
+						nouvelle.setActionCommand("");
+						nouvelle.setText("Annuler");
+					}
 				} catch (TransportException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-				init();
 			}else if(nom.equals("annuler")){
-				init();
+				if(nouvelle.getActionCommand().equals("modifier")){
+					ihmtransports.ajouterComponnentJPanelCentre(ihmtransports.getListtransports());
+					nouvelle.setActionCommand("");
+					nouvelle.setText("Annuler");
+				}
 			}
+			init();
 		}
 
 	}

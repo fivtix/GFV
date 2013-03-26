@@ -15,10 +15,11 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import modelTransport.Transport;
+
 import erreur.TransportException;
 
 public class listTransportJPanel extends JPanel {
-
 	private JTable tableTransports;
 	private modeltableTransports tablemodetransports;
 	private ihmTransports ihmtransport;
@@ -43,16 +44,16 @@ public class listTransportJPanel extends JPanel {
 		tableTransports.getColumnModel().getColumn(5).setPreferredWidth(110);
 		tableTransports.setPreferredScrollableViewportSize(new Dimension(800,500));
 		JMenuItem transportMenuItem = new JMenuItem("Transport...");
-		transportMenuItem.addActionListener(new actionListTransport("transport..."));
+		transportMenuItem.addActionListener(new actionListTransport("modifier"));
 		popupMenu.add(transportMenuItem);
 		popupMenu.addSeparator();
 		JMenuItem supprimer = new JMenuItem("Supprimer");
-		//	supprimer.addActionListener(new actionTrajet("supprimer"));
+		supprimer.addActionListener( new actionListTransport("supprimer"));
 		popupMenu.add(supprimer);
 		tableTransports.setComponentPopupMenu(popupMenu);
 		//tableTransports.add(popup);
 		JScrollPane scrollPane = new JScrollPane(tableTransports);
-		scrollPane.setPreferredSize(new Dimension(800,500));
+		scrollPane.setPreferredSize(new Dimension(750,450));
 		//Add the scroll pane to this panel.
 		add(scrollPane ,BorderLayout.NORTH);
 	}
@@ -64,8 +65,25 @@ public class listTransportJPanel extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
-			System.out.println(tablemodetransports.getValueAt(0,1));
-			System.out.print(tableTransports.getSelectedRow());
+			if(nom.equals("modifier")){
+				if(tableTransports.getSelectedRow()>=0){
+					ihmtransport.getTransportJPanel().setTransport(tablemodetransports.getTransport(tableTransports.getSelectedRow()));
+					ihmtransport.ajouterComponnentJPanelCentre(ihmtransport.getTransportJPanel());
+				}
+			}else if(nom.equals("supprimer")){
+				if(tableTransports.getSelectedRow()>=0){
+					Transport t = tablemodetransports.getTransport(tableTransports.getSelectedRow());
+					try {
+						ihmtransport.getTransportsDAO().supprimer(t.getId());
+					} catch (TransportException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					tablemodetransports.removeTransport(tableTransports.getSelectedRow());
+				}
+			}
+			
+			
 		}
 	}
 

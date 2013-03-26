@@ -52,30 +52,35 @@ public class ihmTransports extends JPanel implements Observable{
 	private String actions;
 	private listTransportJPanel listtransports;
 	private Documents documents;
+	private JpanePlanning jpanelplanning;
 	public ihmTransports(){
 		observersList = new Vector<Observer>();
 		jpanelCentre = new JPanel(); 
 		use = new User();// creer une utilisateur
 		jdbctool = new  JdbcTools(pilote,url,utilisateur,motdepass);
+		
 		try {
 		    jdbctool.init();
+		    toolbarmenu = new ToolbarMenu(this); // creer classe toolbarmenu
 			adrdao  = new adresseDAO(jdbctool);
 			lieuxdao=new lieuxDAO(jdbctool,adrdao);
 			parcourdao=new parcoursDAO(jdbctool,lieuxdao);
 			trajetdao=new trajetDAO(jdbctool,parcourdao);
-			creertrajet = new creerTrajet(this); // creer classe trajet
-			listtrajetJPanel = new listTrajetJPanel(this);
 			dao = new objetDAO(jdbctool);
 			entDAO = new entrepriseDAO(jdbctool,adrdao);
-			transportJPanel = new creerTransportJPanel (this);
 			transportsDAO = new transportDAO(jdbctool,entDAO,lieuxdao);
 			listtransports = new listTransportJPanel(this);
 			documents = new Documents(jdbctool );
+			transportJPanel = new creerTransportJPanel (this);
+			toolbarmenu = new ToolbarMenu(this); // creer classe toolbarmenu
+			creertrajet = new creerTrajet(this); // creer classe trajet
+			listtrajetJPanel = new listTrajetJPanel(this);
+			jpanelplanning = new JpanePlanning() ;
 		} catch (TransportException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		toolbarmenu = new ToolbarMenu(this); // creer classe toolbarmenu
+		
 		init();
 	}
 	public void init(){
@@ -180,6 +185,9 @@ public class ihmTransports extends JPanel implements Observable{
 	}
 	public Documents getDocuments() {
 		return documents;
+	}
+	public JpanePlanning getJpanelplanning() {
+		return jpanelplanning;
 	}
 	
 		

@@ -7,7 +7,7 @@ import modelTransport.Transport;
 
 public class modeltableTransports extends AbstractTableModel{
 	private ArrayList<Transport> transports = new ArrayList<Transport>();
-	private    final String[] entetes = {"id","Etreprise", "Lieuxdépart", "Arrivée", "Datedépart", "Datearrivée"};
+	private    final String[] entetes = {"id","Entreprise", "Lieuxdépart", "Arrivée", "Datedépart", "Datearrivée"};
 	public  modeltableTransports(final ArrayList<Transport> transports) {
 		super();
 		this.transports = transports;

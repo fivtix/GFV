@@ -27,8 +27,10 @@ public class ToolbarMenu extends JPanel implements Observer{
 		setBorder(BorderFactory.createEmptyBorder(8,8,8,8));
 		add(menuTrajet());
 		add(menuTransport());
+		add(planning());
+		add(menuStatic());
 		add(menuDocument());
-		
+		add(menuadministrateur());
 	}
 	public JPanel menuTrajet(){
 	    JPanel jpanelTrajet = new JPanel();
@@ -42,6 +44,7 @@ public class ToolbarMenu extends JPanel implements Observer{
 		jpanelTrajet.add(jbuttons[1]);
 		return jpanelTrajet;
 	}
+	
 	public JPanel menuTransport(){
 		JPanel jpanelTransport = new JPanel();
 		jpanelTransport.setLayout(new GridLayout(2,1,4,4));
@@ -54,15 +57,44 @@ public class ToolbarMenu extends JPanel implements Observer{
 		jpanelTransport.add(jbuttons[3]);
 		return jpanelTransport;
 	}
+	public JPanel menuStatic(){
+		JPanel jpanelStatic = new JPanel();
+		jpanelStatic.setLayout(new GridLayout(1,1,4,4));
+		jbuttons[7] = new JButton("Static");
+		jbuttons[7].addActionListener(new menuAction("static",ihmtransport,jbuttons,7));
+		jpanelStatic.add(jbuttons[7]);
+		jpanelStatic.setPreferredSize(new Dimension(160,25));
+		return jpanelStatic;
+	}
+	public JPanel menuadministrateur(){
+		JPanel jpanelStatic = new JPanel();
+		jpanelStatic.setLayout(new GridLayout(1,1,4,4));
+		jbuttons[8] = new JButton("Administrateur");
+		jbuttons[8].addActionListener(new menuAction("administrateur",ihmtransport,jbuttons,8));
+		jpanelStatic.add(jbuttons[8]);
+		jpanelStatic.setPreferredSize(new Dimension(160,25));
+		return jpanelStatic;
+	}
 	public JPanel menuDocument(){
 		JPanel jpanelDocument = new JPanel();
 		jpanelDocument.setLayout(new GridLayout(1,1,4,4));
-		jpanelDocument.setPreferredSize(new Dimension(160,50));
 		jbuttons[4] = new JButton("Documents");
 		jbuttons[4].addActionListener(new menuAction("documents",ihmtransport,jbuttons,4));
 		jpanelDocument.add(jbuttons[4]);
 		jpanelDocument.setPreferredSize(new Dimension(160,25));
 		return jpanelDocument;
+	}
+	public JPanel planning(){
+		JPanel jpanelresalisertransport = new JPanel();
+		jpanelresalisertransport.setLayout(new GridLayout(2,1,4,4));
+		jpanelresalisertransport.setPreferredSize(new Dimension(160,50));
+		jbuttons[5] = new JButton("Planning");
+		jbuttons[5].addActionListener(new menuAction("planning",ihmtransport,jbuttons,5));
+		jbuttons[6] = new JButton("Liste Plannings");
+		jbuttons[6].addActionListener(new menuAction("planning1",ihmtransport,jbuttons,6));
+		jpanelresalisertransport.add(jbuttons[5]);
+		jpanelresalisertransport.add(jbuttons[6]);;
+		return jpanelresalisertransport;
 	}
 	public void menuConnection(){
 

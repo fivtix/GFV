@@ -1,31 +1,34 @@
 package modelTransport;
 
 public class Horaire {
-	private Arrete arrete;
-	private Trajet trajet;
-	private Gestion_Transport gestion_des_transports;
-	public Arrete getArrete() {
-		return arrete;
+	
+	private int idTrajet;
+	private int idgestionTransport;
+	private Lieux lieuxDepart;
+	private Lieux lieuxArrivee;
+	private String date_heure_depart;
+	private String date_heure_arrive;
+	private String date_heure_depart_reelle;
+	private String date_heure_arrivee_reelle;
+	
+	public Horaire(){
+		
+	}
+	
+	public int getIdTrajet() {
+		return idTrajet;
 	}
 
-	public void setArrete(Arrete arrete) {
-		this.arrete = arrete;
+	public void setIdTrajet(int idTrajet) {
+		this.idTrajet = idTrajet;
 	}
 
-	public Trajet getTrajet() {
-		return trajet;
+	public int getIdgestionTransport() {
+		return idgestionTransport;
 	}
 
-	public void setTrajet(Trajet trajet) {
-		this.trajet = trajet;
-	}
-
-	public Gestion_Transport getGestion_des_transports() {
-		return gestion_des_transports;
-	}
-
-	public void setGestion_des_transports(Gestion_Transport gestion_des_transports) {
-		this.gestion_des_transports = gestion_des_transports;
+	public void setIdgestionTransport(int idgestionTransport) {
+		this.idgestionTransport = idgestionTransport;
 	}
 
 	public String getDate_heure_depart() {
@@ -60,13 +63,22 @@ public class Horaire {
 		this.date_heure_arrivee_reelle = date_heure_arrivee_reelle;
 	}
 
-	private String date_heure_depart;
-	private String date_heure_arrive;
-	private String date_heure_depart_reelle;
-	private String date_heure_arrivee_reelle;
-	
-	public Horaire(){
-		
+	public Lieux getLieuxDepart() {
+		return lieuxDepart;
 	}
+
+	public void setLieuxDepart(Lieux lieuxDepart) {
+		this.lieuxDepart = lieuxDepart;
+	}
+
+	public Lieux getLieuxArrivee() {
+		return lieuxArrivee;
+	}
+
+	public void setLieuxArrivee(Lieux lieuxArrivee) {
+		this.lieuxArrivee = lieuxArrivee;
+	}
+	
+
 
 }

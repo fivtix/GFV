@@ -119,6 +119,13 @@ public class lieuxJpanel extends JPanel  {
 		container.add(component, gbc);
 	}
 	public Lieux getLieux() {
+		lieux.setNom(nomtext.getText());
+		lieux.setCoordonnees(coordonneestext.getText());
+		lieux.getAdr().setNumero_rue(Integer.parseInt(nrue.getText().trim()));
+		lieux.getAdr().setNom_rue(rue.getText());
+		lieux.getAdr().setCode_postal(codepostal.getText().trim());
+		lieux.getAdr().setVille(ville.getText());
+		lieux.getAdr().setPays(pays.getText());
 		return lieux;
 	}
 	public void setLieux(Lieux lieux) {
