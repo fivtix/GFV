@@ -58,7 +58,6 @@ public class ihmTransports extends JPanel implements Observable{
 		jpanelCentre = new JPanel(); 
 		use = new User();// creer une utilisateur
 		jdbctool = new  JdbcTools(pilote,url,utilisateur,motdepass);
-		
 		try {
 		    jdbctool.init();
 		    toolbarmenu = new ToolbarMenu(this); // creer classe toolbarmenu
