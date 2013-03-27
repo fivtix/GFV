@@ -38,9 +38,9 @@ public class tableLigneTransport extends AbstractTableModel{
 		case 1:
 			return lignetransports.get(rowIndex).getTransport().getEnt().getNom();
 		case 2:
-			return lignetransports.get(rowIndex).getLieuxDepart().getNom();
+			return lignetransports.get(rowIndex).getTransport().getDepart().getNom();
 		case 3:
-			return lignetransports.get(rowIndex).getLieuxArrivee().getNom();
+			return lignetransports.get(rowIndex).getTransport().getArrivee().getNom();
 		default:
 			return null; //Ne devrait jamais arriver
 		}

@@ -9,7 +9,6 @@ import erreur.TransportException;
 
 public interface interGestIncidDAO {
   
-	
 	/**Enregistrer un Incident    * @throws TransportException */
 	public void saveIncident(Incident i) throws SQLException,TransportException;   
 	

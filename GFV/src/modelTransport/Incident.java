@@ -1,46 +1,40 @@
 package modelTransport;
 
 public class Incident {
-  public int idIncident;
+  public int id;
 	public int idGest;
-	public String  typeIncid;
+	public String  typeAccident;
 	public String description;
 	/**constructeurs*/
 	public Incident(){}
-	public Incident(int idIncident, int idGest, String typeIncid,
-			String description) {
-		super();
-		this.idIncident = idIncident;
-		this.idGest = idGest;
-		this.typeIncid = typeIncid;
-		this.description = description;
+	
+	public int getId() {
+		return id;
 	}
-	/**Getters et setters*/
-
+	public void setId(int id) {
+		this.id = id;
+	}
 	public int getIdGest() {
 		return idGest;
-	}
-	public int getIdIncident() {
-		return idIncident;
-	}
-	public void setIdIncident(int idIncident) {
-		this.idIncident = idIncident;
 	}
 	public void setIdGest(int idGest) {
 		this.idGest = idGest;
 	}
-	public String getTypeIncid() {
-		return typeIncid;
+	
+	public String getTypeAccident() {
+		return typeAccident;
 	}
-	public void setTypeIncid(String typeIncid) {
-		this.typeIncid = typeIncid;
+
+	public void setTypeAccident(String typeAccident) {
+		this.typeAccident = typeAccident;
 	}
+
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
 
+	
 }

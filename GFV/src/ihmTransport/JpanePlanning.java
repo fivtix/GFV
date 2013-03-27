@@ -6,6 +6,7 @@ import ihmTransport.tables.tableHoraire;
 import ihmTransport.tables.tableLigneTransport;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -27,8 +28,8 @@ import javax.swing.JTextField;
 
 public class JpanePlanning extends JPanel{ 
 	private Insets insets = new Insets(2, 2, 2, 2);
-	private JComboBox trajets,vehicules,chauffeurs,typeaccident;
-	private JTextField  nom;
+	private JComboBox trajets,vehicules,chauffeurs;
+	private JTextField  nom,typeaccident;
 	private tableLigneTransport modelligneTransport;
 	private tableHoraire modeltablehoraire;
 	private JTable tableHoraires,tableligneTransport;
@@ -40,7 +41,7 @@ public class JpanePlanning extends JPanel{
 		trajets = new JComboBox();
 		vehicules =new JComboBox();
 		chauffeurs = new JComboBox();
-		typeaccident = new JComboBox();
+		typeaccident =new  JTextField();
 		decriptionaccident = new JTextArea();
 		nom = new  JTextField();
 		modeltablehoraire  = new tableHoraire();
@@ -64,9 +65,9 @@ public class JpanePlanning extends JPanel{
 		decriptplanning.setLayout(new GridBagLayout());
 		JPanel gril1 = new JPanel();
 		gril1.setLayout(new GridLayout(2,1,5,5));
-		gril1.setPreferredSize(new Dimension(70,60));
+		gril1.setPreferredSize(new Dimension(50,60));
 		gril1.add(new JLabel("Nom: "));
-		gril1.add(new JLabel("Chauffeur: "));
+		gril1.add(new JLabel("Trajets: "));
 		addComponent(decriptplanning,gril1, 0, 0, 1, 1,GridBagConstraints.WEST,GridBagConstraints.VERTICAL);
 
 		JPanel gril2 = new JPanel();
@@ -93,7 +94,7 @@ public class JpanePlanning extends JPanel{
 
 		JPanel horaire = new JPanel();
 		horaire.setBorder(BorderFactory.createEmptyBorder(8,8,8,8));
-		tableHoraires.setPreferredScrollableViewportSize(new Dimension(780,150));
+		tableHoraires.setPreferredScrollableViewportSize(new Dimension(770,150));
 		tableHoraires.setFillsViewportHeight(true);
 		JScrollPane scrollPane = new JScrollPane(tableHoraires);
 		scrollPane.setPreferredSize(new Dimension(790,150));
@@ -132,22 +133,28 @@ public class JpanePlanning extends JPanel{
 		JPanel jpanel1 = new JPanel();
 		jpanel1.setLayout(new BorderLayout());
 		jpanel1.setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
-		jpanel1.setPreferredSize(new Dimension(795,135));
+		jpanel1.setPreferredSize(new Dimension(795,130));
 		JPanel accident = new JPanel();
 		JPanel jpaneltypeaccident = new JPanel();
 		jpaneltypeaccident.setLayout(new FlowLayout(FlowLayout.LEFT)); 
-		jpaneltypeaccident.add(new JLabel("Type Accidents"));
+		jpaneltypeaccident.add(new JLabel("Type Accidents:"));
 		typeaccident.setPreferredSize(new Dimension(200,25));
 		jpaneltypeaccident.add(typeaccident);
 		accident.setLayout(new GridBagLayout());
-		decriptionaccident.setPreferredSize(new Dimension(400,111));
+		decriptionaccident.setPreferredSize(new Dimension(400,78));
+		decriptionaccident.setVisible(true);  
+		decriptionaccident.setBorder(BorderFactory.createLineBorder(Color.gray));  
+		decriptionaccident.setLineWrap(true); // at the end of line goes to new line  
+		JScrollPane scrollPane = new JScrollPane(decriptionaccident);
+		scrollPane.setPreferredSize(new Dimension(400,78));
+		
 		List listdocument = new List();
+		listdocument.setPreferredSize(50,78) ;
 		listdocument.setBorder(BorderFactory.createEmptyBorder(0,20,0,0));
 		addComponent( accident ,jpaneltypeaccident, 0, 0, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH);
 		addComponent( accident,new JLabel("Document Réçus"),1,0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL);
-		addComponent( accident,decriptionaccident, 0,1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH);
+		addComponent( accident,scrollPane, 0,1, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH);
 	    addComponent( accident ,listdocument, 1, 1, 1, 1, GridBagConstraints.EAST, GridBagConstraints.BOTH);
-	    addComponent( accident ,new JLabel(""), 0, 2, 1, 1, GridBagConstraints.EAST, GridBagConstraints.VERTICAL);
 	    jpanel1.add(accident,BorderLayout.NORTH);
 		return  jpanel1;
 	}
@@ -178,8 +185,8 @@ public class JpanePlanning extends JPanel{
 		addComponent(buttonjpanel,print,4,0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL);
 		addComponent(buttonjpanel,enregistrer,5,0, 1, 1, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL);
 		addComponent(buttonjpanel,new JLabel(""),0,1, 1, 1, GridBagConstraints.EAST, GridBagConstraints.VERTICAL);
-		jpanel1.add(jpanelaccident,BorderLayout.CENTER);
-		jpanel1.add(buttonjpanel,BorderLayout.SOUTH);
+		jpanel1.add(jpanelaccident,BorderLayout.NORTH);
+		jpanel1.add(buttonjpanel,BorderLayout.CENTER);
 		return jpanel1;
 	}
 	private  void addComponent(Container container, Component component, int gridx, int gridy,
