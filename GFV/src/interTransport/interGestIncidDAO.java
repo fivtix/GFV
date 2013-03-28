@@ -4,28 +4,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import modelTransport.Incident;
+import modelTransport.Mission;
 
 import erreur.TransportException;
 
 public interface interGestIncidDAO {
   
-	/**Enregistrer un Incident    * @throws TransportException */
-	public void saveIncident(Incident i) throws SQLException,TransportException;   
-	
-	/**Lister  tous les Incident*/  
-	public ArrayList<Incident> IncidentListing () throws SQLException, TransportException; 
-	
-	/**Chercher un  Incident*/    
-	public Incident  findIncident (int id) throws SQLException, TransportException;  
-	
-	/**Mise à jour d'un Incident*/ 
-	public void updateIncident (Incident a) throws SQLException, TransportException ; 
-	
-	/**supprimer  tous les Incidents*/
-	
-	public void DeleteAllIncidents() throws SQLException, TransportException;   
-	
-	/**supprimer  un Incident*/   
-	public void DeleteOneIncident (Incident a) throws SQLException, TransportException ; 
-
+	public void supprimer(int idGestionTransport)throws TransportException; // supprimer (transport, trajet, Itineraire, adresse...) 
+	public void sauvegarde(int idGestionTransport,Incident incident)throws TransportException;// sauvegarde (transport, trajet, Itineraire, adresse...) 
+	public ArrayList<Incident> chercher(int idGestionTransport)throws TransportException;//chercher  (transport, trajet, Itineraire, adresse...) 
 }

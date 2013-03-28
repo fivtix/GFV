@@ -49,17 +49,22 @@ public class tableHoraire extends AbstractTableModel{
 		}
 	}
 
-	public void addTransport(Horaire horaire) {
+	public void addHorraire(Horaire horaire) {
 		horaires.add(horaire);
 		fireTableRowsInserted(horaires.size() -1, horaires.size() -1);
 	}
-	public Horaire getTransport(int index){
+	public Horaire getHorraire(int index){
 		return  horaires.get(index);
 	}
-	public void removeTransport(int rowIndex) {
+	public void removeHoraire(int rowIndex) {
 		horaires.remove(rowIndex);
 		fireTableRowsDeleted(rowIndex, rowIndex);
 	}
-
-
+	public void removeAllhoraires(){
+		for(int i=0;i<horaires.size();i++){
+			horaires.remove(i);
+	    	fireTableRowsDeleted(i,i);
+		}
+	}
+	
 }

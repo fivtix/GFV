@@ -73,7 +73,7 @@ public class adresseDAO implements interAdresseDAO{
 	@Override
 	public Adresse chercher(int id) throws TransportException {
 		// TODO Auto-generated method stub
-		Adresse adr  = null;
+		Adresse adr  =  new Adresse();
 		Connection conn = null;
 		PreparedStatement st  = null;	
 		ResultSet rst =null;
@@ -87,7 +87,7 @@ public class adresseDAO implements interAdresseDAO{
 			rst = st.executeQuery();
 			// 4. lire le résultat
 			while(rst.next()){
-				adr = new Adresse();
+				
 				adr.setId(rst.getInt(1));
 				adr.setNumero_rue(rst.getInt(2));
 				adr.setNom_rue(rst.getString(3));

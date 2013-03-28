@@ -94,7 +94,7 @@ public class entrepriseDAO implements interEntrepriseDAO {
 	}
 
 	public Entreprise chercher(int id) throws TransportException {
-		Entreprise ent  = null;
+		Entreprise ent = new Entreprise();
 		Connection conn = null;
 		PreparedStatement st  = null;	
 		ResultSet rst =null;
@@ -108,7 +108,7 @@ public class entrepriseDAO implements interEntrepriseDAO {
 			rst = st.executeQuery();
 			// 4. lire le résultat
 			while(rst.next()){
-				ent = new Entreprise();
+				
 				ent.setId(rst.getInt(1));
 				ent.setAdresse(adrDAO.chercher(rst.getInt(2)));
 				ent.setNom(rst.getString(3));

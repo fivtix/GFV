@@ -2,8 +2,9 @@ package modelTransport;
 
 public class Vehicule {
 private int id;
-private int typeVehicule;
+private String typeVehicule;
 private String descriptions;
+private String nom;
 	public Vehicule() {
 		// TODO Auto-generated constructor stub
 	}
@@ -14,10 +15,10 @@ private String descriptions;
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getTypeVehicule() {
+	public String getTypeVehicule() {
 		return typeVehicule;
 	}
-	public void setTypeVehicule(int typeVehicule) {
+	public void setTypeVehicule(String typeVehicule) {
 		this.typeVehicule = typeVehicule;
 	}
 	public String getDescriptions() {
@@ -26,6 +27,15 @@ private String descriptions;
 	public void setDescriptions(String descriptions) {
 		this.descriptions = descriptions;
 	}
+
+	public String getNom() {
+		return nom;
+	}
+
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+	
 	
 
 }

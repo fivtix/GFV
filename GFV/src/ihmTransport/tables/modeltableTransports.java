@@ -60,6 +60,13 @@ public class modeltableTransports extends AbstractTableModel{
 		transports.remove(rowIndex);
 		fireTableRowsDeleted(rowIndex, rowIndex);
 	}
+	public void removeAllTransport(){
+		for(int i=0;i<transports.size();i++){
+			transports.remove(i);
+	    	fireTableRowsDeleted(i,i);
+		}
+	}
+	
 
 
 }

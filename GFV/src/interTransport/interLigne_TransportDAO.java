@@ -11,6 +11,6 @@ import erreur.TransportException;
 public interface interLigne_TransportDAO {
 
 	public void supprimer(int idGestiontransport)throws TransportException; 
-	public void sauvegarde(int idGestiontransport,int idTransport)throws TransportException; 
+	public void sauvegarde(int idGestiontransport,int idTransport,int idDepart,int idArrive)throws TransportException; 
 	public ArrayList<Ligne_Transport> chercher(int idGestiontransport)throws TransportException; 
 }

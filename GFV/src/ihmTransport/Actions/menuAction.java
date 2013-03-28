@@ -35,12 +35,6 @@ public class menuAction implements ActionListener{
 			ihmtransport.getCreertrajet().init();
 			ihmtransport.ajouterComponnentJPanelCentre(ihmtransport.getCreertrajet());
 		}else if(nom.equals("listtrajet")){
-			try {
-				ihmtransport.getListtrajetJPanel().init();
-			} catch (TransportException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			ihmtransport.ajouterComponnentJPanelCentre(ihmtransport.getListtrajetJPanel());
 		}else if(nom.equals("transport")){
 			ihmtransport.ajouterComponnentJPanelCentre(ihmtransport.getTransportJPanel());

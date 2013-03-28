@@ -6,6 +6,7 @@ import ihmTransport.List.List;
 import ihmTransport.Trajet.creerTrajet;
 import ihmTransport.controlleur.Observable;
 import ihmTransport.controlleur.Observer;
+import interTransport.utils.Combox;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -46,7 +47,7 @@ import transportDAO.objetDAO;
 public class creerTransportJPanel extends JPanel {
 	private ihmTransports ihmtransports;
 	private Insets insets = new Insets(10, 2, 2, 10);	
-	private JComboBox entrepriseBox ,departBox,arriveBox,typevehiculeBox,marchandiseBox,naturemarchandiseBox;
+	private Combox entrepriseBox ,departBox,arriveBox,typevehiculeBox,marchandiseBox,naturemarchandiseBox;
 	private JTextField  dateDeparte,dateArrivee,cout;
 	private objetDAO dao;
 	private JLabel decriptionent,decriptiondepart,decriptionarrive;
@@ -68,15 +69,15 @@ public class creerTransportJPanel extends JPanel {
 		JPanelPrincipal.setLayout(new BorderLayout());
 		this.ihmtransports=ihmtransports;
 		new objetDAO(ihmtransports.getJdbctool());
-		entrepriseBox  = new JComboBox();
+		entrepriseBox  = new Combox();
 		entrepriseBox.addActionListener(new actionCombox("entreprise"));
-		departBox =  new JComboBox();
+		departBox =  new Combox();
 		departBox.addActionListener(new actionCombox("depart"));
-		arriveBox =  new JComboBox();
+		arriveBox =  new Combox();
 		arriveBox.addActionListener(new actionCombox("arrive"));
-		typevehiculeBox= new JComboBox();
-		marchandiseBox= new JComboBox();	
-		naturemarchandiseBox= new JComboBox();
+		typevehiculeBox= new Combox();
+		marchandiseBox= new Combox();	
+		naturemarchandiseBox= new Combox();
 		dateDeparte= new JTextField();
 		dateArrivee = new JTextField();
 		nouvelle = new JButton("Nouvelle:");
@@ -88,7 +89,6 @@ public class creerTransportJPanel extends JPanel {
 		JPanelPrincipal.add(jpanelbutton(),BorderLayout.CENTER);
 		add(JPanelPrincipal,BorderLayout.NORTH);
 		entjpanel.ajouterControlButton(ButtonControlLieux());
-		initData();
 	}
 	public void init(){
 		entrepriseBox.setSelectedIndex(0);
@@ -111,7 +111,7 @@ public class creerTransportJPanel extends JPanel {
 		validate();
 		revalidate();
 	}
-	public void initData(){
+	public void initData() throws TransportException{
 		adresses.clear();
 		entrepriseBox.removeAllItems();
 		entrepriseBox.addItem(new Item(0,""));
@@ -125,83 +125,39 @@ public class creerTransportJPanel extends JPanel {
 		marchandiseBox.addItem("");
 		naturemarchandiseBox.removeAllItems();
 		naturemarchandiseBox.addItem("");
-		try {
-			ArrayList<Entreprise> entreprises = (ArrayList<Entreprise>) ihmtransports.getEntDAO().toutEntreprise();
-			int size=entreprises.size();
-			for(int i=0;i<size;i++){
-				Entreprise ent=entreprises.get(i);
-				entrepriseBox.addItem(new Item(ent.getId(),ent.getNom()));
-				adresses.put(new Integer(ent.getId()),ent.getAdresse());
-			}
-			ArrayList<Lieux> lieuxs = (ArrayList<Lieux>) ihmtransports.getLieuxdao().toutLieux();
-			size =lieuxs.size();
-			for(int i=0;i<size;i++){
-				Lieux lieux = lieuxs.get(i);
-				departBox.addItem(new Item(lieux.getId(),lieux.getNom()));
-				arriveBox.addItem(new Item(lieux.getId(),lieux.getNom()));
-				adresses.put(new Integer(lieux.getId()),lieux.getAdr());
-			}
-			ArrayList<String> typevehicules = (ArrayList<String>) ihmtransports.getDao().toutvehicule();
-			ArrayList<String> marchandises = (ArrayList<String>) ihmtransports.getDao().toutMarchandise();
-			ArrayList<String> natMarchandises = (ArrayList<String>) ihmtransports.getDao().toutNatureMarchandise();
-
-			size=typevehicules.size();
-			for(int i=0;i<size;i++){
-				typevehiculeBox.addItem(typevehicules.get(i));
-			}
-
-			size=marchandises .size();
-			for(int i=0;i<size;i++){
-				marchandiseBox.addItem(typevehicules.get(i));
-			}
-			size= natMarchandises.size();
-			for(int i=0;i<size;i++){
-				naturemarchandiseBox.addItem(typevehicules.get(i));
-			}
-
-		} catch (TransportException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		ArrayList<Entreprise> entreprises = (ArrayList<Entreprise>) ihmtransports.getEntDAO().toutEntreprise();
+		int size=entreprises.size();
+		for(int i=0;i<size;i++){
+			Entreprise ent=entreprises.get(i);
+			entrepriseBox.addItem(new Item(ent.getId(),ent.getNom()));
+			adresses.put(new Integer(ent.getId()),ent.getAdresse());
 		}
-	}
-	public void initDataEntreprise(){
-		entrepriseBox.removeAllItems();
-		entrepriseBox.addItem(new Item(0,""));
-		try {
-			ArrayList<Entreprise> entreprises = (ArrayList<Entreprise>) ihmtransports.getEntDAO().toutEntreprise();
-			int size=entreprises.size();
-			for(int i=0;i<size;i++){
-				Entreprise ent=entreprises.get(i);
-				entrepriseBox.addItem(new Item(ent.getId(),ent.getNom()));
-				adresses.put(new Integer(ent.getId()),ent.getAdresse());
-				if(!adresses.containsKey(ent.getId()));
-				adresses.put(new Integer(ent.getId()),ent.getAdresse());
-			}
+		ArrayList<Lieux> lieuxs = (ArrayList<Lieux>) ihmtransports.getLieuxdao().toutLieux();
+		size =lieuxs.size();
+		for(int i=0;i<size;i++){
+			Lieux lieux = lieuxs.get(i);
+			departBox.addItem(new Item(lieux.getId(),lieux.getNom()));
+			arriveBox.addItem(new Item(lieux.getId(),lieux.getNom()));
+			adresses.put(new Integer(lieux.getId()),lieux.getAdr());
+		}
+		ArrayList<String> typevehicules = (ArrayList<String>) ihmtransports.getDao().toutvehicule();
+		ArrayList<String> marchandises = (ArrayList<String>) ihmtransports.getDao().toutMarchandise();
+		ArrayList<String> natMarchandises = (ArrayList<String>) ihmtransports.getDao().toutNatureMarchandise();
 
-		} catch (TransportException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		size=typevehicules.size();
+		for(int i=0;i<size;i++){
+			typevehiculeBox.addItem(typevehicules.get(i));
 		}
-	}
-	public void initDataLieux(){
-		departBox.removeAllItems();
-		departBox.addItem(new Item(0,""));
-		arriveBox.removeAllItems();
-		arriveBox.addItem(new Item(0,""));
-		try {
-			ArrayList<Lieux> lieuxs = (ArrayList<Lieux>) ihmtransports.getLieuxdao().toutLieux();
-			int size =lieuxs.size();
-			for(int i=0;i<size;i++){
-				Lieux lieux = lieuxs.get(i);
-				departBox.addItem(new Item(lieux.getId(),lieux.getNom()));
-				arriveBox.addItem(new Item(lieux.getId(),lieux.getNom()));
-				if(!adresses.containsKey(lieux.getId()));
-				adresses.put(new Integer(lieux.getId()),lieux.getAdr());
-			}
-		} catch (TransportException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
+		size=marchandises .size();
+		for(int i=0;i<size;i++){
+			marchandiseBox.addItem(typevehicules.get(i));
 		}
+		size= natMarchandises.size();
+		for(int i=0;i<size;i++){
+			naturemarchandiseBox.addItem(typevehicules.get(i));
+		}
+
 	}
 	public Transport getTransport() {
 		Item itemEnt = (Item) entrepriseBox .getSelectedItem();
@@ -225,31 +181,9 @@ public class creerTransportJPanel extends JPanel {
 	}
 	public void setTransport(Transport transport) {
 		this.transport = transport;
-		int size =entrepriseBox.getItemCount();
-		
-		for(int i=0;i<size;i++){
-			Item item =(Item) entrepriseBox.getItemAt(i);
-			if(item.getId()==transport.getEnt().getId()){
-				entrepriseBox.setSelectedIndex(i);
-				break;
-			}
-		}
-		size =departBox.getItemCount();
-		for(int i=0;i<size;i++){
-			Item item =(Item) departBox.getItemAt(i);
-			if(item.getId()==transport.getDepart().getId()){
-				departBox.setSelectedIndex(i);
-				break;
-			}
-		}
-		size =arriveBox.getItemCount();
-		for(int i=0;i<size;i++){
-			Item item =(Item) arriveBox.getItemAt(i);
-			if(item.getId()==transport.getArrivee().getId()){
-				arriveBox.setSelectedIndex(i);
-				break;
-			}
-		}
+		entrepriseBox.setSelect(transport.getEnt().getId());
+		departBox.setSelect(transport.getDepart().getId());
+		arriveBox.setSelect(transport.getDepart().getId());
 		dateDeparte.setText(transport.getDateDepart());
 		dateArrivee.setText(transport.getDateArrivee());
 		cout.setText(transport.getEstimationCout()+"");
@@ -267,7 +201,7 @@ public class creerTransportJPanel extends JPanel {
 		JPanel transportjpanel = new JPanel();
 		transportjpanel.setBorder(BorderFactory.createEtchedBorder());
 		transportjpanel.setLayout(new GridBagLayout());
-	//	transportjpanel.setPreferredSize(new Dimension(785,140));
+		//	transportjpanel.setPreferredSize(new Dimension(785,140));
 		//transportjpanel.setMaximumSize(new Dimension(785,200));
 		JPanel gril1 = new JPanel();
 		gril1.setPreferredSize(new Dimension(100,120));
@@ -280,7 +214,7 @@ public class creerTransportJPanel extends JPanel {
 		gril1.add(new JLabel("Nat-March:"));
 		//JLabel labelEnt = new JLabel("Entreprise:");labelEnt.setPreferredSize(new Dimension(60,25));
 		addComponent(transportjpanel,gril1, 0, 0, 1, 1, GridBagConstraints.WEST,GridBagConstraints.VERTICAL);
-		 JPanel jpaneldatedepart= new JPanel(); jpaneldatedepart.setLayout(new BorderLayout());jpaneldatedepart.add(dateDeparte,BorderLayout.CENTER);jpaneldatedepart.add(new JLabel("JJ/MM/YYYY"),BorderLayout.EAST);
+		JPanel jpaneldatedepart= new JPanel(); jpaneldatedepart.setLayout(new BorderLayout());jpaneldatedepart.add(dateDeparte,BorderLayout.CENTER);jpaneldatedepart.add(new JLabel("JJ/MM/YYYY"),BorderLayout.EAST);
 		JPanel gril2 = new JPanel();
 		gril2.setLayout(new GridLayout(6,1,10,10));
 		gril2.setPreferredSize(new Dimension(200,120));
@@ -327,8 +261,8 @@ public class creerTransportJPanel extends JPanel {
 		gril4.add(marbox);
 		JPanel jpanelcout = new JPanel();
 		cout.setPreferredSize(new Dimension(200,25));
-		 jpanelcout.add(cout);
-		 jpanelcout.setLayout(new FlowLayout(FlowLayout.LEFT));
+		jpanelcout.add(cout);
+		jpanelcout.setLayout(new FlowLayout(FlowLayout.LEFT));
 		gril4.add(jpanelcout);
 		addComponent(transportjpanel,gril4 , 3, 0, 1, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH);
 		return transportjpanel;
@@ -377,21 +311,22 @@ public class creerTransportJPanel extends JPanel {
 			// TODO Auto-generated method stub
 			JComboBox cb = (JComboBox)e.getSource();
 			Item item = (Item)cb.getSelectedItem();
-			if(item.getId()>0){
-				if(nom.equals("entreprise")){
-					Adresse adr =adresses.get(item.getId());
-					decriptionent.setText("Adrese: "+adr.getNumero_rue()+" "+adr.getNom_rue()+", "+adr.getCode_postal()+", "+adr.getPays());
-					//decriptionent.validate();
-				}else if(nom.equals("depart")){
-					Adresse adr =adresses.get(item.getId());
-					decriptiondepart.setText("Adrese: "+adr.getNumero_rue()+" "+adr.getNom_rue()+", "+adr.getCode_postal()+", "+adr.getPays());
-					//decriptiondepart.validate();
-				}if(nom.equals("arrive")){
-					Adresse adr =adresses.get(item.getId());
-					decriptionarrive.setText("Adrese: "+adr.getNumero_rue()+" "+adr.getNom_rue()+", "+adr.getCode_postal()+", "+adr.getPays());
-					//decriptionarrive.validate();
+			if(item!=null)
+				if(item.getId()>0){
+					if(nom.equals("entreprise")){
+						Adresse adr =adresses.get(item.getId());
+						decriptionent.setText("Adrese: "+adr.getNumero_rue()+" "+adr.getNom_rue()+", "+adr.getCode_postal()+", "+adr.getPays());
+						//decriptionent.validate();
+					}else if(nom.equals("depart")){
+						Adresse adr =adresses.get(item.getId());
+						decriptiondepart.setText("Adrese: "+adr.getNumero_rue()+" "+adr.getNom_rue()+", "+adr.getCode_postal()+", "+adr.getPays());
+						//decriptiondepart.validate();
+					}if(nom.equals("arrive")){
+						Adresse adr =adresses.get(item.getId());
+						decriptionarrive.setText("Adrese: "+adr.getNumero_rue()+" "+adr.getNom_rue()+", "+adr.getCode_postal()+", "+adr.getPays());
+						//decriptionarrive.validate();
+					}
 				}
-			}
 
 		}
 	}
@@ -406,9 +341,11 @@ public class creerTransportJPanel extends JPanel {
 			// TODO Auto-generated method stub
 			if(nom.equals("enregistrer")){
 				try {
-					if(transport.getId()<=0)
-						ihmtransports.getTransportsDAO().sauvegarde(getTransport());
-					else{
+					if(transport.getId()<=0){
+						int idTransport =	ihmtransports.getTransportsDAO().sauvegarde(getTransport());
+						transport.setId(idTransport);
+						ihmtransports.getListtransports().AjouterTransport(transport);
+					}else{
 						ihmtransports.getTransportsDAO().miseAjour(getTransport());
 						ihmtransports.ajouterComponnentJPanelCentre(ihmtransports.getListtransports());
 						nouvelle.setActionCommand("");
@@ -418,14 +355,16 @@ public class creerTransportJPanel extends JPanel {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+				init();
 			}else if(nom.equals("annuler")){
 				if(nouvelle.getActionCommand().equals("modifier")){
 					ihmtransports.ajouterComponnentJPanelCentre(ihmtransports.getListtransports());
 					nouvelle.setActionCommand("");
 					nouvelle.setText("Annuler");
 				}
+				init();
 			}
-			init();
+
 		}
 
 	}
@@ -440,8 +379,13 @@ public class creerTransportJPanel extends JPanel {
 			if(nom.equals("lieuxdepart")){
 				enregistrerControleButton.setActionCommand("lieuxdepart");
 				lieuxJPanel.ajouterControlButton(ButtonControlLieux());
-				if(transport.getId()>0)
-					lieuxJPanel.setLieux(transport.getDepart());
+				Item item = (Item) departBox.getSelectedItem();
+				try {
+					lieuxJPanel.setLieux(ihmtransports.getLieuxdao().chercher(item.getId()));
+				} catch (TransportException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				ajouterJPanel(lieuxJPanel);
 			}else if(nom.equals("annulerlieux")){
 				lieuxJPanel.init();
@@ -449,84 +393,98 @@ public class creerTransportJPanel extends JPanel {
 			}else if(nom.equals("lieuxarrive")){
 				enregistrerControleButton.setActionCommand("lieuxarrive");
 				lieuxJPanel.ajouterControlButton(ButtonControlLieux());
-				if(transport.getId()>0)
-					lieuxJPanel.setLieux(transport.getArrivee());
+				Item item = (Item) arriveBox.getSelectedItem();
+				try {
+					lieuxJPanel.setLieux(ihmtransports.getLieuxdao().chercher(item.getId()));
+				} catch (TransportException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				ajouterJPanel(lieuxJPanel);
 			}else if(nom.equals("enregistrer")){
-				
+
 				if(enregistrerControleButton.getActionCommand().equals("lieuxarrive")){
 					try {
-						if(transport.getId()>0)
+						if(lieuxJPanel.getLieux().getId()>0){
 							ihmtransports.getLieuxdao().miseAjour(lieuxJPanel.getLieux());
-						else{
+							adresses.put(new Integer(lieuxJPanel.getLieux().getId()), lieuxJPanel.getLieux().getAdr());
+							arriveBox.update(new Item(lieuxJPanel.getLieux().getId(),lieuxJPanel.getLieux().getNom()));
+						}else{
 							int idlieux =ihmtransports.getLieuxdao().sauvegarde(lieuxJPanel.getLieux());
 							lieuxJPanel.getLieux().setId(idlieux);
+							adresses.put(new Integer(idlieux), lieuxJPanel.getLieux().getAdr());
+							arriveBox.addItem(new Item(idlieux,lieuxJPanel.getLieux().getNom()));
+							arriveBox.setSelect(idlieux);
 						}
+						ihmtransports.misaAjourData("lieuxtransport");
+						enregistrerControleButton.setActionCommand("");
+						ihmtransports.misaAjourData("lieuxtransport");
+						lieuxJPanel.init();
+						ajouterJPanel(JPanelPrincipal);
 					} catch (TransportException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					Item item =new Item(lieuxJPanel.getLieux().getId(),lieuxJPanel.getLieux().getNom());
-					adresses.put(new Integer(item.getId()),lieuxJPanel.getLieux().getAdr());
-					arriveBox.addItem(item);
-					arriveBox.setSelectedItem(item);
-					enregistrerControleButton.setActionCommand("");
-					ihmtransports.misaAjourData("lieuxtransport");
-					lieuxJPanel.init();
-					ajouterJPanel(JPanelPrincipal);
 				}else if(enregistrerControleButton.getActionCommand().equals("lieuxdepart")){
 					try {
-						if(transport.getId()>0)
+						if(lieuxJPanel.getLieux().getId()>0){
 							ihmtransports.getLieuxdao().miseAjour(lieuxJPanel.getLieux());
-						else{
+							adresses.put(new Integer(lieuxJPanel.getLieux().getId()), lieuxJPanel.getLieux().getAdr());
+							departBox.update(new Item(lieuxJPanel.getLieux().getId(),lieuxJPanel.getLieux().getNom()));
+						}else{
 							int idlieux =ihmtransports.getLieuxdao().sauvegarde(lieuxJPanel.getLieux());
 							lieuxJPanel.getLieux().setId(idlieux);
+							adresses.put(new Integer(idlieux), lieuxJPanel.getLieux().getAdr());
+							departBox.addItem(new Item(idlieux,lieuxJPanel.getLieux().getNom()));
+							departBox.setSelect(idlieux);
 						}
+						enregistrerControleButton.setActionCommand("");
+						lieuxJPanel.init();
+						ajouterJPanel(JPanelPrincipal);
+						ihmtransports.misaAjourData("lieuxtransport");
 					} catch (TransportException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					Item item =new Item(lieuxJPanel.getLieux().getId(),lieuxJPanel.getLieux().getNom());
-					adresses.put(new Integer(item.getId()),lieuxJPanel.getLieux().getAdr());
-					departBox.addItem(item);
-					departBox.setSelectedItem(item);
-					enregistrerControleButton.setActionCommand("");
-					ihmtransports.misaAjourData("lieuxtransport");
-					lieuxJPanel.init();
-					ajouterJPanel(JPanelPrincipal);
-					ihmtransports.misaAjourData("lieuxtransport");
+
 				}else if(enregistrerControleButton.getActionCommand().equals("enregistrerEnt")){
 					try {
-						if(transport.getId()>0)
+						if(entjpanel.getEnt().getId()>0){
 							ihmtransports.getEntDAO().miseAjour(entjpanel.getEnt());
-						else{
+							adresses.put(new Integer(entjpanel.getEnt().getId()), entjpanel.getEnt().getAdresse());
+							entrepriseBox.update(new Item(entjpanel.getEnt().getId(),entjpanel.getEnt().getNom()));
+						}else{
 							int ident =ihmtransports.getEntDAO().sauvegarde(entjpanel.getEnt());
+							adresses.put(new Integer(ident), entjpanel.getEnt().getAdresse());
 							entjpanel.getEnt().setId(ident);
-							Item item =new Item(entjpanel.getEnt().getId(),entjpanel.getEnt().getNom());
-							adresses.put(new Integer(item.getId()),entjpanel.getEnt().getAdresse());
-							entrepriseBox.addItem(item);
-							entrepriseBox.setSelectedItem(item);
-							entjpanel.init();
-							ajouterJPanel(JPanelPrincipal);
-							ihmtransports.misaAjourData("entreprisetransport");
-							enregistrerControleButton.setActionCommand("");
+							entrepriseBox.addItem(new Item(entjpanel.getEnt().getId(),entjpanel.getEnt().getNom()));
+							entrepriseBox.setSelect(ident);
 						}
+						entjpanel.init();
+						ajouterJPanel(JPanelPrincipal);
+						ihmtransports.misaAjourData("entreprisetransport");
+						enregistrerControleButton.setActionCommand("");
 					} catch (TransportException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					
-					
+
+
 				}
-				
+
 			}else if(nom.equals("entreprise")){
 				enregistrerControleButton.setActionCommand("enregistrerEnt");
-				if(transport.getId()>0)
-					entjpanel.setEnt(transport.getEnt());
-					ajouterJPanel(entjpanel);
+				Item item = (Item) entrepriseBox.getSelectedItem();
+				try {
+					entjpanel.setEnt(ihmtransports.getEntDAO().chercher(item.getId()));
+				} catch (TransportException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+				ajouterJPanel(entjpanel);
 			}
 		}
 	}
 
-	
+
 }

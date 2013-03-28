@@ -1,5 +1,6 @@
 package interTransport;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import modelTransport.Adresse;
@@ -10,9 +11,7 @@ import erreur.TransportException;
 
 public interface intermissionDAO {
 
-	public void supprimer(int idMission)throws TransportException; // supprimer (transport, trajet, Itineraire, adresse...) 
-	public int sauvegarde(Mission mission)throws TransportException;// sauvegarde (transport, trajet, Itineraire, adresse...) 
-	public void miseAjour(Mission mission)throws TransportException;// mise à jour (transport, trajet, Itineraire, adresse...) 
-	public Adresse chercher(int idMission)throws TransportException;//chercher  (transport, trajet, Itineraire, adresse...) 
-	public Collection<Adresse> toutAdresse()throws TransportException; // chercher  (transport, trajet, Itineraire, adresse...) 
+	public void supprimer(int idGestionTransport)throws TransportException; // supprimer (transport, trajet, Itineraire, adresse...) 
+	public void sauvegarde(int idGestionTransport,Mission mission)throws TransportException;// sauvegarde (transport, trajet, Itineraire, adresse...) 
+	public Mission chercher(int idGestionTransport)throws TransportException;//chercher  (transport, trajet, Itineraire, adresse...) 
 }

@@ -53,9 +53,15 @@ public class tableLigneTransport extends AbstractTableModel{
 	public Ligne_Transport getTransport(int index){
 		return  lignetransports.get(index);
 	}
-	public void removeTransport(int rowIndex) {
+	public void removeLigne_Transport(int rowIndex) {
 		lignetransports.remove(rowIndex);
 		fireTableRowsDeleted(rowIndex, rowIndex);
+	}
+	public void removeAllLigne_Transport(){
+		for(int i=0;i<lignetransports.size();i++){
+			lignetransports.remove(i);
+	    	fireTableRowsDeleted(i,i);
+		}
 	}
 
 

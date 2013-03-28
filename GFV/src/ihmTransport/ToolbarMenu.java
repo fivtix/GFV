@@ -103,17 +103,7 @@ public class ToolbarMenu extends JPanel implements Observer{
 	@Override
 	public void Update(Observable subject,String action) {
 		// TODO Auto-generated method stub
-		if (subject == ihmtransport){
-			if(action.equals("lieuxtrajet"))
-				 ihmtransport.getTransportJPanel().initDataLieux();
-			else if(action.equals("lieuxtransport"))
-				try {
-					ihmtransport.getCreertrajet().initDataLieux();
-				} catch (TransportException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		}
+		
 	}
 
 

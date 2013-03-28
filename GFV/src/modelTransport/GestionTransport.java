@@ -3,25 +3,18 @@ package modelTransport;
 import java.util.ArrayList;
 
 public class GestionTransport {
-private Trajet trajet;
+private int id;
 private ArrayList<Ligne_Transport> lignetransports;
 private ArrayList<Horaire> horraires;
-private Vehicule vehicule;
-private Infos_Personnelles personnelle;
-private Incident incidents;
+private Mission mission;
+private ArrayList<Incident> incedens ;
 
 	public GestionTransport() {
 		// TODO Auto-generated constructor stub
+		 incedens = new ArrayList<Incident>();
+		 horraires = new  ArrayList<Horaire>();
+		 lignetransports =new ArrayList<Ligne_Transport>();
 	}
-
-	public Trajet getTrajet() {
-		return trajet;
-	}
-
-	public void setTrajet(Trajet trajet) {
-		this.trajet = trajet;
-	}
-
 	public ArrayList<Ligne_Transport> getLignetransports() {
 		return lignetransports;
 	}
@@ -37,30 +30,28 @@ private Incident incidents;
 	public void setHorraires(ArrayList<Horaire> horraires) {
 		this.horraires = horraires;
 	}
-
-	public Vehicule getVehicule() {
-		return vehicule;
+	
+	public int getId() {
+		return id;
 	}
 
-	public void setVehicule(Vehicule vehicule) {
-		this.vehicule = vehicule;
+	public void setId(int id) {
+		this.id = id;
 	}
-
-	public Infos_Personnelles getPersonnelle() {
-		return personnelle;
+	public Mission getMission() {
+		return mission;
 	}
-
-	public void setPersonnelle(Infos_Personnelles personnelle) {
-		this.personnelle = personnelle;
+	public void setMission(Mission mission) {
+		this.mission = mission;
 	}
-
-	public Incident getIncidents() {
-		return incidents;
+	public ArrayList<Incident> getIncedens() {
+		return incedens;
 	}
-
-	public void setIncidents(Incident incidents) {
-		this.incidents = incidents;
+	public void setIncedens(ArrayList<Incident> incedens) {
+		this.incedens = incedens;
 	}
+	
+	
 
 
 }

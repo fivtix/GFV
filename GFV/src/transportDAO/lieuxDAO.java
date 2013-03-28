@@ -93,7 +93,7 @@ public class lieuxDAO implements interLieuxDAO{
 
 	@Override
 	public Lieux chercher(int id) throws TransportException {
-		Lieux lieu  = null;
+		Lieux lieu  =lieu = new Lieux();
 		Connection conn = null;
 		PreparedStatement st  = null;	
 		ResultSet rst =null;
@@ -107,7 +107,6 @@ public class lieuxDAO implements interLieuxDAO{
 			rst = st.executeQuery();
 			// 4. lire le résultat
 			while(rst.next()){
-				lieu = new Lieux();
 				lieu.setId(rst.getInt(1));
 				lieu.setAdr(adrDAO.chercher(rst.getInt(2)));
 				lieu.setNom(rst.getString(3));

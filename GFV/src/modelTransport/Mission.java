@@ -2,30 +2,29 @@ package modelTransport;
 
 public class Mission {
 
-	private int ipPerson;
-	private int idVehicule;
+	private Infos_Personnelles person;
+	private  Vehicule vehicule;
 	private String dateHeuredebut;
 	private String dateHeureterminal;
 	
 	public Mission() {
 		// TODO Auto-generated constructor stub
 	}
-
-	public int getIpPerson() {
-		return ipPerson;
+	public Infos_Personnelles getPerson() {
+		return person;
 	}
 
-	public void setIpPerson(int ipPerson) {
-		this.ipPerson = ipPerson;
+	public void setPerson(Infos_Personnelles person) {
+		this.person = person;
+	}
+	public Vehicule getVehicule() {
+		return vehicule;
 	}
 
-	public int getIdVehicule() {
-		return idVehicule;
+	public void setVehicule(Vehicule vehicule) {
+		this.vehicule = vehicule;
 	}
 
-	public void setIdVehicule(int idVehicule) {
-		this.idVehicule = idVehicule;
-	}
 
 	public String getDateHeuredebut() {
 		return dateHeuredebut;

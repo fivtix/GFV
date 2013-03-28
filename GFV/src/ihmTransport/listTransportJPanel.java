@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 
 import ihmTransport.tables.modeltableTransports;
@@ -24,14 +25,14 @@ public class listTransportJPanel extends JPanel {
 	private modeltableTransports tablemodetransports;
 	private ihmTransports ihmtransport;
 	private JPopupMenu popupMenu;
-	public listTransportJPanel(ihmTransports ihmtransport) throws TransportException {
+	public listTransportJPanel(ihmTransports ihmtransport) throws TransportException  {
 		// TODO Auto-generated constructor stub
 		setLayout(new BorderLayout());
 		setBorder(BorderFactory.createEmptyBorder(8,8,8,8));
 		setPreferredSize(new Dimension(800,500));
 		this.ihmtransport = ihmtransport;
 		popupMenu = new JPopupMenu();
-		tablemodetransports = new modeltableTransports(ihmtransport.getTransportsDAO().toutTransport());
+		tablemodetransports = new modeltableTransports();
 		tableTransports = new JTable(tablemodetransports);
 		tableTransports.setPreferredScrollableViewportSize(new Dimension(800, 500));
 		tableTransports.setFillsViewportHeight(true);
@@ -56,6 +57,16 @@ public class listTransportJPanel extends JPanel {
 		scrollPane.setPreferredSize(new Dimension(750,450));
 		//Add the scroll pane to this panel.
 		add(scrollPane ,BorderLayout.NORTH);
+	}
+	public void initData() throws TransportException{
+		// ajouter les trans port en table
+		ArrayList<Transport> transports= ihmtransport.getTransportsDAO().toutTransport();
+		 int size = transports.size();
+		 for(int i = 0;i<size;i++)
+			 tablemodetransports.addTransport(transports.get(i)); 
+	}
+	public void AjouterTransport(Transport transport){
+		 tablemodetransports.addTransport(transport); 
 	}
 	class actionListTransport implements ActionListener{
 		private String nom;

@@ -188,7 +188,9 @@ public class ihmTransports extends JPanel implements Observable{
 	public JpanePlanning getJpanelplanning() {
 		return jpanelplanning;
 	}
-	
+	public adresseDAO getAdrdao() {
+		return adrdao;
+	}
 		
 
 }

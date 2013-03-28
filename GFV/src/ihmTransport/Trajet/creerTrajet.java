@@ -68,6 +68,7 @@ public class creerTrajet extends JPanel  {
 		setLayout(new BorderLayout());
 		trajet=new Trajet();
 		trajetJPanel = new JPanel();
+		ListlieuxComboBox = new JComboBox();
 		parcoursJPanel = new JPanel();
 		itineraireJPanel = new JPanel();
 		list= new List();
@@ -124,11 +125,6 @@ public class creerTrajet extends JPanel  {
 		nomtext = new JTextField(25);
 		nomtext.setPreferredSize(new Dimension(250,30));
 		addComponent(trajetJPanel, nomtext, 1, 0, 1, 1, GridBagConstraints.EAST, GridBagConstraints.BOTH);
-		ListlieuxComboBox = new JComboBox();
-		ArrayList<Lieux> listlieuxDAO=(ArrayList<Lieux>) ihmtransports.getLieuxdao().toutLieux();
-		for(int i=0;i<listlieuxDAO.size();i++){
-			ListlieuxComboBox.addItem( new Item(listlieuxDAO.get(i).getId(), listlieuxDAO.get(i).getNom() ) );
-		}
 		ListlieuxComboBox.addActionListener(new actionCombox());
 		addComponent(trajetJPanel,ListlieuxComboBox, 0, 1,2, 1, GridBagConstraints.WEST, GridBagConstraints.BOTH);
 		JButton lieux = new JButton("Lieux..");
@@ -259,26 +255,31 @@ public class creerTrajet extends JPanel  {
 			if(nom.equals("enregistrer")){
 				int id =trajetsauvegarder();
 				if (id>0){
-					init();
-				}else{
 					try {
-						ihmtransports.getListtrajetJPanel().updateListTrajet();
+						ihmtransports.getTrajetdao().sauvegarde(trajet);
 					} catch (TransportException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					ihmtransports.getListtrajetJPanel().AjouterTrajet(trajet);
+					ihmtransports.ajouterComponnentJPanelCentre(ihmtransports.getListtrajetJPanel());
+					init();
+				}else{
+					
+					try {
+						ihmtransports.getTrajetdao().miseAjour(trajet);
+						ihmtransports.ajouterComponnentJPanelCentre(ihmtransports.getListtrajetJPanel());
+					} catch (TransportException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					init();
 				}
-
 			}else{
 				if(nom.equals("annuler")){
 					if(trajet.getId()>0){
-						try {
-							init();
-							ihmtransports.getListtrajetJPanel().init();
-						} catch (TransportException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+						init();
+						ihmtransports.ajouterComponnentJPanelCentre(ihmtransports.getListtrajetJPanel());
 					}else{
 						init();
 					}
