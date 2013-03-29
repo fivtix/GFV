@@ -429,7 +429,6 @@ class actionComboxTrajet implements ActionListener{
 					GestionTransport gtransport=getgTransport();
 					if(gtransport.getId()<=0){
 						ihmtransport.getGtransportDAO().sauvegarde(gtransport);
-						
 						 init();
 					}else{
 						ihmtransport.getGtransportDAO().miseAjour(gtransport);
