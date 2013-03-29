@@ -104,7 +104,7 @@ public class trajetDAO implements interTrajetDAO  {
 	@Override
 	public Trajet chercher(int id) throws TransportException {
 		// TODO Auto-generated method stub
-		Trajet t  = null;
+		Trajet t  = new Trajet();
 		Connection conn = null;
 		PreparedStatement st  = null;	
 		ResultSet rst =null;
@@ -118,7 +118,6 @@ public class trajetDAO implements interTrajetDAO  {
 			rst = st.executeQuery();
 			// 4. lire le résultat
 			while(rst.next()){
-				t  = new Trajet();
 				t.setId(rst.getInt(1));
 				t.setNom(rst.getString(2));
 				t.setDistance(rst.getDouble(3));

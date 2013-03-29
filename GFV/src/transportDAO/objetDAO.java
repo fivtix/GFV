@@ -112,7 +112,7 @@ public class objetDAO {
 	}
 	return  Naturemarchandise;
 }
-	public Collection<String> toutvehicule()throws TransportException{
+	public Collection<String> toutTypevehicule()throws TransportException{
 		ArrayList<String> type_vehicule = new ArrayList<String>();
 		Connection conn = null;
 		PreparedStatement st  = null;	

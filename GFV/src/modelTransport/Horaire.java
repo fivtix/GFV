@@ -3,7 +3,6 @@ package modelTransport;
 public class Horaire {
 	
 	private int idTrajet;
-	private int idgestionTransport;
 	private Lieux lieuxDepart;
 	private Lieux lieuxArrivee;
 	private String date_heure_depart;
@@ -21,14 +20,6 @@ public class Horaire {
 
 	public void setIdTrajet(int idTrajet) {
 		this.idTrajet = idTrajet;
-	}
-
-	public int getIdgestionTransport() {
-		return idgestionTransport;
-	}
-
-	public void setIdgestionTransport(int idgestionTransport) {
-		this.idgestionTransport = idgestionTransport;
 	}
 
 	public String getDate_heure_depart() {

@@ -44,6 +44,14 @@ public class menuAction implements ActionListener{
 			ihmtransport.ajouterComponnentJPanelCentre(ihmtransport.getDocuments());
 		}else if(nom.equals("planning")){
 			ihmtransport.ajouterComponnentJPanelCentre(ihmtransport.getJpanelplanning());
+		}else if(nom.equals("personnel")){
+			ihmtransport.ajouterComponnentJPanelCentre(ihmtransport.getPersonnelleJPanel());
+		}else if (nom.endsWith("listepersons")){
+			ihmtransport.ajouterComponnentJPanelCentre(ihmtransport.getListePersonsJPanel());
+		}else if(nom.equals("vehicule")){
+			ihmtransport.ajouterComponnentJPanelCentre(ihmtransport.getVehiculeJPanel());
+		}else if(nom.equals("listevehicule")){
+			ihmtransport.ajouterComponnentJPanelCentre(ihmtransport.getListevehiculesJPanel());
 		}
 	}
 

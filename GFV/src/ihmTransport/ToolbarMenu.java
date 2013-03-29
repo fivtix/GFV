@@ -19,7 +19,7 @@ public class ToolbarMenu extends JPanel implements Observer{
 	public ToolbarMenu( ihmTransports ihmtransport ){
 		this.ihmtransport=ihmtransport;
 		ihmtransport.register(this);
-		jbuttons = new JButton[10];
+		jbuttons = new JButton[13];
 		init();
 	}
 	public void init(){
@@ -31,6 +31,8 @@ public class ToolbarMenu extends JPanel implements Observer{
 		add(menuStatic());
 		add(menuDocument());
 		add(menuadministrateur());
+		add( personnelle());
+		add(vehicule());
 	}
 	public JPanel menuTrajet(){
 	    JPanel jpanelTrajet = new JPanel();
@@ -96,6 +98,30 @@ public class ToolbarMenu extends JPanel implements Observer{
 		jpanelresalisertransport.add(jbuttons[6]);;
 		return jpanelresalisertransport;
 	}
+	public JPanel personnelle(){
+		JPanel jpanelPersonnel = new JPanel();
+		jpanelPersonnel .setLayout(new GridLayout(2,1,4,4));
+		jpanelPersonnel .setPreferredSize(new Dimension(160,50));
+		jbuttons[9] = new JButton("Personnelles");
+		jbuttons[9].addActionListener(new menuAction("personnel",ihmtransport,jbuttons,9));
+		jbuttons[10] = new JButton("Liste Personnelles");
+		jbuttons[10].addActionListener(new menuAction("listepersons",ihmtransport,jbuttons,10));
+		jpanelPersonnel .add(jbuttons[9]);
+		jpanelPersonnel .add(jbuttons[10]);;
+		return jpanelPersonnel ;
+	}
+	public JPanel vehicule(){
+		JPanel jpanelVehicule = new JPanel();
+		jpanelVehicule  .setLayout(new GridLayout(2,1,4,4));
+		jpanelVehicule  .setPreferredSize(new Dimension(160,50));
+		jbuttons[11] = new JButton("Vehicule");
+		jbuttons[11].addActionListener(new menuAction("vehicule",ihmtransport,jbuttons,11));
+		jbuttons[12] = new JButton("Liste Vehicule");
+		jbuttons[12].addActionListener(new menuAction("listevehicule",ihmtransport,jbuttons,12));
+		jpanelVehicule  .add(jbuttons[11]);
+		jpanelVehicule  .add(jbuttons[12]);;
+		return jpanelVehicule  ;
+	}
 	public void menuConnection(){
 
 
@@ -103,6 +129,15 @@ public class ToolbarMenu extends JPanel implements Observer{
 	@Override
 	public void Update(Observable subject,String action) {
 		// TODO Auto-generated method stub
+		if( ihmtransport == subject)
+		if(action.equals("trajet")){
+			try {
+				ihmtransport.getJpanelplanning().initData();
+			} catch (TransportException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 	}
 

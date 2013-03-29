@@ -140,7 +140,7 @@ public class creerTransportJPanel extends JPanel {
 			arriveBox.addItem(new Item(lieux.getId(),lieux.getNom()));
 			adresses.put(new Integer(lieux.getId()),lieux.getAdr());
 		}
-		ArrayList<String> typevehicules = (ArrayList<String>) ihmtransports.getDao().toutvehicule();
+		ArrayList<String> typevehicules = (ArrayList<String>) ihmtransports.getDao().toutTypevehicule();
 		ArrayList<String> marchandises = (ArrayList<String>) ihmtransports.getDao().toutMarchandise();
 		ArrayList<String> natMarchandises = (ArrayList<String>) ihmtransports.getDao().toutNatureMarchandise();
 

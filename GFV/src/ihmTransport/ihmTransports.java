@@ -5,6 +5,10 @@ import ihmTransport.Trajet.listTrajetJPanel;
 import ihmTransport.controlleur.Observable;
 import ihmTransport.controlleur.Observer;
 import ihmTransport.document.Documents;
+import ihmTransport.personnel.JPanelPersonnelle;
+import ihmTransport.personnel.listPersonJPanel;
+import ihmTransport.vehicule.VehiculeJPanel;
+import ihmTransport.vehicule.listeVehiculesJPanel;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -13,19 +17,24 @@ import java.awt.FlowLayout;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import modelTransport.User;
+import transportDAO.InfosPersonnellesDAO;
 import transportDAO.JdbcTools;
 import transportDAO.adresseDAO;
 import transportDAO.entrepriseDAO;
-import transportDAO.itineraireDAO;
+import transportDAO.gestion_IncidentsDAO;
+import transportDAO.gestiontransportDAO;
+import transportDAO.horaireDAO;
 import transportDAO.lieuxDAO;
+import transportDAO.ligne_transportDAO;
+import transportDAO.missionDAO;
 import transportDAO.objetDAO;
 import transportDAO.parcoursDAO;
 import transportDAO.trajetDAO;
 import transportDAO.transportDAO;
+import transportDAO.vehiculeDAO;
 import erreur.TransportException;
 
 public class ihmTransports extends JPanel implements Observable{
@@ -48,11 +57,22 @@ public class ihmTransports extends JPanel implements Observable{
 	private creerTransportJPanel transportJPanel;
 	private entrepriseDAO entDAO;
 	private objetDAO dao;
-	private transportDAO transportsDAO;
+	private listeVehiculesJPanel listevehiculesJPanel;
+	private transportDAO transportsdao;
 	private String actions;
 	private listTransportJPanel listtransports;
 	private Documents documents;
 	private JpanePlanning jpanelplanning;
+	private gestiontransportDAO gtransportDAO;
+	private horaireDAO horairedao;
+	private missionDAO missiondao;
+	private vehiculeDAO vehiculedao;
+	private InfosPersonnellesDAO persondao; 
+	private ligne_transportDAO lignetransportdao;
+	private gestion_IncidentsDAO incidentdao;
+	private JPanelPersonnelle personnelleJPanel;
+	private listPersonJPanel listePersonsJPanel;
+	private VehiculeJPanel vehiculeJPanel;
 	public ihmTransports(){
 		observersList = new Vector<Observer>();
 		jpanelCentre = new JPanel(); 
@@ -67,14 +87,25 @@ public class ihmTransports extends JPanel implements Observable{
 			trajetdao=new trajetDAO(jdbctool,parcourdao);
 			dao = new objetDAO(jdbctool);
 			entDAO = new entrepriseDAO(jdbctool,adrdao);
-			transportsDAO = new transportDAO(jdbctool,entDAO,lieuxdao);
+			transportsdao = new transportDAO(jdbctool,entDAO,lieuxdao);
+			horairedao = new horaireDAO(jdbctool,trajetdao,lieuxdao);
+			persondao=new InfosPersonnellesDAO(jdbctool,entDAO,adrdao);
+			vehiculedao = new vehiculeDAO(jdbctool);
+			missiondao = new missionDAO(jdbctool,persondao,vehiculedao);
+			lignetransportdao=new ligne_transportDAO(jdbctool,transportsdao,lieuxdao) ;
+			incidentdao= new gestion_IncidentsDAO(jdbctool);
+			gtransportDAO = new gestiontransportDAO(jdbctool,horairedao,missiondao,lignetransportdao,incidentdao,trajetdao);
 			listtransports = new listTransportJPanel(this);
 			documents = new Documents(jdbctool );
 			transportJPanel = new creerTransportJPanel (this);
+			personnelleJPanel  = new JPanelPersonnelle(this);
+			listePersonsJPanel =new listPersonJPanel(this); 
+			vehiculeJPanel = new  VehiculeJPanel(this);
 			toolbarmenu = new ToolbarMenu(this); // creer classe toolbarmenu
 			creertrajet = new creerTrajet(this); // creer classe trajet
 			listtrajetJPanel = new listTrajetJPanel(this);
-			jpanelplanning = new JpanePlanning() ;
+			listevehiculesJPanel = new listeVehiculesJPanel(this); 
+			jpanelplanning = new JpanePlanning(this) ;
 		} catch (TransportException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -177,7 +208,7 @@ public class ihmTransports extends JPanel implements Observable{
 		return dao;
 	}
 	public transportDAO getTransportsDAO() {
-		return transportsDAO;
+		return transportsdao;
 	}
 	public listTransportJPanel getListtransports() {
 		return listtransports;
@@ -191,6 +222,46 @@ public class ihmTransports extends JPanel implements Observable{
 	public adresseDAO getAdrdao() {
 		return adrdao;
 	}
+	public gestiontransportDAO getGtransportDAO() {
+		return gtransportDAO;
+	}
+	public transportDAO getTransportsdao() {
+		return transportsdao;
+	}
+	public horaireDAO getHorairedao() {
+		return horairedao;
+	}
+	public missionDAO getMissiondao() {
+		return missiondao;
+	}
+	public ligne_transportDAO getLignetransportdao() {
+		return lignetransportdao;
+	}
+	public gestion_IncidentsDAO getIncidentdao() {
+		return incidentdao;
+	}
+	public JPanelPersonnelle getPersonnelleJPanel() {
+		return personnelleJPanel;
+	}
+	public InfosPersonnellesDAO getPersondao() {
+		return persondao;
+	}
+	public listPersonJPanel getListePersonsJPanel() {
+		return listePersonsJPanel;
+	}
+	public VehiculeJPanel getVehiculeJPanel() {
+		return vehiculeJPanel;
+	}
+	public vehiculeDAO getVehiculedao() {
+		return vehiculedao;
+	}
+	public void setDao(objetDAO dao) {
+		this.dao = dao;
+	}
+	public listeVehiculesJPanel getListevehiculesJPanel() {
+		return listevehiculesJPanel;
+	}
+	
 		
 
 }

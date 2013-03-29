@@ -48,11 +48,32 @@ public class tableHoraire extends AbstractTableModel{
 			return null; //Ne devrait jamais arriver
 		}
 	}
-
+	public void setValueAt(Object value, int row, int col) {
+		Horaire h =horaires.get(row);	
+		
+		horaires.set(row, h);
+		getValueAt(row,col);
+	    fireTableCellUpdated(row, col);
+	}
+	
 	public void addHorraire(Horaire horaire) {
 		horaires.add(horaire);
 		fireTableRowsInserted(horaires.size() -1, horaires.size() -1);
 	}
+	 public boolean isCellEditable(int row, int column) {
+		
+		 return (column > 1);
+		  }
+	
+
+	public ArrayList<Horaire> getHoraires() {
+		return horaires;
+	}
+
+	public void setHoraires(ArrayList<Horaire> horaires) {
+		this.horaires = horaires;
+	}
+
 	public Horaire getHorraire(int index){
 		return  horaires.get(index);
 	}

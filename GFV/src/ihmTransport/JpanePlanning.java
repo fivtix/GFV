@@ -18,8 +18,12 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Enumeration;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -28,9 +32,21 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import erreur.TransportException;
 
 import modelTransport.GestionTransport;
+import modelTransport.Horaire;
+import modelTransport.Infos_Personnelles;
 import modelTransport.Item;
+import modelTransport.Ligne_Transport;
+import modelTransport.Mission;
+import modelTransport.Parcours;
+import modelTransport.Trajet;
+import modelTransport.Vehicule;
 
 public class JpanePlanning extends JPanel{ 
 	private Insets insets = new Insets(2, 2, 2, 2);
@@ -44,13 +60,18 @@ public class JpanePlanning extends JPanel{
 	private JPanel controlButton;
 	private GestionTransport gTransport;
 	private List listdocument;
-	public  JpanePlanning() {
+	private ihmTransports ihmtransport;
+
+	public  JpanePlanning(ihmTransports ihmtransport) throws TransportException {
+
 		setBorder(BorderFactory.createEmptyBorder(2,2,2,2));
 		setLayout(new BorderLayout());
 		gTransport = new GestionTransport();
+		this.ihmtransport=ihmtransport;
 		listdocument = new List();
 		trajets = new Combox();
 		trajets.addItem(new Item(0,""));
+		trajets.addActionListener(new actionComboxTrajet());
 		vehicules =new Combox();
 		vehicules.addItem(new Item(0,""));
 		chauffeurs = new Combox();
@@ -61,9 +82,18 @@ public class JpanePlanning extends JPanel{
 		decriptionaccident = new JTextArea();
 		nom = new  JTextField();
 		modeltablehoraire  = new tableHoraire();
-		tableHoraires = new JTable(modeltablehoraire);
+	    tableHoraires = new JTable(modeltablehoraire);
+		
+	    Enumeration e = tableHoraires.getColumnModel().getColumns();
+	    TableColumn col = (TableColumn) e.nextElement();
+
+	    col.setCellRenderer(tableHoraires.getDefaultRenderer(String.class));
+	    col.setCellEditor(tableHoraires.getDefaultEditor(String.class));
+	    
+	
 		modelligneTransport =new tableLigneTransport();
 		tableligneTransport = new JTable(modelligneTransport );
+		
 		jpanelaccident = new JPanel();
 		jpanelaccident.setLayout(new BorderLayout());
 		jpanelaccident.add( jpanelaccidentdoucument());
@@ -74,7 +104,9 @@ public class JpanePlanning extends JPanel{
 		add(jpanelLigneTransport(),BorderLayout.CENTER);
 		add(controlButton,BorderLayout.SOUTH);
 		init();
+		initData() ;
 	}
+	
 	public void init(){
 		controlButton.removeAll();
 		if(gTransport.getId()<=0){
@@ -227,7 +259,7 @@ public class JpanePlanning extends JPanel{
 		JButton nouvelle = new JButton("Nouvelle");
 		//annuler.addActionListener(new actionEnregistrerAnnuler("annuler"));
 		JButton enregistrer = new JButton("Enregistrer ");
-		//enregistrer.addActionListener(new actionEnregistrerAnnuler("enregistrer"));
+		enregistrer.addActionListener(new ActionEnregistrerNouvelle("enregistrer"));
 		addComponent(buttonjpanel,nouvelle,0,0, 1, 1, GridBagConstraints.WEST, GridBagConstraints.VERTICAL);
 		addComponent(buttonjpanel,enregistrer,1,0, 1, 1, GridBagConstraints.EAST, GridBagConstraints.VERTICAL);
 		addComponent(buttonjpanel,new JLabel(""),0,1, 1, 1, GridBagConstraints.EAST, GridBagConstraints.VERTICAL);
@@ -271,13 +303,105 @@ public class JpanePlanning extends JPanel{
 				anchor, fill, insets, 0, 0);
 		container.add(component, gbc);
 	}
-	public GestionTransport getgTransport() {
+	public GestionTransport getgTransport() throws TransportException {
+		gTransport.setNom(nom.getText());
+		Item item = (Item) trajets.getSelectedItem();
+		gTransport.setTrajet(ihmtransport.getTrajetdao().chercher(item.getId()));
+		int m=modeltablehoraire.getRowCount();
+		for(int i=0;i<m;i++){
+			System.out.append(modeltablehoraire.getHorraire(i).getDate_heure_depart());
+		}
+        gTransport.setHorraires( modeltablehoraire.getHoraires());
 		return gTransport;
 	}
-	public void setgTransport(GestionTransport gTransport) {
+	public void setgTransport(GestionTransport gtransport) {
 		this.gTransport = gTransport;
+		controlButton.removeAll();
+		if(gTransport.getId()<=0){
+			controlButton.add(jpanelbuttonCreerPlanning(),BorderLayout.NORTH);
+			controlButton.validate();
+			controlButton.revalidate();
+		}else{
+			controlButton.add(jpanelbuttonModifierPlanning(),BorderLayout.NORTH);
+			controlButton.validate();
+			controlButton.revalidate();
+		}
+		nom.setText(gtransport.getNom());
+		Trajet trajet =gtransport.getTrajet();
+		       trajets.setSelect(trajet.getId());
+		       modeltablehoraire.removeAllhoraires();
+		       ArrayList<Horaire>horaire=gtransport.getHorraires();
+		       int size =horaire.size();
+		       for(int i=0;i<size;i++){
+		    	   modeltablehoraire.addHorraire(horaire.get(i));
+		       }
+		  Mission mission =gtransport.getMission() ;
+		  chauffeurs.setSelect(mission.getPerson().getId());
+		  vehicules.setSelect(mission.getVehicule().getId());
+		  dateheuredebut.setText(mission.getDateHeuredebut());
+		  dateheureterminal.setText(mission.getDateHeureterminal());
+		  ArrayList<Ligne_Transport> lignetransports=gtransport.getLignetransports();
+		  size =lignetransports.size();
+		  modelligneTransport.removeAllLigne_Transport();
+		  for(int i=0;i<size;i++){
+			  modelligneTransport.addTransport(lignetransports.get(i)); 
+		  }
+		  typeaccident.setText(gtransport.getIncedens().getTypeAccident());
+		  decriptionaccident.setText(gtransport.getIncedens().getDescription()); 
 	}
+public void initData() throws TransportException{
+	vehicules.removeAllItems();
+	vehicules.addItem(new Item(0,""));
+	trajets.removeAllItems();
+	trajets.addItem(new Item(0,""));
+	chauffeurs.removeAllItems();
+	chauffeurs.addItem(new Item(0,""));
+	ArrayList<Vehicule>vehicule=(ArrayList<Vehicule>) ihmtransport.getVehiculedao().toutVehicule();
+	int size = vehicule.size();
+	for(int i=0;i<size;i++){
+		vehicules.addItem(new Item(vehicule.get(i).getId(),vehicule.get(i).getNom()));
+	}
+	ArrayList<Trajet>trajet=(ArrayList<Trajet>) ihmtransport.getTrajetdao().toutTrajet();
+	size = trajet.size();
+	for(int i=0;i<size;i++){
+		trajets.addItem(new Item(trajet.get(i).getId(),trajet.get(i).getNom()));
+	}
+	ArrayList<Infos_Personnelles>chauffeur=(ArrayList<Infos_Personnelles>) ihmtransport.getPersondao().toutInfos_Personnelles();
+	size = chauffeur.size();
+	for(int i=0;i<size;i++){
+		chauffeurs.addItem(new Item(chauffeur.get(i).getId(),chauffeur.get(i).getNom()));
+	}
+	
+	
+	
+}
+class actionComboxTrajet implements ActionListener{
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		JComboBox cb = (JComboBox)e.getSource();
+		Item item =(Item)cb.getSelectedItem();
+		if(item!=null)
+		try {
+			Trajet trajet = ihmtransport.getTrajetdao().chercher(item.getId());
+			ArrayList<Parcours> p =  trajet.getParcours();
+			int size = p.size();
+			for(int i=0;i<size;i++){
+				Horaire horaire = new Horaire();
+				horaire.setLieuxDepart(p.get(i).getDepart());
+				horaire.setLieuxArrivee(p.get(i).getArrive());
+				modeltablehoraire.addHorraire(horaire);
+			}
+			
+		} catch (TransportException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
+		}
+}
+
+		
 	class ActionEnregistrerNouvelle implements ActionListener{
 		private String nom;
 		public  ActionEnregistrerNouvelle(String nomAction){
@@ -287,7 +411,19 @@ public class JpanePlanning extends JPanel{
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
 			if(nom.equals("enregistrer")){
-				
+				try {
+					GestionTransport gtransport=getgTransport();
+					if(gtransport.getId()<=0){
+						ihmtransport.getGtransportDAO().sauvegarde(gtransport);
+						
+						 init();
+					}else{
+						ihmtransport.getGtransportDAO().miseAjour(gtransport);
+					}
+				} catch (TransportException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 
 		}

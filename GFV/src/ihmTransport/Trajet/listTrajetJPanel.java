@@ -1,5 +1,10 @@
 package ihmTransport.Trajet;
 
+import ihmTransport.ihmTransports;
+import ihmTransport.controlleur.Observable;
+import ihmTransport.controlleur.Observer;
+import ihmTransport.tables.tableModelTrajet;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -13,17 +18,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import erreur.TransportException;
-
-import modelTransport.Item;
 import modelTransport.Trajet;
-
-import ihmTransport.ihmTransports;
-import ihmTransport.Actions.trajet.lieuxActions;
-import ihmTransport.List.List;
-import ihmTransport.controlleur.Observable;
-import ihmTransport.controlleur.Observer;
-import ihmTransport.tables.tableModelTrajet;
+import erreur.TransportException;
 
 
 public class listTrajetJPanel extends JPanel implements Observer{
@@ -84,10 +80,8 @@ public class listTrajetJPanel extends JPanel implements Observer{
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
 			// TODO Auto-generated method stub
-			System.out.println(tableTrajets.getSelectedRow());
 			if(tableTrajets.getSelectedRow()>=0)
 				if(nom.equals("trajet...")){
-					System.out.println("pùlùm");
 					ihmtransport.getCreertrajet().setTrajet(tablemodelTrajet.getTrajet(tableTrajets.getSelectedRow()));
 					ihmtransport.ajouterComponnentJPanelCentre(ihmtransport.getCreertrajet());
 				}else if(nom.equals("supprimer")){

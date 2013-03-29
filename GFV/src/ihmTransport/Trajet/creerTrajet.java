@@ -52,7 +52,7 @@ import org.xml.sax.SAXException;
 
 import erreur.TransportException;
 
-public class creerTrajet extends JPanel  {
+public class creerTrajet extends JPanel implements Observer {
 	private Trajet trajet;
 	private List list,listItineraire;
 	Insets insets = new Insets(2, 2, 2, 2);
@@ -86,6 +86,7 @@ public class creerTrajet extends JPanel  {
 		add(carteJPanel,BorderLayout.CENTER);
 		add(ButtonJpane,BorderLayout.SOUTH);
 		setBorder(BorderFactory.createEtchedBorder());
+		initDataLieux() ;
 	}
 	public void init(){
 		list.getModel().removeAllElements();
@@ -112,6 +113,7 @@ public class creerTrajet extends JPanel  {
 	public void initDataLieux() throws TransportException{
 		ArrayList<Lieux> listlieuxDAO=(ArrayList<Lieux>) ihmtransports.getLieuxdao().toutLieux();
 		ListlieuxComboBox.removeAllItems();
+		ListlieuxComboBox.addItem(new Item(0,""));
 		for(int i=0;i<listlieuxDAO.size();i++){
 			ListlieuxComboBox.addItem( new Item(listlieuxDAO.get(i).getId(), listlieuxDAO.get(i).getNom() ) );
 		}
@@ -255,24 +257,13 @@ public class creerTrajet extends JPanel  {
 			if(nom.equals("enregistrer")){
 				int id =trajetsauvegarder();
 				if (id>0){
-					try {
-						ihmtransports.getTrajetdao().sauvegarde(trajet);
-					} catch (TransportException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					ihmtransports.getListtrajetJPanel().AjouterTrajet(trajet);
-					ihmtransports.ajouterComponnentJPanelCentre(ihmtransports.getListtrajetJPanel());
-					init();
+			  	   ihmtransports.misaAjourData("trajet");
+				   ihmtransports.getListtrajetJPanel().AjouterTrajet(trajet);
+				   init();
 				}else{
-					
-					try {
-						ihmtransports.getTrajetdao().miseAjour(trajet);
 						ihmtransports.ajouterComponnentJPanelCentre(ihmtransports.getListtrajetJPanel());
-					} catch (TransportException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+						ihmtransports.misaAjourData("trajet");
+					
 					init();
 				}
 			}else{
@@ -566,6 +557,12 @@ public class creerTrajet extends JPanel  {
 				g.drawImage(image, 0, 0, this);
 			}
 		}
+	}
+
+	@Override
+	public void Update(Observable subject, String nomAction) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
