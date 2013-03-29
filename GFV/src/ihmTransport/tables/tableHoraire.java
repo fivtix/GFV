@@ -50,10 +50,16 @@ public class tableHoraire extends AbstractTableModel{
 	}
 	public void setValueAt(Object value, int row, int col) {
 		Horaire h =horaires.get(row);	
-		
+		if(col==2)
+			h.setDate_heure_depart((String) value);
+		else if (col==3)
+			h.setDate_heure_arrive((String) value);
+		else if(col==4)
+			h.setDate_heure_depart_reelle((String) value);
+		else if (col==5)
+			h.setDate_heure_arrivee_reelle((String) value);
 		horaires.set(row, h);
-		getValueAt(row,col);
-	    fireTableCellUpdated(row, col);
+	    fireTableCellUpdated(row,col);
 	}
 	
 	public void addHorraire(Horaire horaire) {

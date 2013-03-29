@@ -40,6 +40,7 @@ import erreur.TransportException;
 
 import modelTransport.GestionTransport;
 import modelTransport.Horaire;
+import modelTransport.Incident;
 import modelTransport.Infos_Personnelles;
 import modelTransport.Item;
 import modelTransport.Ligne_Transport;
@@ -311,7 +312,20 @@ public class JpanePlanning extends JPanel{
 		for(int i=0;i<m;i++){
 			System.out.append(modeltablehoraire.getHorraire(i).getDate_heure_depart());
 		}
-        gTransport.setHorraires( modeltablehoraire.getHoraires());
+        gTransport.setHorraires(modeltablehoraire.getHoraires());
+        gTransport.setLignetransports( modelligneTransport.getLinge());
+        Mission mission = new Mission();
+        mission.setDateHeuredebut( dateheuredebut.getText());
+        mission.setDateHeureterminal(dateheureterminal.getText());
+        Item item1 = (Item) chauffeurs.getSelectedItem();
+        mission.setPerson( ihmtransport.getPersondao().chercher(item1.getId()));
+        Item item2 = (Item) vehicules.getSelectedItem();
+        mission.setVehicule( ihmtransport.getVehiculedao().chercher(item2.getId()));
+        gTransport.setMission(mission);
+        Incident in = new Incident();
+         in.setTypeAccident( typeaccident.getText());
+        in.setDescription(decriptionaccident.getText());
+        gTransport.setIncedens(in);
 		return gTransport;
 	}
 	public void setgTransport(GestionTransport gtransport) {
